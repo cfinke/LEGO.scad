@@ -14,14 +14,14 @@ block_height_ratio = 1; // [.33333333333:1/3, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7,
 // What type of block should this be? A normal brick, or a smooth-topped tile?
 block_type = "brick"; // [brick:Brick, tile:Tile]
 
-// Should the block include axle holes?
+// What stud type do you want? Hollow studs allow rods to be pushed into the stud.
+stud_type = "hollow"; // [solid:Solid, hollow:Hollow]
+
+// Should the block include axle holes? This allows axles to be pushed through the block vertically.
 include_axle_holes = "no"; // [no:No, yes:Yes]
 
 // Should extra reinforcement be included to make printing on an FDM printer easier? Ignored for tiles, since they're printed upside-down and don't need the reinforcement. Recommended for block heights less than 1. 
 use_reinforcement = "no"; // [no:No, yes:Yes]
-
-// What stud type do you want? Holloenerate hollow studs? These allow for rods to be pushed into the stud.
-stud_type = "hollow"; // [solid:Solid, hollow:Hollow]
 
 // (foo * 1) is to prevent these from appearing in the Customizer.
 stud_diameter=4.85 * 1; //studs on top of blocks
@@ -194,7 +194,8 @@ module stud(height) {
         cylinder(r=stud_diameter/2,h=block_height*height+stud_height,$fs=cylinder_precision);
         
         if (stud_type == "hollow") {
-           cylinder(r=hollow_stud_inner_diameter/2,h=block_height*height+stud_height,$fs=cylinder_precision);
+            // 0.5 is for cleaner preview; doesn't affect functionality.
+            cylinder(r=hollow_stud_inner_diameter/2,h=block_height*height+stud_height+0.5,$fs=cylinder_precision);
         }
     }
 }
