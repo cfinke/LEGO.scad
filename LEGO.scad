@@ -20,8 +20,12 @@ include_axle_holes = "no"; // [no:No, yes:Yes]
 // Should extra reinforcement be included to make printing on an FDM printer easier? Ignored for tiles, since they're printed upside-down and don't need the reinforcement. Recommended for block heights less than 1. 
 use_reinforcement = "no"; // [no:No, yes:Yes]
 
+// What stud type do you want? Holloenerate hollow studs? These allow for rods to be pushed into the stud.
+stud_type = "hollow"; // [solid:Solid, hollow:Hollow]
+
 // (foo * 1) is to prevent these from appearing in the Customizer.
 stud_diameter=4.85 * 1; //studs on top of blocks
+hollow_stud_inner_diameter = 3.1 * 1;
 stud_height=1.8 * 1;
 stud_spacing=8 * 1;
 wall_thickness=1.2 * 1;
@@ -79,7 +83,7 @@ module block(width, length, height, axle_hole, reinforcement, smooth) {
 						translate([(overall_length - total_studs_length)/2, (overall_width - total_studs_width)/2, 0]) {
 							for (ycount=[0:width-1]) {
 								for (xcount=[0:length-1]) {
-									translate([xcount*stud_spacing,ycount*stud_spacing,0]) cylinder(r=stud_diameter/2,h=block_height*height+stud_height,$fs=cylinder_precision);
+									translate([xcount*stud_spacing,ycount*stud_spacing,0]) stud(height);
 								}
 							}
 					   }
@@ -183,4 +187,14 @@ module axle(height) {
 		cube([axle_diameter,axle_spline_width,height*block_height],center=true);
 		cube([axle_spline_width,axle_diameter,height*block_height],center=true);
 	}
+}
+
+module stud(height) {
+    difference() {
+        cylinder(r=stud_diameter/2,h=block_height*height+stud_height,$fs=cylinder_precision);
+        
+        if (stud_type == "hollow") {
+           cylinder(r=hollow_stud_inner_diameter/2,h=block_height*height+stud_height,$fs=cylinder_precision);
+        }
+    }
 }
