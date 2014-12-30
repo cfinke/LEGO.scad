@@ -64,8 +64,6 @@ module block(width, length, height, axle_hole, reinforcement, smooth) {
 	overall_length = (length * knob_spacing) - (2 * wall_play);
 	overall_width = (width * knob_spacing) - (2 * wall_play);
 	
-	start = ((knob_diameter/2)+(knob_spacing/2)+wall_thickness);
-	
 	translate([-overall_length/2, -overall_width/2, 0]) // Comment to position at 0,0,0 instead of centered on X and Y.
 		union() {
 			difference() {
