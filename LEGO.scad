@@ -21,9 +21,9 @@ include_axle_holes = "no"; // [no:No, yes:Yes]
 use_reinforcement = "no"; // [no:No, yes:Yes]
 
 // (foo * 1) is to prevent these from appearing in the Customizer.
-knob_diameter=4.85 * 1; //knobs on top of blocks
-knob_height=1.8 * 1;
-knob_spacing=8 * 1;
+stud_diameter=4.85 * 1; //studs on top of blocks
+stud_height=1.8 * 1;
+stud_spacing=8 * 1;
 wall_thickness=1.2 * 1;
 roof_thickness=1 * 1;
 block_height=9.6 * 1;
@@ -48,21 +48,21 @@ translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]
 	);
 }
 
-total_knobs_width = (knob_diameter * block_width) + ((block_width - 1) * (knob_spacing - knob_diameter));
-total_knobs_length = (knob_diameter * block_length) + ((block_length - 1) * (knob_spacing - knob_diameter));
+total_studs_width = (stud_diameter * block_width) + ((block_width - 1) * (stud_spacing - stud_diameter));
+total_studs_length = (stud_diameter * block_length) + ((block_length - 1) * (stud_spacing - stud_diameter));
 
-total_posts_width = (post_diameter * (block_width - 1)) + ((block_width - 2) * (knob_spacing - post_diameter));
-total_posts_length = (post_diameter * (block_length - 1)) + ((block_length - 2) * (knob_spacing - post_diameter));
+total_posts_width = (post_diameter * (block_width - 1)) + ((block_width - 2) * (stud_spacing - post_diameter));
+total_posts_length = (post_diameter * (block_length - 1)) + ((block_length - 2) * (stud_spacing - post_diameter));
 
-total_axles_width = (axle_diameter * (block_width - 1)) + ((block_width - 2) * (knob_spacing - axle_diameter));
-total_axles_length = (axle_diameter * (block_length - 1)) + ((block_length - 2) * (knob_spacing - axle_diameter));
+total_axles_width = (axle_diameter * (block_width - 1)) + ((block_width - 2) * (stud_spacing - axle_diameter));
+total_axles_length = (axle_diameter * (block_length - 1)) + ((block_length - 2) * (stud_spacing - axle_diameter));
 
-total_pins_width = (pin_diameter * (block_width - 1)) + max(0, ((block_width - 2) * (knob_spacing - pin_diameter)));
-total_pins_length = (pin_diameter * (block_length - 1)) + max(0, ((block_length - 2) * (knob_spacing - pin_diameter)));
+total_pins_width = (pin_diameter * (block_width - 1)) + max(0, ((block_width - 2) * (stud_spacing - pin_diameter)));
+total_pins_length = (pin_diameter * (block_length - 1)) + max(0, ((block_length - 2) * (stud_spacing - pin_diameter)));
 
 module block(width, length, height, axle_hole, reinforcement, smooth) {
-	overall_length = (length * knob_spacing) - (2 * wall_play);
-	overall_width = (width * knob_spacing) - (2 * wall_play);
+	overall_length = (length * stud_spacing) - (2 * wall_play);
+	overall_width = (width * stud_spacing) - (2 * wall_play);
 	
 	translate([-overall_length/2, -overall_width/2, 0]) // Comment to position at 0,0,0 instead of centered on X and Y.
 		union() {
@@ -73,13 +73,13 @@ module block(width, length, height, axle_hole, reinforcement, smooth) {
 					
 					// The studs on top of the block (if it's not a tile).
 					if ( ! smooth ) {
-						// existing knob offset = -(knob_diameter / 2);
-						// left to offset = ((knob_diameter * width) + (knob_spacing - knob_diameter)) - 
-						translate([knob_diameter / 2, knob_diameter / 2, 0]) 
-						translate([(overall_length - total_knobs_length)/2, (overall_width - total_knobs_width)/2, 0]) {
+						// existing stud offset = -(stud_diameter / 2);
+						// left to offset = ((stud_diameter * width) + (stud_spacing - stud_diameter)) - 
+						translate([stud_diameter / 2, stud_diameter / 2, 0]) 
+						translate([(overall_length - total_studs_length)/2, (overall_width - total_studs_width)/2, 0]) {
 							for (ycount=[0:width-1]) {
 								for (xcount=[0:length-1]) {
-									translate([xcount*knob_spacing,ycount*knob_spacing,0]) cylinder(r=knob_diameter/2,h=block_height*height+knob_height,$fs=cylinder_precision);
+									translate([xcount*stud_spacing,ycount*stud_spacing,0]) cylinder(r=stud_diameter/2,h=block_height*height+stud_height,$fs=cylinder_precision);
 								}
 							}
 					   }
@@ -94,7 +94,7 @@ module block(width, length, height, axle_hole, reinforcement, smooth) {
 							translate([(overall_length - total_axles_length)/2, (overall_width - total_axles_width)/2, 0]) {
 								for (ycount = [ 1 : width - 1 ]) {
 									for (xcount = [ 1 : length - 1]) {
-										translate([(xcount-1)*knob_spacing,(ycount-1)*knob_spacing,-block_height/2]) axle(height+1);
+										translate([(xcount-1)*stud_spacing,(ycount-1)*stud_spacing,-block_height/2]) axle(height+1);
 									}
 								}
 							}
@@ -112,7 +112,7 @@ module block(width, length, height, axle_hole, reinforcement, smooth) {
 							// Posts
 							for (ycount=[1:width-1]) {
 								for (xcount=[1:length-1]) {
-									translate([(xcount-1)*knob_spacing,(ycount-1)*knob_spacing,0]) post(height,axle_hole);
+									translate([(xcount-1)*stud_spacing,(ycount-1)*stud_spacing,0]) post(height,axle_hole);
 								}
 							}
 	
@@ -121,13 +121,13 @@ module block(width, length, height, axle_hole, reinforcement, smooth) {
 								difference() {
 									for (ycount=[1:width-1]) {
 										for (xcount=[1:length-1]) {
-											translate([(xcount-1)*knob_spacing,(ycount-1)*knob_spacing,0]) reinforcement(height);
+											translate([(xcount-1)*stud_spacing,(ycount-1)*stud_spacing,0]) reinforcement(height);
 										}
 									}
 
 									for (ycount=[1:width-1]) {
 										for (xcount=[1:length-1]) {
-											translate([(xcount-1)*knob_spacing,(ycount-1)*knob_spacing,-0.5]) cylinder(r=post_diameter/2-0.1, h=height*block_height+0.5, $fs=cylinder_precision);
+											translate([(xcount-1)*stud_spacing,(ycount-1)*stud_spacing,-0.5]) cylinder(r=post_diameter/2-0.1, h=height*block_height+0.5, $fs=cylinder_precision);
 										}
 									}
 								}
@@ -142,14 +142,14 @@ module block(width, length, height, axle_hole, reinforcement, smooth) {
 				if (width == 1) {
 					translate([(pin_diameter/2) + (overall_length - total_pins_length) / 2, overall_width/2, 0]) {
 						for (xcount=[1:length-1]) {
-							translate([(xcount-1)*knob_spacing,0,0]) cylinder(r=pin_diameter/2,h=block_height*height,$fs=cylinder_precision);
+							translate([(xcount-1)*stud_spacing,0,0]) cylinder(r=pin_diameter/2,h=block_height*height,$fs=cylinder_precision);
 						}
 					}
 				}
 				else {
 					translate([overall_length/2, (pin_diameter/2) + (overall_width - total_pins_width) / 2, 0]) {
 						for (ycount=[1:width-1]) {
-							translate([0,(ycount-1)*knob_spacing,0]) cylinder(r=pin_diameter/2,h=block_height*height,$fs=cylinder_precision);
+							translate([0,(ycount-1)*stud_spacing,0]) cylinder(r=pin_diameter/2,h=block_height*height,$fs=cylinder_precision);
 						}
 					}
 				}
@@ -172,8 +172,8 @@ module post(height,axle_hole=false) {
 module reinforcement(height) {
 	union() {
 		translate([0,0,height*block_height/2]) union() {
-			cube([reinforcing_width,knob_spacing+knob_diameter+wall_thickness/2,height*block_height],center=true);
-			rotate(v=[0,0,1],a=90) cube([reinforcing_width,knob_spacing+knob_diameter+wall_thickness/2,height*block_height], center=true);
+			cube([reinforcing_width,stud_spacing+stud_diameter+wall_thickness/2,height*block_height],center=true);
+			rotate(v=[0,0,1],a=90) cube([reinforcing_width,stud_spacing+stud_diameter+wall_thickness/2,height*block_height], center=true);
 		}
 	}
 }
