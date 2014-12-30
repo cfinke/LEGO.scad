@@ -34,7 +34,7 @@ reinforcing_width=1.5 * 1;
 axle_spline_width=2.0 * 1;
 axle_diameter=5 * 1;
 cylinder_precision=0.1 * 1;
-wall_play = 0.1;
+wall_play = 0.1 * 1;
 
 // Print tiles upside down.
 translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]) rotate([0, (block_type == "tile" ? 180 : 0), 0]) {
