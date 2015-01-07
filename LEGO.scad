@@ -5,16 +5,16 @@
 /* General */
 
 // Width of the block, in studs
-block_width = 2;
+block_width = 1;
 
 // Length of the block, in studs
-block_length = 4;
+block_length = 2;
 
 // Height of the block. A ratio of "1" is a standard LEGO brick height; a ratio of "1/3" is a standard LEGO plate height.
 block_height_ratio = 1; // [.33333333333:1/3, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8]
 
-// What type of block should this be? A normal brick, smooth-topped tile, or a wing? For wing options, see the "Wings" tab.
-block_type = "brick"; // [brick:Brick, tile:Tile, wing:Wing]
+// What type of block should this be? For type-specific options, see the "Wings" or "Slopes" tabs.
+block_type = "brick"; // [brick:Brick, tile:Tile, wing:Wing, slope:Slope]
 
 // What brand of block should this be? LEGO for regular LEGO bricks, Duplo for the toddler-focused larger bricks.
 block_brand = "lego"; // [lego:LEGO, duplo:Duplo]
@@ -45,6 +45,11 @@ wing_base_length = 4;
 // Should the wing edges be notched to accept studs below?
 wing_stud_notches = "yes"; // [yes:Yes, no:No]
 
+/* [Slopes] */
+
+// How many rows of studs should be left before the slope?
+slope_stud_rows = 1;
+
 // Print tiles upside down.
 translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]) rotate([0, (block_type == "tile" ? 180 : 0), 0]) {
     block(
@@ -58,7 +63,8 @@ translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]
     stud_notches=(wing_stud_notches=="yes"),
     stud_type=stud_type,
     horizontal_holes=(technic_holes=="yes" && block_height_ratio == 1),
-    brand=block_brand
+    brand=block_brand,
+	slope_stud_rows=slope_stud_rows
     );
 }
 
@@ -249,6 +255,14 @@ module block(width=1, length=2, height=1, vertical_axle_holes=false, reinforceme
                     ]
                     );
                 }
+				else if (type == "slope") {
+					translate([0, overall_width+0.5, 0]) rotate([90, 0, 0]) linear_extrude(overall_width+1) polygon(points=[
+						[-0.1, -0.1],
+						[min(overall_length, overall_length - (stud_spacing * min(real_length - 1, slope_stud_rows)) + (wall_play/2)), height * block_height],
+						[min(overall_length, overall_length - (stud_spacing * min(real_length - 1, slope_stud_rows)) + (wall_play/2)), height * block_height + stud_height + 1],
+						[-0.1, height * block_height + stud_height + 1]
+					]);
+				}
 
                 if (horizontal_holes) {
                     // The holes for the horizontal axles.
@@ -293,8 +307,14 @@ module block(width=1, length=2, height=1, vertical_axle_holes=false, reinforceme
                     }
                 }
             }
-
-
+			else if (type == "slope") {
+				translate([0, overall_width, 0]) rotate([90, 0, 0]) linear_extrude(overall_width) polygon(points=[
+					[0, 0],
+					[0, stud_height],
+					[min(overall_length, overall_length - (stud_spacing * min(real_length - 1, slope_stud_rows)) + (wall_play/2)), height * block_height],
+					[min(overall_length, overall_length - (stud_spacing * min(real_length - 1, slope_stud_rows)) + (wall_play/2)), (height * block_height) - stud_height]
+				]);
+			}
     }
     
     module post(height,axle_hole=false) {
