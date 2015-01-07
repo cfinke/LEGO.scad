@@ -16,6 +16,9 @@ block_height_ratio = 1; // [.33333333333:1/3, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7,
 // What type of block should this be? A normal brick, smooth-topped tile, or a wing? For wing options, see the "Wings" tab.
 block_type = "brick"; // [brick:Brick, tile:Tile, wing:Wing]
 
+// What brand of block should this be? LEGO for regular LEGO bricks, Duplo for the toddler-focused larger bricks.
+block_brand = "lego"; // [lego:LEGO, duplo:Duplo]
+
 // What stud type do you want? Hollow studs allow rods to be pushed into the stud.
 stud_type = "solid"; // [solid:Solid, hollow:Hollow]
 
@@ -25,7 +28,7 @@ technic_holes = "no"; // [no:No, yes:Yes]
 // Should the block include vertical cross-shaped axle holes?
 vertical_axle_holes = "no"; // [no:No, yes:Yes]
 
-// Should extra reinforcement be included to make printing on an FDM printer easier? Ignored for tiles, since they're printed upside-down and don't need the reinforcement. Recommended for block heights less than 1. 
+// Should extra reinforcement be included to make printing on an FDM printer easier? Ignored for tiles, since they're printed upside-down and don't need the reinforcement. Recommended for block heights less than 1 or for Duplo bricks. 
 use_reinforcement = "no"; // [no:No, yes:Yes]
 
 /* [Wings] */
@@ -42,29 +45,6 @@ wing_base_length = 4;
 // Should the wing edges be notched to accept studs below?
 wing_stud_notches = "yes"; // [yes:Yes, no:No]
 
-// (foo * 1) is to prevent these from appearing in the Customizer.
-stud_diameter=4.85 * 1; 
-hollow_stud_inner_diameter = 3.1 * 1;
-stud_height=1.8 * 1;
-stud_spacing=8 * 1;
-wall_thickness=1.2 * 1;
-roof_thickness=1 * 1;
-block_height=9.6 * 1;
-pin_diameter=3 * 1; // pin for bottom blocks with width or length of 1
-post_diameter=6.5 * 1; 
-post_wall_thickness = 0.85 * 1;
-reinforcing_width=1.5 * 1;
-axle_spline_width=2.0 * 1;
-axle_diameter=5 * 1;
-cylinder_precision=0.1 * 1;
-wall_play = 0.1 * 1;
-
-horizontal_hole_diameter = 4.8 * 1;
-horizontal_hole_wall_thickness = 1 * 1;
-horizontal_hole_z_offset = 5.8 * 1;
-horizontal_hole_bevel_diameter = 6.2 * 1;
-horizontal_hole_bevel_depth = 0.9 * 1;
-
 // Print tiles upside down.
 translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]) rotate([0, (block_type == "tile" ? 180 : 0), 0]) {
     block(
@@ -72,16 +52,45 @@ translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]
     length=block_length,
     height=block_height_ratio,
     vertical_axle_holes=(vertical_axle_holes=="yes"),
-    reinforcement=((use_reinforcement=="yes") && block_type != "tile"),
+    reinforcement=(block_brand == "duxplo") || ((use_reinforcement=="yes") && block_type != "tile"),
     smooth=(block_type == "tile"),
     type=block_type,
     stud_notches=(wing_stud_notches=="yes"),
     stud_type=stud_type,
-    horizontal_holes=(technic_holes=="yes" && block_height_ratio == 1)
+    horizontal_holes=(technic_holes=="yes" && block_height_ratio == 1),
+    brand=block_brand
     );
 }
 
-module block(width=1, length=2, height=1, vertical_axle_holes=false, reinforcement=false, smooth=false, type="brick", stud_notches=false, stud_type="solid", horizontal_holes=false) {
+module block(width=1, length=2, height=1, vertical_axle_holes=false, reinforcement=false, smooth=false, type="brick", stud_notches=false, stud_type="solid", horizontal_holes=false, brand="lego") {
+    post_wall_thickness = (brand == "lego" ? 0.85 : 1);
+    wall_thickness=(brand == "lego" ? 1.2 : 1.5);
+    stud_diameter=(brand == "lego" ? 4.85 : 9.35);
+    hollow_stud_inner_diameter = (brand == "lego" ? 3.1 : 6.7);
+    stud_height=(brand == "lego" ? 1.8 : 1.8 * 2);
+    stud_spacing=(brand == "lego" ? 8 : 8 * 2);
+    block_height=(brand == "lego" ? 9.6 : 9.6 * 2);
+    pin_diameter=(brand == "lego" ? 3 : 3 * 2);
+    post_diameter=(brand == "lego" ? 6.5 : 13.2);
+    cylinder_precision=(brand == "lego" ? 0.1 : 0.05);
+    reinforcing_width = (brand == "lego" ? 1.5 : 1.3 );
+    
+    duplo_spline_length = 1.7;
+    
+    horizontal_hole_diameter = (brand == "lego" ? 4.8 : 4.8 * 2);
+    horizontal_hole_z_offset = (brand == "lego" ? 5.8 : 5.8 * 2);
+    horizontal_hole_bevel_diameter = (brand == "lego" ? 6.2 : 6.2 * 2);
+    horizontal_hole_bevel_depth = (brand == "lego" ? 0.9 : 0.9 * 2);
+    
+    // (foo * 1) is to prevent these from appearing in the Customizer.
+    
+    // Brand-independent measurements.
+    roof_thickness=1 * 1;
+    axle_spline_width=2.0;
+    axle_diameter=5 * 1;
+    wall_play = 0.1 * 1;
+    horizontal_hole_wall_thickness = 1 * 1;
+    
     // Ensure that width is always less than or equal to length.
     real_width = min(width, length);
     real_length = max(width, length);
@@ -98,14 +107,14 @@ module block(width=1, length=2, height=1, vertical_axle_holes=false, reinforceme
     total_pins_width = (pin_diameter * (real_width - 1)) + max(0, ((real_width - 2) * (stud_spacing - pin_diameter)));
     total_pins_length = (pin_diameter * (real_length - 1)) + max(0, ((real_length - 2) * (stud_spacing - pin_diameter)));
 
-	total_horizontal_holes_length = total_studs_length;
+    total_horizontal_holes_length = total_studs_length;
 
     overall_length = (real_length * stud_spacing) - (2 * wall_play);
     overall_width = (real_width * stud_spacing) - (2 * wall_play);
     
     wing_slope = ((real_width - wing_end_width) / 2) / (real_length - wing_base_length);
     
-    //translate([-overall_length/2, -overall_width/2, 0]) // Comment to position at 0,0,0 instead of centered on X and Y.
+    translate([-overall_length/2, -overall_width/2, 0]) // Comment to position at 0,0,0 instead of centered on X and Y.
         union() {
             difference() {
                 union() {
@@ -132,6 +141,19 @@ module block(width=1, length=2, height=1, vertical_axle_holes=false, reinforceme
                                 }
                             }
                        }
+                    }
+                    
+                    if ( brand == "duplo" ) {
+                        // Interior splines to catch the studs.
+                        translate([stud_spacing / 2 - wall_play - (reinforcing_width/2), 0, 0]) for (xcount = [0:real_length-1]) {
+                            translate([0,wall_thickness,0]) translate([xcount * stud_spacing, 0, 0]) cube([reinforcing_width, duplo_spline_length, height * block_height]);
+                            translate([xcount * stud_spacing, overall_width - wall_thickness -  duplo_spline_length, 0]) cube([reinforcing_width, duplo_spline_length, height * block_height]);
+                        }
+                        
+                        translate([0, stud_spacing / 2 - wall_play - (reinforcing_width/2), 0]) for (ycount = [0:real_width-1]) {
+                            translate([wall_thickness,0,0]) translate([0, ycount * stud_spacing, 0]) cube([duplo_spline_length, reinforcing_width, height * block_height]);
+                            translate([overall_length - wall_thickness -  duplo_spline_length, ycount * stud_spacing, 0]) cube([duplo_spline_length, reinforcing_width, height * block_height]);
+                        }
                     }
                     
                     if (real_width > 1 && real_length > 1) {
@@ -184,18 +206,18 @@ module block(width=1, length=2, height=1, vertical_axle_holes=false, reinforceme
                             }
                         }
                     }
-		
-		            if (horizontal_holes) {
-						// The holes for the horizontal axles.
-						// 1-length bricks have the hole underneath the stud.
-						// >1-length bricks have the holes between the studs.
-						translate([(horizontal_hole_diameter / 2) + (real_length == 1 ? 0 : (stud_spacing / 2)), overall_width, 0]) 
-						translate([(overall_length - total_studs_length)/2, 0, 0]) {
-							for (axle_hole_index=[0:(real_length == 1 ? real_length-1 : real_length-2)]) {
-								translate([axle_hole_index*stud_spacing,0,horizontal_hole_z_offset]) rotate([90, 0, 0])  cylinder(r=horizontal_hole_diameter/2 + horizontal_hole_wall_thickness, h=overall_width,$fs=cylinder_precision);
-							}
-						}
-		            }
+        
+                    if (horizontal_holes) {
+                        // The holes for the horizontal axles.
+                        // 1-length bricks have the hole underneath the stud.
+                        // >1-length bricks have the holes between the studs.
+                        translate([(horizontal_hole_diameter / 2) + (real_length == 1 ? 0 : (stud_spacing / 2)), overall_width, 0]) 
+                        translate([(overall_length - total_studs_length)/2, 0, 0]) {
+                            for (axle_hole_index=[0:(real_length == 1 ? real_length-1 : real_length-2)]) {
+                                translate([axle_hole_index*stud_spacing,0,horizontal_hole_z_offset]) rotate([90, 0, 0])  cylinder(r=horizontal_hole_diameter/2 + horizontal_hole_wall_thickness, h=overall_width,$fs=cylinder_precision);
+                            }
+                        }
+                    }
                 }
                 
                 if (vertical_axle_holes) {
@@ -228,23 +250,23 @@ module block(width=1, length=2, height=1, vertical_axle_holes=false, reinforceme
                     );
                 }
 
-	            if (horizontal_holes) {
-					// The holes for the horizontal axles.
-					// 1-length bricks have the hole underneath the stud.
-					// >1-length bricks have the holes between the studs.
-					translate([(horizontal_hole_diameter / 2) + (real_length == 1 ? 0 : (stud_spacing / 2)), 0, 0]) 
-					translate([(overall_length - total_studs_length)/2, 0, 0]) {
-						for (axle_hole_index=[0 : ( real_length == 1 ? real_length-1 : real_length-2)]) {
-							union() {
-								translate([axle_hole_index*stud_spacing,overall_width,horizontal_hole_z_offset]) rotate([90, 0, 0])  cylinder(r=horizontal_hole_diameter/2, h=overall_width,$fs=cylinder_precision);
-	
-								// Bevels. The +/- 0.1 measurements are here just for nicer previews in OpenSCAD, and could be removed.
-								translate([axle_hole_index*stud_spacing,horizontal_hole_bevel_depth-0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1,$fs=cylinder_precision);
-								translate([axle_hole_index*stud_spacing,overall_width+0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1,$fs=cylinder_precision);
-							}
-						}
-					}
-	            }
+                if (horizontal_holes) {
+                    // The holes for the horizontal axles.
+                    // 1-length bricks have the hole underneath the stud.
+                    // >1-length bricks have the holes between the studs.
+                    translate([(horizontal_hole_diameter / 2) + (real_length == 1 ? 0 : (stud_spacing / 2)), 0, 0]) 
+                    translate([(overall_length - total_studs_length)/2, 0, 0]) {
+                        for (axle_hole_index=[0 : ( real_length == 1 ? real_length-1 : real_length-2)]) {
+                            union() {
+                                translate([axle_hole_index*stud_spacing,overall_width,horizontal_hole_z_offset]) rotate([90, 0, 0])  cylinder(r=horizontal_hole_diameter/2, h=overall_width,$fs=cylinder_precision);
+    
+                                // Bevels. The +/- 0.1 measurements are here just for nicer previews in OpenSCAD, and could be removed.
+                                translate([axle_hole_index*stud_spacing,horizontal_hole_bevel_depth-0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1,$fs=cylinder_precision);
+                                translate([axle_hole_index*stud_spacing,overall_width+0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1,$fs=cylinder_precision);
+                            }
+                        }
+                    }
+                }
             }
 
             if (type == "wing") {
@@ -274,43 +296,43 @@ module block(width=1, length=2, height=1, vertical_axle_holes=false, reinforceme
 
 
     }
-}
-
-module post(height,axle_hole=false) {
-    difference() {
-        cylinder(r=post_diameter/2, h=height*block_height,$fs=cylinder_precision);
-        if (axle_hole==true) {
-            translate([0,0,-block_height/2])
-                axle(height+1);
-        } else {
-            translate([0,0,-0.5]) cylinder(r=(post_diameter/2)-post_wall_thickness, h=height*block_height+1,$fs=cylinder_precision);
+    
+    module post(height,axle_hole=false) {
+        difference() {
+            cylinder(r=post_diameter/2, h=height*block_height,$fs=cylinder_precision);
+            if (axle_hole==true) {
+                translate([0,0,-block_height/2])
+                    axle(height+1);
+            } else {
+                translate([0,0,-0.5]) cylinder(r=(post_diameter/2)-post_wall_thickness, h=height*block_height+1,$fs=cylinder_precision);
+            }
         }
     }
-}
-
-module reinforcement(height) {
-    union() {
+    
+    module reinforcement(height) {
+        union() {
+            translate([0,0,height*block_height/2]) union() {
+                cube([reinforcing_width, 2 * (stud_spacing - (2 * wall_play)), height * block_height],center=true);
+                rotate(v=[0,0,1],a=90) cube([reinforcing_width, 2 * (stud_spacing - (2 * wall_play)), height * block_height], center=true);
+            }
+        }
+    }
+    
+    module axle(height) {
         translate([0,0,height*block_height/2]) union() {
-            cube([reinforcing_width,stud_spacing+stud_diameter+wall_thickness/2,height*block_height],center=true);
-            rotate(v=[0,0,1],a=90) cube([reinforcing_width,stud_spacing+stud_diameter+wall_thickness/2,height*block_height], center=true);
+            cube([axle_diameter,axle_spline_width,height*block_height],center=true);
+            cube([axle_spline_width,axle_diameter,height*block_height],center=true);
         }
     }
-}
-
-module axle(height) {
-    translate([0,0,height*block_height/2]) union() {
-        cube([axle_diameter,axle_spline_width,height*block_height],center=true);
-        cube([axle_spline_width,axle_diameter,height*block_height],center=true);
-    }
-}
-
-module stud(stud_type) {
-    difference() {
-        cylinder(r=stud_diameter/2,h=stud_height,$fs=cylinder_precision);
-        
-        if (stud_type == "hollow") {
-            // 0.5 is for cleaner preview; doesn't affect functionality.
-            cylinder(r=hollow_stud_inner_diameter/2,h=stud_height+0.5,$fs=cylinder_precision);
+    
+    module stud(stud_type) {
+        difference() {
+            cylinder(r=stud_diameter/2,h=stud_height,$fs=cylinder_precision);
+            
+            if (stud_type == "hollow") {
+                // 0.5 is for cleaner preview; doesn't affect functionality.
+                cylinder(r=hollow_stud_inner_diameter/2,h=stud_height+0.5,$fs=cylinder_precision);
+            }
         }
     }
 }
