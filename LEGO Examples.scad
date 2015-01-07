@@ -9,6 +9,26 @@ rotate([0, 0, 180]) union() {
         reinforcement=true,
         stud_type="hollow"
     );
+
+    // Zeroth row
+    color( "blue" ) translate([48, (3 * 4) + (-6.5 * 8), 0]) translate([24, 16, 0]) rotate([0, 0, 180]) block(
+        width=2,
+        length=2,
+        brand="duplo",
+        reinforcement=true,
+        stud_type="hollow",
+        type="curve"
+    );
+    
+        // Zeroth row
+    color( "yellow" ) translate([-24, (3 * 4) + (-11.5 * 8) + 88, 0]) rotate([0, 0, 270]) block(
+        width=2,
+        length=6,
+        brand="duplo",
+        type="curve",
+        curve_type="convex",
+        curve_stud_rows=4
+    );
     
     // First row.
     color( "red" ) translate([0, 0 * (8 * 2), 0]) translate([36, 8, 0]) block(
