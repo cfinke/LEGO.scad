@@ -25,7 +25,7 @@ rotate([0, 0, 180]) union() {
         stud_type="hollow"
     );
 
-    color( "brown" ) translate([(1 * 4) + (2 * 8), (1 * 4) + (2 * 8), 0]) translate([8, 8, 0]) block(
+    color( "yellow" ) translate([(1 * 4) + (2 * 8), (1 * 4) + (2 * 8), 0]) translate([8, 8, 0]) block(
         width=2,
         length=2,
         height=1/3,
@@ -35,13 +35,6 @@ rotate([0, 0, 180]) union() {
     color( "gray" ) translate([(2 * 4) + (4 * 8), (1 * 4) + (2 * 8), 0]) translate([8, 8, 0]) block(
         width=2,
         length=2,
-        height=1/3,
-        smooth=true
-    );
-
-    color( "black" ) translate([(3 * 4) + (6 * 8), (1 * 4) + (2 * 8), 0]) translate([8, 0, 0]) rotate([0, 0, 90]) translate([8, 4, 0]) block(
-        width=2,
-        length=1,
         height=1/3,
         smooth=true
     );
@@ -56,9 +49,16 @@ rotate([0, 0, 180]) union() {
     );
 
     // Fourth row.
-    color( "yellow" ) translate([0, (3 * 4) + (8 * 8), 0]) translate([24, 4, 0]) block(
+    color( "yellow" ) translate([0, (3 * 4) + (8 * 8), 0]) translate([32, 4, 0]) block(
         width=1,
-        length=6,
+        length=8,
         horizontal_holes=true
+    );
+
+    // Fifth row.
+    color( "black" ) translate([0, (3 * 4) + (10 * 8), 0]) translate([16, 4, 0]) rotate([0, 0, 180]) block(
+        width=2,
+        length=4,
+		type="slope"
     );
 }
