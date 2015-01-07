@@ -1,36 +1,45 @@
 use <LEGO.scad>;
 
-rotate([0, 0, 180])
-union() {
+rotate([0, 0, 180]) union() {    
+    // Zeroth row
+    color( "green" ) translate([0, (3 * 4) + (-6.5 * 8), 0]) translate([24, 16, 0]) block(
+        width=2,
+        length=3,
+        brand="duplo",
+        reinforcement=true,
+        stud_type="hollow"
+    );
+    
     // First row.
-    translate([0, 0 * (8 * 2), 0]) block(
+    color( "red" ) translate([0, 0 * (8 * 2), 0]) translate([36, 8, 0]) block(
         width=2,
         length=9,
-        height=2
+        height=2,
+        reinforcement=true
     );
 
     // Second row.
-    translate([(0 * 4) + (0 * 8), (1 * 4) + (2 * 8), 0]) block(
+    color( "blue" ) translate([(0 * 4) + (0 * 8), (1 * 4) + (2 * 8), 0]) translate([8, 8, 0]) block(
         width=2,
         length=2,
         stud_type="hollow"
     );
 
-    translate([(1 * 4) + (2 * 8), (1 * 4) + (2 * 8), 0]) block(
+    color( "brown" ) translate([(1 * 4) + (2 * 8), (1 * 4) + (2 * 8), 0]) translate([8, 8, 0]) block(
         width=2,
         length=2,
         height=1/3,
         vertical_axle_holes=true
     );
 
-    translate([(2 * 4) + (4 * 8), (1 * 4) + (2 * 8), 0]) block(
+    color( "gray" ) translate([(2 * 4) + (4 * 8), (1 * 4) + (2 * 8), 0]) translate([8, 8, 0]) block(
         width=2,
         length=2,
         height=1/3,
         smooth=true
     );
 
-    translate([(3 * 4) + (6 * 8), (1 * 4) + (2 * 8), 0]) translate([8, 0, 0]) rotate([0, 0, 90]) block(
+    color( "black" ) translate([(3 * 4) + (6 * 8), (1 * 4) + (2 * 8), 0]) translate([8, 0, 0]) rotate([0, 0, 90]) translate([8, 4, 0]) block(
         width=2,
         length=1,
         height=1/3,
@@ -38,7 +47,7 @@ union() {
     );
 
     // Third row.
-    translate([0, (2 * 4) + (4 * 8), 0]) block(
+    color( "white" ) translate([0, (2 * 4) + (4 * 8), 0]) translate([36, 16, 0]) block(
         width=4,
         length=9,
         height=1/3,
@@ -47,7 +56,7 @@ union() {
     );
 
     // Fourth row.
-    translate([0, (3 * 4) + (8 * 8), 0]) block(
+    color( "yellow" ) translate([0, (3 * 4) + (8 * 8), 0]) translate([24, 4, 0]) block(
         width=1,
         length=6,
         horizontal_holes=true
