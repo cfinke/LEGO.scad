@@ -5,16 +5,16 @@
 /* General */
 
 // Width of the block, in studs
-block_width = 1;
+block_width = 2;
 
 // Length of the block, in studs
-block_length = 2;
+block_length = 6 ;
 
 // Height of the block. A ratio of "1" is a standard LEGO brick height; a ratio of "1/3" is a standard LEGO plate height.
 block_height_ratio = 1; // [.33333333333:1/3, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8]
 
-// What type of block should this be? For type-specific options, see the "Wings" or "Slopes" tabs.
-block_type = "brick"; // [brick:Brick, tile:Tile, wing:Wing, slope:Slope]
+// What type of block should this be? For type-specific options, see the "Wings," "Slopes," and "Curves" tabs.
+block_type = "curve"; // [brick:Brick, tile:Tile, wing:Wing, slope:Slope, curve:Curve]
 
 // What brand of block should this be? LEGO for regular LEGO bricks, Duplo for the toddler-focused larger bricks.
 block_brand = "lego"; // [lego:LEGO, duplo:Duplo]
@@ -50,6 +50,20 @@ wing_stud_notches = "yes"; // [yes:Yes, no:No]
 // How many rows of studs should be left before the slope?
 slope_stud_rows = 1;
 
+// How much vertical height should be left at the end of the slope? e.g, a value of zero means the slope reaches the bottom of the block. A value of 1 means that for a block with height 2, the slope reaches halfway down the block.
+slope_end_height = 0;
+
+/* [Curves] */
+
+// How many rows of studs should be left before the curve?
+curve_stud_rows = 3;
+
+// Should the curve be convex or concave?
+curve_type = "convex"; // [concave:Concave, convex:Convex]
+
+// How much vertical height should be left at the end of the curve? e.g, a value of zero means the curve reaches the bottom of the block. A value of 1 means that for a block with height 2, the curve reaches halfway down the block.
+curve_end_height = 0;
+
 // Print tiles upside down.
 translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]) rotate([0, (block_type == "tile" ? 180 : 0), 0]) {
     block(
@@ -64,11 +78,32 @@ translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]
     stud_type=stud_type,
     horizontal_holes=(technic_holes=="yes" && block_height_ratio == 1),
     brand=block_brand,
-	slope_stud_rows=slope_stud_rows
+    slope_stud_rows=slope_stud_rows,
+    slope_end_height=slope_end_height,
+    curve_stud_rows=curve_stud_rows,
+    curve_type=curve_type,
+    curve_end_height=curve_end_height
     );
 }
 
-module block(width=1, length=2, height=1, vertical_axle_holes=false, reinforcement=false, smooth=false, type="brick", stud_notches=false, stud_type="solid", horizontal_holes=false, brand="lego") {
+module block(
+    width=1,
+    length=2,
+    height=1,
+    vertical_axle_holes=false,
+    reinforcement=false,
+    smooth=false,
+    type="brick",
+    stud_notches=false,
+    stud_type="solid",
+    horizontal_holes=false,
+    brand="lego",
+    slope_stud_rows=1,
+    slope_end_height=0,
+    curve_stud_rows=1,
+    curve_type="concave",
+    curve_end_height=0
+    ) {
     post_wall_thickness = (brand == "lego" ? 0.85 : 1);
     wall_thickness=(brand == "lego" ? 1.2 : 1.5);
     stud_diameter=(brand == "lego" ? 4.85 : 9.35);
@@ -120,7 +155,7 @@ module block(width=1, length=2, height=1, vertical_axle_holes=false, reinforceme
     
     wing_slope = ((real_width - wing_end_width) / 2) / (real_length - wing_base_length);
     
-    translate([-overall_length/2, -overall_width/2, 0]) // Comment to position at 0,0,0 instead of centered on X and Y.
+   translate([-overall_length/2, -overall_width/2, 0]) // Comment to position at 0,0,0 instead of centered on X and Y.
         union() {
             difference() {
                 union() {
@@ -263,6 +298,36 @@ module block(width=1, length=2, height=1, vertical_axle_holes=false, reinforceme
 						[-0.1, height * block_height + stud_height + 1]
 					]);
 				}
+				else if (type == "curve") {
+					if (curve_type == "concave") {
+						difference() {
+                                                        translate([
+                                                                -curve_circle_length() / 2, // Align the center of the cube with the end of the block.
+                                                                -0.5, // Center the extra width on the block.
+                                                                (height * block_height) - (curve_circle_height() / 2)  // Align the bottom of the cube with the center of the curve circle.
+                                                            ])
+                                                            cube([curve_circle_length(), overall_width + 1, curve_circle_height()]);
+                                                    
+                                                        translate([
+                                                                curve_circle_length() / 2,  // Align the end of the curve with the end of the block.
+                                                                overall_width / 2, // Center it on the block.
+                                                                (height * block_height) - (curve_circle_height() / 2)  // Align the top of the curve with the top of the block.
+                                                            ])
+                                                            rotate([90, 0, 0]) // Rotate sideways
+                                                            translate([0, 0, -overall_width/2]) // Move so the cylinder is z-centered.
+                                                            resize([curve_circle_length(), curve_circle_height(), 0]) // Resize to the approprate scale.
+                                                            cylinder(r=height * block_height, h=overall_width, $fs=cylinder_precision);
+						}
+					}
+					else if (curve_type == "convex") {
+                                            translate([0, 0, block_height * height])
+                                                translate([0, (overall_width+1)/2-.5, 0]) // Center across the end of the block.
+                                                rotate([90, 0, 0])
+                                                translate([0, 0, -((overall_width+1)/2)]) // z-center
+                                                resize([curve_circle_length(), curve_circle_height(), 0]) // Resize to the final dimensions.
+                                                cylinder(r=block_height * height, h=overall_width+1, $fs=cylinder_precision);
+					}
+				}
 
                 if (horizontal_holes) {
                     // The holes for the horizontal axles.
@@ -315,6 +380,63 @@ module block(width=1, length=2, height=1, vertical_axle_holes=false, reinforceme
 					[min(overall_length, overall_length - (stud_spacing * min(real_length - 1, slope_stud_rows)) + (wall_play/2)), (height * block_height) - stud_height]
 				]);
 			}
+			else if (type == "curve") {
+				if (curve_type == "concave") {
+                                    intersection() {
+                                        translate([
+                                                -curve_circle_length() / 2, // Align the center of the cube with the end of the block.
+                                                -0.5, // Center the extra width on the block.
+                                                (height * block_height) - (curve_circle_height() / 2)  // Align the bottom of the cube with the center of the curve circle.
+                                            ])
+                                            cube([curve_circle_length(), overall_width + 1, curve_circle_height()]);
+                                        
+                                        difference() {   
+                                            translate([
+                                                    curve_circle_length() / 2,  // Align the end of the curve with the end of the block.
+                                                    overall_width / 2, // Center it on the block.
+                                                    (height * block_height) - (curve_circle_height() / 2)  // Align the top of the curve with the top of the block.
+                                                ])
+                                                rotate([90, 0, 0]) // Rotate sideways
+                                                translate([0, 0, -overall_width/2]) // Move so the cylinder is z-centered.
+                                                resize([curve_circle_length(), curve_circle_height(), 0]) // Resize to the approprate scale.
+                                                cylinder(r=height * block_height, h=overall_width, $fs=cylinder_precision);
+                                            
+                                            translate([
+                                                    curve_circle_length() / 2,  // Align the end of the curve with the end of the block.
+                                                    overall_width / 2, // Center it on the block.
+                                                    (height * block_height) - (curve_circle_height() / 2) // Align the top of the curve with the top of the block.
+                                                ])
+                                                rotate([90, 0, 0]) // Rotate sideways
+                                                translate([0, 0, -overall_width/2]) // Move so the cylinder is z-centered.
+                                                resize([curve_circle_length() - (wall_thickness * 2), curve_circle_height() - (wall_thickness * 2), 0]) // Resize to the approprate scale.
+                                                cylinder(r=height * block_height, h=overall_width, $fs=cylinder_precision);
+                                        }
+                                    }
+				}
+				else if (curve_type == "convex") {
+                                    intersection() {
+                                        translate([
+                                            0,
+                                            0,
+                                            (height * block_height) - (curve_circle_height() / 2) - wall_thickness // Align the top of the cube with the top of the block.
+                                        ])
+                                            cube([curve_circle_length() / 2, overall_width, curve_circle_height() / 2 + wall_thickness]);
+                                        
+                                           translate([0, 0, block_height * height])
+                                                translate([0, overall_width/2, 0]) // Center across the end of the block.
+                                                rotate([90, 0, 0])
+                                                translate([0, 0, -overall_width/2]) // z-center
+                                                difference() {
+                                                    resize([curve_circle_length() + (wall_thickness * 2), curve_circle_height() + (wall_thickness * 2), 0]) // Resize to the final dimensions.
+                                                    cylinder(r=block_height * height, h=overall_width, $fs=cylinder_precision);
+
+                                                    translate([0, 0, -0.5]) // The inner cylinder is just a little taller, for nicer OpenSCAD previews.
+                                                        resize([curve_circle_length(), curve_circle_height(), 0]) // Resize to the final dimensions.
+                                                        cylinder(r=block_height * height, h=overall_width+1, $fs=cylinder_precision);
+                                                }
+                                            }
+				}
+			}
     }
     
     module post(height,axle_hole=false) {
@@ -355,4 +477,7 @@ module block(width=1, length=2, height=1, vertical_axle_holes=false, reinforceme
             }
         }
     }
+    
+    function curve_circle_length() = (overall_length - (stud_spacing * min(real_length - 1, curve_stud_rows)) + (wall_play/2)) * 2;
+    function curve_circle_height() = (((block_height * height) - (min(curve_end_height, height - 1) * block_height)) * 2) - (curve_type == "convex" ? (stud_height * 2) + (wall_thickness * 2) : 0);
 }
