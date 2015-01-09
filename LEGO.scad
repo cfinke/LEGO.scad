@@ -291,15 +291,15 @@ module block(
                             }
                         }
                     }
-        
+                    
                     if (horizontal_holes) {
                         // The holes for the horizontal axles.
                         // 1-length bricks have the hole underneath the stud.
                         // >1-length bricks have the holes between the studs.
-                        translate([(horizontal_hole_diameter / 2) + (real_length == 1 || (type == "slope" && real_slope_stud_rows == 1) ? 0 : (stud_spacing / 2)), overall_width, 0]) 
+                        translate([(horizontal_hole_diameter / 2) + (real_length == 1 || (type == "slope" && real_slope_stud_rows == 1) || (type == "curve" && real_curve_stud_rows == 1) ? 0 : (stud_spacing / 2)), overall_width, 0]) 
                         translate([(overall_length - total_studs_length)/2, 0, 0]) {
-                        for (axle_hole_index=[(type == "slope" && real_slope_stud_rows == 1 ? real_length - 1 : 0) : (real_length == 1 || (type == "slope" && real_slope_stud_rows == 1)? real_length - 1 : real_length - 2)]) {
-                            if ( type != "slope" || (axle_hole_index > real_length - real_slope_stud_rows - 1)) {
+                        for (axle_hole_index=[((type == "slope" && real_slope_stud_rows == 1) || (type == "curve" && real_curve_stud_rows == 1) ? real_length - 1 : 0) : (real_length == 1 || (type == "slope" && real_slope_stud_rows == 1) || (type == "curve" && real_curve_stud_rows == 1) ? real_length - 1 : real_length - 2)]) {
+                            if ( (type != "slope" && type != "curve") || (type == "slope" && axle_hole_index > real_length - real_slope_stud_rows - 1) || (type == "curve" && axle_hole_index > real_length - real_curve_stud_rows - 1)) {
                                     translate([axle_hole_index*stud_spacing,0,horizontal_hole_z_offset]) rotate([90, 0, 0])  cylinder(r=horizontal_hole_diameter/2 + horizontal_hole_wall_thickness, h=overall_width,$fs=cylinder_precision);
                                 }
                             }
@@ -388,10 +388,10 @@ module block(
                     // The holes for the horizontal axles.
                     // 1-length bricks have the hole underneath the stud.
                     // >1-length bricks have the holes between the studs.
-                    translate([(horizontal_hole_diameter / 2) + (real_length == 1 || (type == "slope" && real_slope_stud_rows == 1) ? 0 : (stud_spacing / 2)), 0, 0]) 
+                    translate([(horizontal_hole_diameter / 2) + (real_length == 1 || (type == "slope" && real_slope_stud_rows == 1) || (type == "curve" && real_curve_stud_rows == 1) ? 0 : (stud_spacing / 2)), 0, 0]) 
                     translate([(overall_length - total_studs_length)/2, 0, 0]) {
-                        for (axle_hole_index=[(type == "slope" && real_slope_stud_rows == 1 ? real_length - 1 : 0) : (real_length == 1 || (type == "slope" && real_slope_stud_rows == 1)? real_length - 1 : real_length - 2)]) {
-                                if ( type != "slope" || axle_hole_index > real_length - real_slope_stud_rows - 1) {
+                        for (axle_hole_index=[((type == "slope" && real_slope_stud_rows == 1) || (type == "curve" && real_curve_stud_rows == 1) ? real_length - 1 : 0) : (real_length == 1 || (type == "slope" && real_slope_stud_rows == 1) || (type == "curve" && real_curve_stud_rows == 1) ? real_length - 1 : real_length - 2)]) {
+                                if ( ( type != "slope" && type != "curve" ) || (type == "slope" && axle_hole_index > real_length - real_slope_stud_rows - 1) || (type == "curve" && axle_hole_index > real_length - real_curve_stud_rows - 1)) {
                                 union() {
                                     translate([axle_hole_index*stud_spacing,overall_width,horizontal_hole_z_offset]) rotate([90, 0, 0])  cylinder(r=horizontal_hole_diameter/2, h=overall_width,$fs=cylinder_precision);
         
