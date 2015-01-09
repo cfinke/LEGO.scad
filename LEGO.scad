@@ -296,10 +296,10 @@ module block(
                         // The holes for the horizontal axles.
                         // 1-length bricks have the hole underneath the stud.
                         // >1-length bricks have the holes between the studs.
-                        translate([(horizontal_hole_diameter / 2) + (real_length == 1 || (type == "slope" && real_slope_stud_rows == 1) || (type == "curve" && real_curve_stud_rows == 1) ? 0 : (stud_spacing / 2)), overall_width, 0]) 
+                        translate([horizontal_holes_x_offset(), overall_width, 0]) 
                         translate([(overall_length - total_studs_length)/2, 0, 0]) {
-                        for (axle_hole_index=[((type == "slope" && real_slope_stud_rows == 1) || (type == "curve" && real_curve_stud_rows == 1) ? real_length - 1 : 0) : (real_length == 1 || (type == "slope" && real_slope_stud_rows == 1) || (type == "curve" && real_curve_stud_rows == 1) ? real_length - 1 : real_length - 2)]) {
-                            if ( (type != "slope" && type != "curve") || (type == "slope" && axle_hole_index > real_length - real_slope_stud_rows - 1) || (type == "curve" && axle_hole_index > real_length - real_curve_stud_rows - 1)) {
+                        for (axle_hole_index=[horizontal_hole_start_index() : horizontal_hole_end_index()]) {
+                            if (put_horizontal_hole_here(axle_hole_index)) {
                                     translate([axle_hole_index*stud_spacing,0,horizontal_hole_z_offset]) rotate([90, 0, 0])  cylinder(r=horizontal_hole_diameter/2 + horizontal_hole_wall_thickness, h=overall_width,$fs=cylinder_precision);
                                 }
                             }
@@ -375,12 +375,15 @@ module block(
 						}
 					}
 					else if (real_curve_type == "convex") {
-                                            translate([0, 0, block_height * height])
-                                                translate([0, (overall_width+1)/2-.5, 0]) // Center across the end of the block.
-                                                rotate([90, 0, 0])
-                                                translate([0, 0, -((overall_width+1)/2)]) // z-center
-                                                resize([curve_circle_length(), curve_circle_height(), 0]) // Resize to the final dimensions.
-                                                cylinder(r=block_height * height, h=overall_width+1, $fs=cylinder_precision);
+                                            union() {
+                                                translate([0, 0, height * block_height]) cube([overall_length - (real_curve_stud_rows * stud_spacing), overall_width, stud_height + .1]);
+                                                translate([0, 0, block_height * height])
+                                                    translate([0, (overall_width+1)/2-.5, 0]) // Center across the end of the block.
+                                                    rotate([90, 0, 0])
+                                                    translate([0, 0, -((overall_width+1)/2)]) // z-center
+                                                    resize([curve_circle_length(), curve_circle_height(), 0]) // Resize to the final dimensions.
+                                                    cylinder(r=block_height * height, h=overall_width+1, $fs=cylinder_precision);
+                                            }
 					}
 				}
 
@@ -388,10 +391,10 @@ module block(
                     // The holes for the horizontal axles.
                     // 1-length bricks have the hole underneath the stud.
                     // >1-length bricks have the holes between the studs.
-                    translate([(horizontal_hole_diameter / 2) + (real_length == 1 || (type == "slope" && real_slope_stud_rows == 1) || (type == "curve" && real_curve_stud_rows == 1) ? 0 : (stud_spacing / 2)), 0, 0]) 
+                    translate([horizontal_holes_x_offset(), 0, 0]) 
                     translate([(overall_length - total_studs_length)/2, 0, 0]) {
-                        for (axle_hole_index=[((type == "slope" && real_slope_stud_rows == 1) || (type == "curve" && real_curve_stud_rows == 1) ? real_length - 1 : 0) : (real_length == 1 || (type == "slope" && real_slope_stud_rows == 1) || (type == "curve" && real_curve_stud_rows == 1) ? real_length - 1 : real_length - 2)]) {
-                                if ( ( type != "slope" && type != "curve" ) || (type == "slope" && axle_hole_index > real_length - real_slope_stud_rows - 1) || (type == "curve" && axle_hole_index > real_length - real_curve_stud_rows - 1)) {
+                        for (axle_hole_index=[horizontal_hole_start_index() : horizontal_hole_end_index()]) {
+                            if (put_horizontal_hole_here(axle_hole_index)) {
                                 union() {
                                     translate([axle_hole_index*stud_spacing,overall_width,horizontal_hole_z_offset]) rotate([90, 0, 0])  cylinder(r=horizontal_hole_diameter/2, h=overall_width,$fs=cylinder_precision);
         
@@ -567,4 +570,46 @@ module block(
             max(0, (wing_slope * (x_pos - (real_wing_base_length - 1)))) + 0.2 // Half wing
         )) // +extra is because full studs can still fit on partially missing bases, but not by much
     );
+    
+    function horizontal_hole_start_index() = (
+        (
+            (type == "slope" && real_slope_stud_rows == 1)
+            || (type == "curve" && real_curve_stud_rows == 1)
+        )
+        ?
+        real_length - 1
+        :
+        0
+    );
+    function horizontal_hole_end_index() = (
+        (
+            real_length == 1
+            || (type == "slope" && real_slope_stud_rows == 1)
+            || (type == "curve" && real_curve_stud_rows == 1)
+        )
+        ?
+        real_length - 1
+        :
+        real_length - 2
+    );
+    function put_horizontal_hole_here(axle_hole_index) = (
+        (type != "slope" && type != "curve")
+        || (type == "slope" && axle_hole_index > real_length - real_slope_stud_rows - 1)
+        || (type == "curve" && axle_hole_index > real_length - real_curve_stud_rows - 1)
+    );
+    function horizontal_holes_x_offset() = (
+        (horizontal_hole_diameter / 2)
+        + (
+            (
+                real_length == 1
+                || (type == "slope" && real_slope_stud_rows == 1)
+                || (type == "curve" && real_curve_stud_rows == 1)
+            )
+            ?
+            0
+            :
+            (stud_spacing / 2)
+        )
+    );
+
 }
