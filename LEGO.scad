@@ -8,16 +8,16 @@
 block_width = 4;
 
 // Length of the block, in studs
-block_length = 9;
+block_length = 6;
 
 // Height of the block. A ratio of "1" is a standard LEGO brick height; a ratio of "1/3" is a standard LEGO plate height.
-block_height_ratio = 1/3; // [.33333333333:1/3, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8]
+block_height_ratio = 1; // [.33333333333:1/3, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8]
 
 // What type of block should this be? For type-specific options, see the "Wings," "Slopes," and "Curves" tabs.
-block_type = "wing"; // [brick:Brick, tile:Tile, wing:Wing, slope:Slope, curve:Curve]
+block_type = "brick"; // [brick:Brick, tile:Tile, wing:Wing, slope:Slope, curve:Curve]
 
 // What brand of block should this be? LEGO for regular LEGO bricks, Duplo for the toddler-focused larger bricks.
-block_brand = "lego"; // [lego:LEGO, duplo:Duplo]
+block_brand = "lego"; // [lego:LEGO, duplo:DUPLO]
 
 // What stud type do you want? Hollow studs allow rods to be pushed into the stud.
 stud_type = "solid"; // [solid:Solid, hollow:Hollow]
@@ -28,9 +28,6 @@ technic_holes = "no"; // [no:No, yes:Yes]
 // Should the block include vertical cross-shaped axle holes?
 vertical_axle_holes = "no"; // [no:No, yes:Yes]
 
-// Should extra reinforcement be included to make printing on an FDM printer easier? Ignored for tiles, since they're printed upside-down and don't need the reinforcement. Recommended for block heights less than 1 or for Duplo bricks. 
-use_reinforcement = "yes"; // [no:No, yes:Yes]
-
 /* [Wings] */
 
 // What type of wing? Full is suitable for the front of a plane, left/right are for the left/right of a plane.
@@ -40,10 +37,10 @@ wing_type = "full"; // [full:Full, left:Left, right:Right]
 wing_end_width = 2;
 
 // The length of the rectangular portion of the wing, in studs.
-wing_base_length = 4;
+wing_base_length = 3;
 
 // Should the wing edges be notched to accept studs below?
-wing_stud_notches = "no"; // [yes:Yes, no:No]
+wing_stud_notches = "yes"; // [yes:Yes, no:No]
 
 /* [Slopes] */
 
@@ -56,7 +53,7 @@ slope_end_height = 0;
 /* [Curves] */
 
 // How many rows of studs should be left before the curve?
-curve_stud_rows = 3;
+curve_stud_rows = 5;
 
 // Should the curve be convex or concave?
 curve_type = "concave"; // [concave:Concave, convex:Convex]
@@ -64,8 +61,14 @@ curve_type = "concave"; // [concave:Concave, convex:Convex]
 // How much vertical height should be left at the end of the curve? e.g, a value of zero means the curve reaches the bottom of the block. A value of 1 means that for a block with height 2, the curve reaches halfway down the block.
 curve_end_height = 0;
 
-// If your printer prints the blocks correctly except for the stud diameter, use this variable to resize just the studs for your printer.
-stud_rescale = 1;//1.0475 * 1;
+/* [Printer-Specific] */
+
+// Should extra reinforcement be included to make printing on an FDM printer easier? Ignored for tiles, since they're printed upside-down and don't need the reinforcement. Recommended for block heights less than 1 or for Duplo bricks. 
+use_reinforcement = "yes"; // [no:No, yes:Yes]
+
+// If your printer prints the blocks correctly except for the stud diameter, use this variable to resize just the studs for your printer. A value of 1.05 will print the studs 105% wider than standard.
+stud_rescale = 1;
+//stud_rescale = 1.0475 * 1; // Orion Delta, T-Glase
 
 // Print tiles upside down.
 translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]) rotate([0, (block_type == "tile" ? 180 : 0), 0]) {
@@ -73,21 +76,22 @@ translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]
     width=block_width,
     length=block_length,
     height=block_height_ratio,
-    vertical_axle_holes=(vertical_axle_holes=="yes"),
-    reinforcement=(block_brand == "duplo") || ((use_reinforcement=="yes") && block_type != "tile"),
-    smooth=(block_type == "tile"),
     type=block_type,
-    wing_type=wing_type,
-    stud_notches=(wing_stud_notches=="yes"),
+    brand=block_brand,
     stud_type=stud_type,
     horizontal_holes=(technic_holes=="yes" && block_height_ratio == 1),
-    brand=block_brand,
+    vertical_axle_holes=(vertical_axle_holes=="yes"),
+    reinforcement=(block_brand == "duxplo") || ((use_reinforcement=="yes") && block_type != "tile"),
+    wing_type=wing_type,
+    wing_end_width=wing_end_width,
+    wing_base_length=wing_base_length,
+    stud_notches=(wing_stud_notches=="yes"),
     slope_stud_rows=slope_stud_rows,
     slope_end_height=slope_end_height,
     curve_stud_rows=curve_stud_rows,
     curve_type=curve_type,
     curve_end_height=curve_end_height,
-    wing_base_length=wing_base_length
+    stud_rescale=stud_rescale
     );
 }
 
@@ -95,21 +99,23 @@ module block(
     width=1,
     length=2,
     height=1,
-    vertical_axle_holes=false,
-    reinforcement=false,
-    smooth=false,
     type="brick",
-    stud_notches=false,
+    brand="lego",
     stud_type="solid",
     horizontal_holes=false,
-    brand="lego",
+    vertical_axle_holes=false,
+    reinforcement=false,
+    wing_type="full",
+    wing_end_width=2,
+    wing_base_length=2,
+    stud_notches=false,
     slope_stud_rows=1,
     slope_end_height=0,
     curve_stud_rows=1,
     curve_type="concave",
     curve_end_height=0,
     wing_base_length=wing_base_length,
-    wing_type="full"
+    stud_rescale=1
     ) {
     post_wall_thickness = (brand == "lego" ? 0.85 : 1);
     wall_thickness=(brand == "lego" ? 1.2 : 1.5);
@@ -129,7 +135,7 @@ module block(
     horizontal_hole_diameter = (brand == "lego" ? 4.8 : 4.8 * 2);
     horizontal_hole_z_offset = (brand == "lego" ? 5.8 : 5.8 * 2);
     horizontal_hole_bevel_diameter = (brand == "lego" ? 6.2 : 6.2 * 2);
-    horizontal_hole_bevel_depth = (brand == "lego" ? 0.9 : 0.9 * 2);
+    horizontal_hole_bevel_depth = (brand == "lego" ? 0.9 : 0.9 * 1.5 / 1.2 );
     
     // (foo * 1) is to prevent these from appearing in the Customizer.
     
@@ -144,6 +150,35 @@ module block(
     real_width = min(width, length);
     real_length = max(width, length);
 
+    // Ensure that the wing end width is even if the width is even, odd if odd, and a reasonable value.
+    real_wing_end_width = min(real_width - 2, ((real_width % 2 == 0) ? 
+            (max(2, (
+                wing_end_width % 2 == 0 ?
+                (wing_end_width)
+                :
+                (wing_end_width-1)
+            )))
+            :
+            (max(1, (
+                wing_end_width % 2 == 0 ?
+                (wing_end_width-1)
+                :
+                (wing_end_width)
+            )))
+    ));
+
+    // Ensure that the base length is a reasonable value.
+    real_wing_base_length = min(real_length-1, max(1, wing_base_length)) + 1; // +1 because the angle starts before the last stud.
+
+    real_slope_end_height = max(0, min(height - 1/3, slope_end_height));
+    real_slope_stud_rows = min(real_length - 1, slope_stud_rows);
+    
+    real_curve_stud_rows = max(0, curve_stud_rows);
+
+    real_curve_type = (curve_type == "convex" ? "convex" : "concave");
+
+    real_curve_end_height = max(0, curve_end_height);
+
     total_studs_width = (stud_diameter * stud_rescale * real_width) + ((real_width - 1) * (stud_spacing - (stud_diameter * stud_rescale)));
     total_studs_length = (stud_diameter * stud_rescale * real_length) + ((real_length - 1) * (stud_spacing - (stud_diameter * stud_rescale)));
     
@@ -156,15 +191,13 @@ module block(
     total_pins_width = (pin_diameter * (real_width - 1)) + max(0, ((real_width - 2) * (stud_spacing - pin_diameter)));
     total_pins_length = (pin_diameter * (real_length - 1)) + max(0, ((real_length - 2) * (stud_spacing - pin_diameter)));
 
-    total_horizontal_holes_length = total_studs_length;
-
     overall_length = (real_length * stud_spacing) - (2 * wall_play);
     overall_width = (real_width * stud_spacing) - (2 * wall_play);
     
     wing_slope = (wing_type == "full" ?
-        ((real_width - (wing_end_width + 1)) / 2) / (real_length - (wing_base_length - 1))
+        ((real_width - (real_wing_end_width + 1)) / 2) / (real_length - (real_wing_base_length - 1))
         :
-        (real_width - (wing_end_width + .5)) / (real_length - (wing_base_length - 1))
+        (real_width - (real_wing_end_width + .5)) / (real_length - (real_wing_base_length - 1))
     );
     
    translate([-overall_length/2, -overall_width/2, 0]) // Comment to position at 0,0,0 instead of centered on X and Y.
@@ -178,7 +211,7 @@ module block(
                     }
                     
                     // The studs on top of the block (if it's not a tile).
-                    if ( ! smooth ) {
+                    if ( type != "tile" ) {
                         translate([stud_diameter * stud_rescale / 2, stud_diameter * stud_rescale / 2, 0]) 
                         translate([(overall_length - total_studs_length)/2, (overall_width - total_studs_width)/2, 0]) {
                             for (ycount=[0:real_width-1]) {
@@ -263,10 +296,12 @@ module block(
                         // The holes for the horizontal axles.
                         // 1-length bricks have the hole underneath the stud.
                         // >1-length bricks have the holes between the studs.
-                        translate([(horizontal_hole_diameter / 2) + (real_length == 1 ? 0 : (stud_spacing / 2)), overall_width, 0]) 
+                        translate([(horizontal_hole_diameter / 2) + (real_length == 1 || (type == "slope" && real_slope_stud_rows == 1) ? 0 : (stud_spacing / 2)), overall_width, 0]) 
                         translate([(overall_length - total_studs_length)/2, 0, 0]) {
-                            for (axle_hole_index=[0:(real_length == 1 ? real_length-1 : real_length-2)]) {
-                                translate([axle_hole_index*stud_spacing,0,horizontal_hole_z_offset]) rotate([90, 0, 0])  cylinder(r=horizontal_hole_diameter/2 + horizontal_hole_wall_thickness, h=overall_width,$fs=cylinder_precision);
+                        for (axle_hole_index=[(type == "slope" && real_slope_stud_rows == 1 ? real_length - 1 : 0) : (real_length == 1 || (type == "slope" && real_slope_stud_rows == 1)? real_length - 1 : real_length - 2)]) {
+                            if ( type != "slope" || (axle_hole_index > real_length - real_slope_stud_rows - 1)) {
+                                    translate([axle_hole_index*stud_spacing,0,horizontal_hole_z_offset]) rotate([90, 0, 0])  cylinder(r=horizontal_hole_diameter/2 + horizontal_hole_wall_thickness, h=overall_width,$fs=cylinder_precision);
+                                }
                             }
                         }
                     }
@@ -289,38 +324,38 @@ module block(
                 if (type == "wing") {
                     if (wing_type == "full" || wing_type == "right")  {
                         translate([0, 0, -0.5]) linear_extrude(block_height * height + stud_height + 1) polygon(points=[
-                            [stud_spacing * (wing_base_length-1), -0.01],
+                            [stud_spacing * (real_wing_base_length-1), -0.01],
                             [overall_length + 0.01, -0.01],
                             [overall_length + 0.01, (wing_type == "full" ?
-                                (overall_width / 2 - (wing_end_width * stud_spacing / 2) - (stud_spacing/2))
+                                (overall_width / 2 - (real_wing_end_width * stud_spacing / 2) - (stud_spacing/2))
                                 :
-                                (overall_width - (wing_end_width * stud_spacing) - (stud_spacing/2))
+                                (overall_width - (real_wing_end_width * stud_spacing) - (stud_spacing/2))
                             )]
                         ]
                         );
                     }
                     if (wing_type == "full" || wing_type == "left")  {
                         translate([0, 0, -0.5]) linear_extrude(block_height * height + stud_height + 1) polygon(points=[
-                            [stud_spacing * (wing_base_length-1), overall_width + 0.01],
+                            [stud_spacing * (real_wing_base_length-1), overall_width + 0.01],
                             [overall_length + 0.01, overall_width + 0.01],
-                            [overall_length + 0.01, (wing_type == "full" ? overall_width / 2 : 0) + (wing_end_width * stud_spacing / (wing_type == "full" ? 2 : 1)) + (stud_spacing/2)]
+                            [overall_length + 0.01, (wing_type == "full" ? overall_width / 2 : 0) + (real_wing_end_width * stud_spacing / (wing_type == "full" ? 2 : 1)) + (stud_spacing/2)]
                         ]
                         );
 
                         
                     }
                 }
-                else if (type == "slope") {
-                    translate([0, overall_width+0.5, 0]) rotate([90, 0, 0]) linear_extrude(overall_width+1) polygon(points=[
-                        [-0.1, block_height * slope_end_height],
-                        [min(overall_length, overall_length - (stud_spacing * min(real_length - 1, slope_stud_rows)) + (wall_play/2)), height * block_height],
-                        [min(overall_length, overall_length - (stud_spacing * min(real_length - 1, slope_stud_rows)) + (wall_play/2)), height * block_height + stud_height + 1],
-                        [-0.1, height * block_height + stud_height + 1]
-                    ]);
-                }
-                else if (type == "curve") {
-                    if (curve_type == "concave") {
-                        difference() {
+				else if (type == "slope") {
+					translate([0, overall_width+0.5, 0]) rotate([90, 0, 0]) linear_extrude(overall_width+1) polygon(points=[
+						[-0.1, block_height * real_slope_end_height],
+						[min(overall_length, overall_length - (stud_spacing * real_slope_stud_rows) + (wall_play/2)), height * block_height],
+						[min(overall_length, overall_length - (stud_spacing * real_slope_stud_rows) + (wall_play/2)), height * block_height + stud_height + 1],
+						[-0.1, height * block_height + stud_height + 1]
+					]);
+				}
+				else if (type == "curve") {
+					if (real_curve_type == "concave") {
+						difference() {
                                                         translate([
                                                                 -curve_circle_length() / 2, // Align the center of the cube with the end of the block.
                                                                 -0.5, // Center the extra width on the block.
@@ -337,31 +372,33 @@ module block(
                                                             translate([0, 0, -overall_width/2]) // Move so the cylinder is z-centered.
                                                             resize([curve_circle_length(), curve_circle_height(), 0]) // Resize to the approprate scale.
                                                             cylinder(r=height * block_height, h=overall_width, $fs=cylinder_precision);
-                        }
-                    }
-                    else if (curve_type == "convex") {
+						}
+					}
+					else if (real_curve_type == "convex") {
                                             translate([0, 0, block_height * height])
                                                 translate([0, (overall_width+1)/2-.5, 0]) // Center across the end of the block.
                                                 rotate([90, 0, 0])
                                                 translate([0, 0, -((overall_width+1)/2)]) // z-center
                                                 resize([curve_circle_length(), curve_circle_height(), 0]) // Resize to the final dimensions.
                                                 cylinder(r=block_height * height, h=overall_width+1, $fs=cylinder_precision);
-                    }
-                }
+					}
+				}
 
                 if (horizontal_holes) {
                     // The holes for the horizontal axles.
                     // 1-length bricks have the hole underneath the stud.
                     // >1-length bricks have the holes between the studs.
-                    translate([(horizontal_hole_diameter / 2) + (real_length == 1 ? 0 : (stud_spacing / 2)), 0, 0]) 
+                    translate([(horizontal_hole_diameter / 2) + (real_length == 1 || (type == "slope" && real_slope_stud_rows == 1) ? 0 : (stud_spacing / 2)), 0, 0]) 
                     translate([(overall_length - total_studs_length)/2, 0, 0]) {
-                        for (axle_hole_index=[0 : ( real_length == 1 ? real_length-1 : real_length-2)]) {
-                            union() {
-                                translate([axle_hole_index*stud_spacing,overall_width,horizontal_hole_z_offset]) rotate([90, 0, 0])  cylinder(r=horizontal_hole_diameter/2, h=overall_width,$fs=cylinder_precision);
-    
-                                // Bevels. The +/- 0.1 measurements are here just for nicer previews in OpenSCAD, and could be removed.
-                                translate([axle_hole_index*stud_spacing,horizontal_hole_bevel_depth-0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1,$fs=cylinder_precision);
-                                translate([axle_hole_index*stud_spacing,overall_width+0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1,$fs=cylinder_precision);
+                        for (axle_hole_index=[(type == "slope" && real_slope_stud_rows == 1 ? real_length - 1 : 0) : (real_length == 1 || (type == "slope" && real_slope_stud_rows == 1)? real_length - 1 : real_length - 2)]) {
+                                if ( type != "slope" || axle_hole_index > real_length - real_slope_stud_rows - 1) {
+                                union() {
+                                    translate([axle_hole_index*stud_spacing,overall_width,horizontal_hole_z_offset]) rotate([90, 0, 0])  cylinder(r=horizontal_hole_diameter/2, h=overall_width,$fs=cylinder_precision);
+        
+                                    // Bevels. The +/- 0.1 measurements are here just for nicer previews in OpenSCAD, and could be removed.
+                                    translate([axle_hole_index*stud_spacing,horizontal_hole_bevel_depth-0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1,$fs=cylinder_precision);
+                                    translate([axle_hole_index*stud_spacing,overall_width+0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1,$fs=cylinder_precision);
+                                }
                             }
                         }
                     }
@@ -374,47 +411,54 @@ module block(
                                                     
                             if ( wing_type == "full" || wing_type == "right" ){
                                 linear_extrude(block_height * height) polygon(points=[
-                                    [stud_spacing * (wing_base_length-1), 0],
+                                    [stud_spacing * (real_wing_base_length-1), 0],
                                     [overall_length, (wing_type == "full" ? 
-                                        ((overall_width / 2) - (wing_end_width * stud_spacing / 2) - (stud_spacing/2))
+                                        ((overall_width / 2) - (real_wing_end_width * stud_spacing / 2) - (stud_spacing/2))
                                         :
-                                        (overall_width - (wing_end_width * stud_spacing) - (stud_spacing/2))
+                                        (overall_width - (real_wing_end_width * stud_spacing) - (stud_spacing/2))
                                     )],
                                     [overall_length, (wing_type == "full" ? 
-                                        ((overall_width / 2) - (wing_end_width * stud_spacing / 2) - (stud_spacing/2))
+                                        ((overall_width / 2) - (real_wing_end_width * stud_spacing / 2) - (stud_spacing/2))
                                         :
-                                        (overall_width - (wing_end_width * stud_spacing) - (stud_spacing/2))
+                                        (overall_width - (real_wing_end_width * stud_spacing) - (stud_spacing/2))
                                     ) + wall_thickness],
-                                    [stud_spacing * (wing_base_length-1), wall_thickness]
+                                    [stud_spacing * (real_wing_base_length-1), wall_thickness]
                                 ]);
                                                     }
                                                     
                                                     if (wing_type == "full" || wing_type == "left") {
                             linear_extrude(block_height * height) polygon(points=[
-                                [stud_spacing * (wing_base_length-1), overall_width],
-                                [overall_length, (wing_type == "full" ? overall_width / 2 : 0) + (wing_end_width * stud_spacing / (wing_type == "full" ? 2 : 1)) + (stud_spacing/2)],
-                                [overall_length, (wing_type == "full" ? overall_width / 2 : 0) + (wing_end_width * stud_spacing / (wing_type == "full" ? 2 : 1)) + (stud_spacing/2) - wall_thickness],
-                                [stud_spacing * (wing_base_length-1), overall_width - wall_thickness]
+                                [stud_spacing * (real_wing_base_length-1), overall_width],
+                                [overall_length, (wing_type == "full" ? overall_width / 2 : 0) + (real_wing_end_width * stud_spacing / (wing_type == "full" ? 2 : 1)) + (stud_spacing/2)],
+                                [overall_length, (wing_type == "full" ? overall_width / 2 : 0) + (real_wing_end_width * stud_spacing / (wing_type == "full" ? 2 : 1)) + (stud_spacing/2) - wall_thickness],
+                                [stud_spacing * (real_wing_base_length-1), overall_width - wall_thickness]
                             ]);
                                                     }
                         }
                         
                     if (stud_notches) {
                         translate([overall_length/2, overall_width/2, 0])
-                            translate([0, 0, -(1/3 * block_height)]) block(width=real_width,length=real_length,height=1/3);
+                            translate([0, 0, -(1/3 * block_height)]) block(
+                                width=real_width,
+                                length=real_length,
+                                height=1/3,
+                                brand=brand,
+                                stud_type="solid",
+                                type="brick"
+                            );
                     }
                 }
             }
-            else if (type == "slope") {
-                translate([0, overall_width, 0]) rotate([90, 0, 0]) linear_extrude(overall_width) polygon(points=[
-                    [0, slope_end_height * block_height],
-                    [0, slope_end_height * block_height + stud_height],
-                    [min(overall_length, overall_length - (stud_spacing * min(real_length - 1, slope_stud_rows)) + (wall_play/2)), height * block_height],
-                    [min(overall_length, overall_length - (stud_spacing * min(real_length - 1, slope_stud_rows)) + (wall_play/2)), (height * block_height) - stud_height]
-                ]);
-            }
-            else if (type == "curve") {
-                if (curve_type == "concave") {
+			else if (type == "slope") {
+				translate([0, overall_width, 0]) rotate([90, 0, 0]) linear_extrude(overall_width) polygon(points=[
+					[0, real_slope_end_height * block_height],
+					[0, real_slope_end_height * block_height + stud_height],
+					[min(overall_length, overall_length - (stud_spacing * real_slope_stud_rows) + (wall_play/2)), height * block_height],
+					[min(overall_length, overall_length - (stud_spacing * real_slope_stud_rows) + (wall_play/2)), (height * block_height) - stud_height]
+				]);
+			}
+			else if (type == "curve") {
+				if (real_curve_type == "concave") {
                                     intersection() {
                                         translate([
                                                 -curve_circle_length() / 2, // Align the center of the cube with the end of the block.
@@ -445,8 +489,8 @@ module block(
                                                 cylinder(r=height * block_height, h=overall_width, $fs=cylinder_precision);
                                         }
                                     }
-                }
-                else if (curve_type == "convex") {
+				}
+				else if (real_curve_type == "convex") {
                                     intersection() {
                                         translate([
                                             0,
@@ -468,8 +512,8 @@ module block(
                                                         cylinder(r=block_height * height, h=overall_width+1, $fs=cylinder_precision);
                                                 }
                                             }
-                }
-            }
+				}
+			}
     }
     
     module post(height,axle_hole=false) {
@@ -511,16 +555,16 @@ module block(
         }
     }
 
-    function curve_circle_length() = (overall_length - (stud_spacing * min(real_length - 1, curve_stud_rows)) + (wall_play/2)) * 2;
-    function curve_circle_height() = (((block_height * height) - (min(curve_end_height, height - 1) * block_height)) * 2) - (curve_type == "convex" ? (stud_height * 2) + (wall_thickness * 2) : 0);
+    function curve_circle_length() = (overall_length - (stud_spacing * min(real_length - 1, real_curve_stud_rows)) + (wall_play/2)) * 2;
+    function curve_circle_height() = (((block_height * height) - (min(real_curve_end_height, height - 1) * block_height)) * 2) - (real_curve_type == "convex" ? (stud_height * 2) + (wall_thickness * 2) : 0);
     
     function wing_width(x_pos) = (real_width - width_loss(x_pos));
     
     function width_loss(x_pos) = (type != "wing" ? 0 :
         round((wing_type == "full" ?
-            max(0, (2 * wing_slope * (x_pos - (wing_base_length - 1)))) + 0.3 // Full wing
+            max(0, (2 * wing_slope * (x_pos - (real_wing_base_length - 1)))) + 0.3 // Full wing
             :
-            max(0, (wing_slope * (x_pos - (wing_base_length - 1)))) + 0.2 // Half wing
+            max(0, (wing_slope * (x_pos - (real_wing_base_length - 1)))) + 0.2 // Half wing
         )) // +extra is because full studs can still fit on partially missing bases, but not by much
     );
 }
