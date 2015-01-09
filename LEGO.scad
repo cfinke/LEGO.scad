@@ -81,7 +81,7 @@ translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]
     stud_type=stud_type,
     horizontal_holes=(technic_holes=="yes" && block_height_ratio == 1),
     vertical_axle_holes=(vertical_axle_holes=="yes"),
-    reinforcement=(block_brand == "duxplo") || ((use_reinforcement=="yes") && block_type != "tile"),
+    reinforcement=(block_brand == "duplo") || ((use_reinforcement=="yes") && block_type != "tile"),
     wing_type=wing_type,
     wing_end_width=wing_end_width,
     wing_base_length=wing_base_length,
