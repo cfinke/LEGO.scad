@@ -63,6 +63,20 @@ curve_type = "concave"; // [concave:Concave, convex:Convex]
 // How much vertical height should be left at the end of the curve? e.g, a value of zero means the curve reaches the bottom of the block. A value of 1 means that for a block with height 2, the curve reaches halfway down the block.
 curve_end_height = 0;
 
+/* [Baseplates] */
+
+// If you want a roadway, how wide should it be (in studs)? A roadway is a smooth (non-studded) section of a baseplate.
+roadway_width = 0;
+
+// How long should the roadway be?
+roadway_length = 0;
+
+// Where should the roadway start (x-value)? A value of zero puts the roadway at the far left side of the plate.
+roadway_x = 0;
+
+// Where should the roadway start (y-value)? A value of zero puts the roadway at the front of the plate.
+roadway_y = 0;
+
 /* [Printer-Specific] */
 
 // Should extra reinforcement be included to make printing on an FDM printer easier? Ignored for tiles, since they're printed upside-down and don't need the reinforcement. Recommended for block heights less than 1 or for Duplo bricks. 
@@ -94,6 +108,10 @@ translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]
         curve_stud_rows=curve_stud_rows,
         curve_type=curve_type,
         curve_end_height=curve_end_height,
+        roadway_width=roadway_width,
+        roadway_length=roadway_length,
+        roadway_x=roadway_x,
+        roadway_y=roadway_y,
         stud_rescale=stud_rescale
     );
 }
@@ -118,6 +136,10 @@ module block(
     curve_type="concave",
     curve_end_height=0,
     wing_base_length=wing_base_length,
+    roadway_width=0,
+    roadway_length=0,
+    roadway_x=0,
+    roadway_y=0,
     stud_rescale=1
     ) {
     post_wall_thickness = (brand == "lego" ? 0.85 : 1);
@@ -151,10 +173,12 @@ module block(
     // Ensure that width is always less than or equal to length.
     real_width = min(width, length);
     real_length = max(width, length);
-        real_height = max((type == "baseplate" ? 1 : 1/3), height);
+    real_height = max((type == "baseplate" ? 1 : 1/3), height);
 
     // Ensure that the wing end width is even if the width is even, odd if odd, and a reasonable value.
-    real_wing_end_width = min(real_width - 2, ((real_width % 2 == 0) ? 
+    real_wing_end_width = (wing_type == "full"
+        ?
+        min(real_width - 2, ((real_width % 2 == 0) ? 
             (max(2, (
                 wing_end_width % 2 == 0 ?
                 (wing_end_width)
@@ -168,21 +192,28 @@ module block(
                 :
                 (wing_end_width)
             )))
-    ));
+        ))
+        :
+        (min(real_width-1, max(1, wing_end_width))) // Half-wing
+    );
 
     // Ensure that the base length is a reasonable value.
     real_wing_base_length = min(real_length-1, max(1, wing_base_length)) + 1; // +1 because the angle starts before the last stud.
         
-        // Validate all the rest of the arguments.
+    // Validate all the rest of the arguments.
     real_slope_end_height = max(0, min(real_height - 1/3, slope_end_height));
     real_slope_stud_rows = min(real_length - 1, slope_stud_rows);
     real_curve_stud_rows = max(0, curve_stud_rows);
     real_curve_type = (curve_type == "convex" ? "convex" : "concave");
     real_curve_end_height = max(0, min(real_height - 1/3, curve_end_height));
-        real_horizontal_holes = horizontal_holes && ((type == "baseplate" && real_height >= 8) || real_height >= 1);
-        real_vertical_axle_holes = vertical_axle_holes && real_width > 1;
-        real_reinforcement = reinforcement && type != "baseplate" && type != "tile";
+    real_horizontal_holes = horizontal_holes && ((type == "baseplate" && real_height >= 8) || real_height >= 1);
+    real_vertical_axle_holes = vertical_axle_holes && real_width > 1;
+    real_reinforcement = reinforcement && type != "baseplate" && type != "tile";
 
+    real_roadway_width = max(0, min(roadway_width, real_width));
+    real_roadway_length = max(0, min(roadway_length, real_length));
+    real_roadway_x = max(0, min(real_length - real_roadway_length, roadway_x));
+    real_roadway_y = max(0, min(real_width - real_roadway_width, roadway_y));
 
     total_studs_width = (stud_diameter * stud_rescale * real_width) + ((real_width - 1) * (stud_spacing - (stud_diameter * stud_rescale)));
     total_studs_length = (stud_diameter * stud_rescale * real_length) + ((real_length - 1) * (stud_spacing - (stud_diameter * stud_rescale)));
@@ -209,6 +240,10 @@ module block(
         union() {
             difference() {
                 union() {
+                    /**
+                     * Include any union()s that should come before the final difference()s.
+                     */
+                    
                     // The mass of the block.
                     difference() {
                         cube([overall_length, overall_width, real_height * block_height]);
@@ -221,13 +256,7 @@ module block(
                         translate([(overall_length - total_studs_length)/2, (overall_width - total_studs_width)/2, 0]) {
                             for (ycount=[0:real_width-1]) {
                                 for (xcount=[0:real_length-1]) {
-                                    // max full wing_width at this point: real_width - (floor( 
-                                    if (
-                                        type != "wing" // Only wings need additional checking on a per-stud basis.
-                                        || (wing_type == "full" && (ycount+1 > ceil(width_loss(xcount+1)/2)) && (ycount+1 <= floor(real_width - (width_loss(xcount+1)/2))))
-                                        || (wing_type == "left" && ycount+1 <= wing_width(xcount+1))
-                                        || (wing_type == "right" && ycount >= width_loss(xcount+1))
-                                    ) {                   
+                                    if (put_stud_here(xcount, ycount)) {
                                         translate([xcount*stud_spacing,ycount*stud_spacing,block_height*real_height]) stud();
                                     }
                                 }
@@ -312,6 +341,11 @@ module block(
                     }
                 }
 
+                
+                /**
+                 * Include any differences from the basic brick here.
+                 */
+                
                 if (real_vertical_axle_holes) {
                     if (real_width > 1 && real_length > 1) {
                         translate([axle_diameter / 2, axle_diameter / 2, 0]) {
@@ -392,6 +426,16 @@ module block(
                         }
                     }
                 }
+                else if (type == "baseplate") {
+                    // Rounded corners.
+                    union() {
+                        translate([overall_length, overall_width, 0]) translate([-((stud_spacing / 2) - wall_play), -((stud_spacing / 2) - wall_play), 0]) negative_rounded_corner(r=((stud_spacing / 2) - wall_play), h=real_height * block_height);
+                        
+                        translate([0, overall_width, 0]) translate([((stud_spacing / 2) - wall_play), -((stud_spacing / 2) - wall_play), 0]) rotate([0, 0, 90]) negative_rounded_corner(r=((stud_spacing / 2) - wall_play), h=real_height * block_height);
+                        translate([((stud_spacing / 2) - wall_play), ((stud_spacing / 2) - wall_play), 0]) rotate([0, 0, 180]) negative_rounded_corner(r=((stud_spacing / 2) - wall_play), h=real_height * block_height);
+                        translate([overall_length, 0, 0]) translate([-((stud_spacing / 2) - wall_play), ((stud_spacing / 2) - wall_play), 0]) rotate([0, 0, 270]) negative_rounded_corner(r=((stud_spacing / 2) - wall_play), h=real_height * block_height);
+                    }
+                }
 
                 if (real_horizontal_holes) {
                     // The holes for the horizontal axles.
@@ -414,6 +458,11 @@ module block(
                 }
             }
 
+            
+            /**
+             * Any final union()s for the brick.
+             */
+            
             if (type == "wing") {
                 difference() {
                     union() {
@@ -618,6 +667,34 @@ module block(
             (stud_spacing / 2)
         )
     );
+    
+    function put_stud_here(xcount, ycount) = (
+        (type != "wing" && type != "baseplate")
+        ||
+        (type == "wing" && (
+            (wing_type == "full" && (ycount+1 > ceil(width_loss(xcount+1)/2)) && (ycount+1 <= floor(real_width - (width_loss(xcount+1)/2))))
+            || (wing_type == "left" && ycount+1 <= wing_width(xcount+1))
+            || (wing_type == "right" && ycount >= width_loss(xcount+1))
+            )
+        )
+        ||
+        (type == "baseplate" && (real_roadway_width && real_roadway_length) && !pos_in_roadway(xcount, ycount))
+    );
+
+    function pos_in_roadway(x, y) = (
+        x >= real_roadway_x
+        && y >= real_roadway_y
+        && y < real_roadway_y + real_roadway_width
+        && x < real_roadway_x + real_roadway_length
+    );
+        
+    
+    module negative_rounded_corner(r,h) {
+        difference() {
+            translate([0, 0, -.5]) cube([r+1, r+1, h+1]);
+            translate([0, 0, -1]) cylinder(r=r, h=h + 2, $fs=cylinder_precision);
+        }
+    }
 }
 
 module uncenter(width, length) {
