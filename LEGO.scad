@@ -178,7 +178,7 @@ module block(
 	real_slope_stud_rows = min(real_length - 1, slope_stud_rows);
 	real_curve_stud_rows = max(0, curve_stud_rows);
 	real_curve_type = (curve_type == "convex" ? "convex" : "concave");
-	real_curve_end_height = max(0, curve_end_height);
+	real_curve_end_height = max(0, min(real_height - 1/3, curve_end_height));
         real_horizontal_holes = horizontal_holes && ((type == "baseplate" && real_height >= 8) || real_height >= 1);
         real_vertical_axle_holes = vertical_axle_holes && real_width > 1;
         real_reinforcement = reinforcement && type != "baseplate" && type != "tile";
@@ -360,6 +360,7 @@ module block(
 				}
 				else if (type == "curve") {
 					if (real_curve_type == "concave") {
+                                            echo(curve_circle_height());
 						difference() {
 							translate([
 									-curve_circle_length() / 2, // Align the center of the cube with the end of the block.
@@ -563,7 +564,9 @@ module block(
 	}
 
 	function curve_circle_length() = (overall_length - (stud_spacing * min(real_length - 1, real_curve_stud_rows)) + (wall_play/2)) * 2;
-	function curve_circle_height() = (((block_height * real_height) - (min(real_curve_end_height, real_height - 1) * block_height)) * 2) - (real_curve_type == "convex" ? (stud_height * 2) + (wall_thickness * 2) : 0);
+	function curve_circle_height() = (
+            (
+                (block_height * real_height) - (real_curve_end_height * block_height)) * 2) - (real_curve_type == "convex" ? (stud_height * 2) + (wall_thickness * 2) : 0);
 
 	function wing_width(x_pos) = (real_width - width_loss(x_pos));
 
