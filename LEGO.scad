@@ -179,7 +179,7 @@ module block(
 	real_curve_stud_rows = max(0, curve_stud_rows);
 	real_curve_type = (curve_type == "convex" ? "convex" : "concave");
 	real_curve_end_height = max(0, curve_end_height);
-        real_horizontal_holes = horizontal_holes && (type != "baseplate" || real_height >= 8);
+        real_horizontal_holes = horizontal_holes && ((type == "baseplate" && real_height >= 8) || real_height >= 1);
         real_vertical_axle_holes = vertical_axle_holes && real_width > 1;
         real_reinforcement = reinforcement && type != "baseplate" && type != "tile";
 
