@@ -1,13 +1,16 @@
 use <LEGO.scad>;
 
 rotate([0, 0, 180]) union() {
-    place(-5, -6) uncenter(24, 19) rotate([0, 0, 90]) block(
+    place(-4, -12) uncenter(28, 6) rotate([0, 0, 90]) block(
         type="baseplate",
-        width=19,
-        length=24
+        width=6,
+        length=28,
+        roadway_width=6,
+        roadway_length=6,
+        roadway_x=18
     );
     
-    place(0, 0, 13/96) {
+    //place(0, 0, 13/96) {
         color( "red" ) place(1, 0, 0) uncenter(2, 9) block(
             width=2,
             length=9,
@@ -28,9 +31,9 @@ rotate([0, 0, 180]) union() {
             vertical_axle_holes=true
         );
         
-        color( "green" ) place(4, 6, 0) uncenter(2, 2) block(
+        color( "green" ) place(4, 6, 0) uncenter(2, 3) block(
             width=2,
-            length=2,
+            length=3,
             height=1/3,
             type="tile"
         );
@@ -105,14 +108,14 @@ rotate([0, 0, 180]) union() {
             wing_end_width=1
         );
     
-        color( "green" ) place(1, 10, 0) uncenter(3, 2) rotate([0, 0, 90]) block(
+        color( "yellow" ) place(1, 10, 0) uncenter(6, 2) rotate([0, 0, 90]) block(
             width=2,
-            length=3,
+            length=6,
             height=1/3,
             type="wing",
             wing_type="right",
             wing_end_width=1,
             wing_base_length=1
         );
-    }
+   // }
 }
