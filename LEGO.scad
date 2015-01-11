@@ -352,8 +352,8 @@ module block(
 				}
 				else if (type == "slope") {
 					translate([0, overall_width+0.5, 0]) rotate([90, 0, 0]) linear_extrude(overall_width+1) polygon(points=[
-						[-0.1, block_height * real_slope_end_height],
-						[min(overall_length, overall_length - (stud_spacing * real_slope_stud_rows) + (wall_play/2)), real_height * block_height],
+						[-0.1, (block_height * real_slope_end_height) + stud_height],
+						[min(overall_length, overall_length - (stud_spacing * real_slope_stud_rows) + (wall_play/2)), real_height * block_height - roof_thickness],
 						[min(overall_length, overall_length - (stud_spacing * real_slope_stud_rows) + (wall_play/2)), real_height * block_height + stud_height + 1],
 						[-0.1, real_height * block_height + stud_height + 1]
 					]);
@@ -459,10 +459,10 @@ module block(
 			}
 			else if (type == "slope") {
 				translate([0, overall_width, 0]) rotate([90, 0, 0]) linear_extrude(overall_width) polygon(points=[
-					[0, real_slope_end_height * block_height],
-					[0, real_slope_end_height * block_height + stud_height],
+					[0, (block_height * real_slope_end_height) + stud_height],
+					[0, (block_height * real_slope_end_height) + stud_height + roof_thickness],
 					[min(overall_length, overall_length - (stud_spacing * real_slope_stud_rows) + (wall_play/2)), real_height * block_height],
-					[min(overall_length, overall_length - (stud_spacing * real_slope_stud_rows) + (wall_play/2)), (real_height * block_height) - stud_height]
+					[min(overall_length, overall_length - (stud_spacing * real_slope_stud_rows) + (wall_play/2)), (real_height * block_height) - roof_thickness]
 				]);
 			}
 			else if (type == "curve") {
