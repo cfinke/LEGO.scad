@@ -768,10 +768,10 @@ module block(
     }
 }
 
-module uncenter(width, length) {
+module uncenter(width, length, height) {
     // stud_spacing = 8
     // wall_play = 0.1
-    translate([((8 * length) / 2) - 0.1, ((8 * width) / 2) - 0.1, 0]) children();
+    translate([((8 * length) / 2) - 0.1, ((8 * width) / 2) - 0.1, height ? ((8 * height) / 2) - 0.1 : 0]) children();
 }
 
 module place(x, y, z=0) {
