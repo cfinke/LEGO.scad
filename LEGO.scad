@@ -77,6 +77,12 @@ roadway_x = 0;
 // Where should the roadway start (y-value)? A value of zero puts the roadway at the front of the plate.
 roadway_y = 0;
 
+/* [SNOT] */
+
+// SNOT means Studs Not On Top -- bricks with alternative stud configurations.
+// Put studs on the top and buttom?
+dual_sided = "no"; // [no:No, yes:Yes]
+
 /* [Printer-Specific] */
 
 // Should extra reinforcement be included to make printing on an FDM printer easier? Ignored for tiles, since they're printed upside-down and don't need the reinforcement. Recommended for block heights less than 1 or for Duplo bricks. 
