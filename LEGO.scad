@@ -171,8 +171,8 @@ module block(
     horizontal_hole_wall_thickness = 1 * 1;
 
     // Ensure that width is always less than or equal to length.
-    real_width = min(width, length);
-    real_length = max(width, length);
+    real_width = (type == "wing" ? width : min(width, length) );
+    real_length = (type == "wing" ? length : max(width, length) );
     real_height = max((type == "baseplate" ? 1 : 1/3), height);
 
     // Ensure that the wing end width is even if the width is even, odd if odd, and a reasonable value.
