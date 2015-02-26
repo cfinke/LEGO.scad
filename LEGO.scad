@@ -4,18 +4,18 @@
  * LEGO®, the LEGO® logo, the Brick, DUPLO®, and MINDSTORMS® are trademarks of the LEGO® Group. ©2012 The LEGO® Group.
  */
 
-/* General */
+/* [General] */
 
 // Width of the block, in studs
-block_width = 4;
+block_width = 2;
 
 // Length of the block, in studs
 block_length = 6;
 
 // Height of the block. A ratio of "1" is a standard LEGO brick height; a ratio of "1/3" is a standard LEGO plate height; "1/2" is a standard DUPLO plate.
-block_height_ratio = 1; // [.33333333333:1/3, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:10]
+block_height_ratio = 1; // [.33333333333:1/3, .5:1/2, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:10]
 
-// What type of block should this be? For type-specific options, see the "Wings," "Slopes," and "Curves" tabs.
+// What type of block should this be? For type-specific options, see the "Wings," "Slopes," "Curves", and "Baseplates" tabs.
 block_type = "brick"; // [brick:Brick, tile:Tile, wing:Wing, slope:Slope, curve:Curve, baseplate:Baseplate]
 
 // What brand of block should this be? LEGO for regular LEGO bricks, Duplo for the toddler-focused larger bricks.
@@ -86,7 +86,7 @@ dual_sided = "no"; // [no:No, yes:Yes]
 /* [Printer-Specific] */
 
 // Should extra reinforcement be included to make printing on an FDM printer easier? Ignored for tiles, since they're printed upside-down and don't need the reinforcement. Recommended for block heights less than 1 or for Duplo bricks. 
-use_reinforcement = "yes"; // [no:No, yes:Yes]
+use_reinforcement = "no"; // [no:No, yes:Yes]
 
 // If your printer prints the blocks correctly except for the stud diameter, use this variable to resize just the studs for your printer. A value of 1.05 will print the studs 105% wider than standard.
 stud_rescale = 1;
