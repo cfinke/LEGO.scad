@@ -112,7 +112,8 @@ translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]
         roadway_length=roadway_length,
         roadway_x=roadway_x,
         roadway_y=roadway_y,
-        stud_rescale=stud_rescale
+        stud_rescale=stud_rescale,
+        dual_sided=(dual_sided=="yes")
     );
 }
 
@@ -135,12 +136,12 @@ module block(
     curve_stud_rows=1,
     curve_type="concave",
     curve_end_height=0,
-    wing_base_length=wing_base_length,
     roadway_width=0,
     roadway_length=0,
     roadway_x=0,
     roadway_y=0,
-    stud_rescale=1
+    stud_rescale=1,
+    dual_sided=false
     ) {
     post_wall_thickness = (brand == "lego" ? 0.85 : 1);
     wall_thickness=(brand == "lego" ? 1.2 : 1.5);
@@ -162,7 +163,7 @@ module block(
     horizontal_hole_bevel_diameter = (brand == "lego" ? 6.2 : 6.2 * 2);
     horizontal_hole_bevel_depth = (brand == "lego" ? 0.9 : 0.9 * 1.5 / 1.2 );
 
-    roof_thickness = (type == "baseplate" ? block_height * height : 1 * 1);
+    roof_thickness = (type == "baseplate" || dual_sided ? block_height * height : 1 * 1);
 
     // Brand-independent measurements.
     axle_spline_width = 2.0;
@@ -208,12 +209,15 @@ module block(
     real_curve_end_height = max(0, min(real_height - 1/3, curve_end_height));
     real_horizontal_holes = horizontal_holes && ((type == "baseplate" && real_height >= 8) || real_height >= 1);
     real_vertical_axle_holes = vertical_axle_holes && real_width > 1;
-    real_reinforcement = reinforcement && type != "baseplate" && type != "tile";
+    real_reinforcement = reinforcement && type != "baseplate" && type != "tile" && !dual_sided;
 
     real_roadway_width = max(0, min(roadway_width, real_width));
     real_roadway_length = max(0, min(roadway_length, real_length));
     real_roadway_x = max(0, min(real_length - real_roadway_length, roadway_x));
     real_roadway_y = max(0, min(real_width - real_roadway_width, roadway_y));
+
+    real_stud_notches = stud_notches && !dual_sided;
+    real_dual_sided = dual_sided && type != "curve" && type != "slope" && type != "tile";
 
     total_studs_width = (stud_diameter * stud_rescale * real_width) + ((real_width - 1) * (stud_spacing - (stud_diameter * stud_rescale)));
     total_studs_length = (stud_diameter * stud_rescale * real_length) + ((real_length - 1) * (stud_spacing - (stud_diameter * stud_rescale)));
@@ -275,7 +279,7 @@ module block(
                         translate([overall_length - wall_thickness -  spline_length, ycount * stud_spacing, 0]) cube([spline_length, spline_thickness, real_height * block_height]);
                     }
 
-                    if (type != "baseplate" && real_width > 1 && real_length > 1) {
+                    if (type != "baseplate" && real_width > 1 && real_length > 1 && !dual_sided && roof_thickness < block_height * height) {
                         // Reinforcements and posts
                         translate([post_diameter / 2, post_diameter / 2, 0]) {
                             translate([(overall_length - total_posts_length)/2, (overall_width - total_posts_width)/2, 0]) {
@@ -308,7 +312,7 @@ module block(
                         }
                     }
 
-                    if (type != "baseplate" && (real_width == 1 || real_length == 1) && real_width != real_length) {
+                    if (type != "baseplate" && (real_width == 1 || real_length == 1) && real_width != real_length && !dual_sided && roof_thickness < block_height * height) {
                         // Pins
                         if (real_width == 1) {
                             translate([(pin_diameter/2) + (overall_length - total_pins_length) / 2, overall_width/2, 0]) {
