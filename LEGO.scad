@@ -260,7 +260,7 @@ module block(
                         translate([(overall_length - total_studs_length)/2, (overall_width - total_studs_width)/2, 0]) {
                             for (ycount=[0:real_width-1]) {
                                 for (xcount=[0:real_length-1]) {
-                                    if (put_stud_here(xcount, ycount)) {
+                                    if (!skip_this_stud(xcount, ycount)) {
                                         translate([xcount*stud_spacing,ycount*stud_spacing,block_height*real_height]) stud();
                                     }
                                 }
@@ -287,7 +287,7 @@ module block(
                                     // Posts
                                     for (ycount=[1:real_width-1]) {
                                         for (xcount=[1:real_length-1]) {
-                                            translate([(xcount-1)*stud_spacing,(ycount-1)*stud_spacing,0]) post();
+                                            translate([(xcount-1)*stud_spacing,(ycount-1)*stud_spacing,0]) post(real_vertical_axle_holes && !skip_this_vertical_axle_hole(xcount, ycount));
                                         }
                                     }
 
@@ -334,11 +334,13 @@ module block(
                         // The holes for the horizontal axles.
                         // 1-length bricks have the hole underneath the stud.
                         // >1-length bricks have the holes between the studs.
-                        translate([horizontal_holes_x_offset(), overall_width, 0]) 
-                        translate([(overall_length - total_studs_length)/2, 0, 0]) {
-                        for (axle_hole_index=[horizontal_hole_start_index() : horizontal_hole_end_index()]) {
-                            if (put_horizontal_hole_here(axle_hole_index)) {
-                                    translate([axle_hole_index*stud_spacing,0,horizontal_hole_z_offset]) rotate([90, 0, 0])  cylinder(r=horizontal_hole_diameter/2 + horizontal_hole_wall_thickness, h=overall_width,$fs=cylinder_precision);
+                        for (height_index = [0 : height - 1]) {
+                            translate([horizontal_holes_x_offset(), overall_width, height_index * block_height]) 
+                            translate([(overall_length - total_studs_length)/2, 0, 0]) {
+                            for (axle_hole_index=[horizontal_hole_start_index() : horizontal_hole_end_index()]) {
+                                if (!skip_this_horizontal_hole(axle_hole_index, height_index)) {
+                                        translate([axle_hole_index*stud_spacing,0,horizontal_hole_z_offset]) rotate([90, 0, 0])  cylinder(r=horizontal_hole_diameter/2 + horizontal_hole_wall_thickness, h=overall_width,$fs=cylinder_precision);
+                                    }
                                 }
                             }
                         }
@@ -356,7 +358,9 @@ module block(
                             translate([(overall_length - total_axles_length)/2, (overall_width - total_axles_width)/2, 0]) {
                                 for (ycount = [ 1 : real_width - 1 ]) {
                                     for (xcount = [ 1 : real_length - 1]) {
-                                        translate([(xcount-1)*stud_spacing,(ycount-1)*stud_spacing,-block_height/2]) axle();
+                                        if (!skip_this_vertical_axle_hole(xcount, ycount)) {
+                                            translate([(xcount-1)*stud_spacing,(ycount-1)*stud_spacing,-block_height/2]) axle();
+                                        }
                                     }
                                 }
                             }
@@ -445,16 +449,18 @@ module block(
                     // The holes for the horizontal axles.
                     // 1-length bricks have the hole underneath the stud.
                     // >1-length bricks have the holes between the studs.
-                    translate([horizontal_holes_x_offset(), 0, 0]) 
-                    translate([(overall_length - total_studs_length)/2, 0, 0]) {
-                        for (axle_hole_index=[horizontal_hole_start_index() : horizontal_hole_end_index()]) {
-                            if (put_horizontal_hole_here(axle_hole_index)) {
-                                union() {
-                                    translate([axle_hole_index*stud_spacing,overall_width,horizontal_hole_z_offset]) rotate([90, 0, 0])  cylinder(r=horizontal_hole_diameter/2, h=overall_width,$fs=cylinder_precision);
-
-                                    // Bevels. The +/- 0.1 measurements are here just for nicer previews in OpenSCAD, and could be removed.
-                                    translate([axle_hole_index*stud_spacing,horizontal_hole_bevel_depth-0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1,$fs=cylinder_precision);
-                                    translate([axle_hole_index*stud_spacing,overall_width+0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1,$fs=cylinder_precision);
+                    for (height_index = [0 : height - 1]) {
+                        translate([horizontal_holes_x_offset(), 0, height_index * block_height]) 
+                        translate([(overall_length - total_studs_length)/2, 0, 0]) {
+                            for (axle_hole_index=[horizontal_hole_start_index() : horizontal_hole_end_index()]) {
+                                if (!skip_this_horizontal_hole(axle_hole_index, height_index)) {
+                                    union() {
+                                        translate([axle_hole_index*stud_spacing,overall_width,horizontal_hole_z_offset]) rotate([90, 0, 0])  cylinder(r=horizontal_hole_diameter/2, h=overall_width,$fs=cylinder_precision);
+    
+                                        // Bevels. The +/- 0.1 measurements are here just for nicer previews in OpenSCAD, and could be removed.
+                                        translate([axle_hole_index*stud_spacing,horizontal_hole_bevel_depth-0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1,$fs=cylinder_precision);
+                                        translate([axle_hole_index*stud_spacing,overall_width+0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1,$fs=cylinder_precision);
+                                    }
                                 }
                             }
                         }
@@ -577,10 +583,10 @@ module block(
             }
     }
 
-    module post() {
+    module post(vertical_axle_hole) {
         difference() {
             cylinder(r=post_diameter/2, h=real_height*block_height,$fs=cylinder_precision);
-            if (vertical_axle_holes==true) {
+            if (vertical_axle_hole==true) {
                 translate([0,0,-block_height/2])
                     axle();
             } else {
@@ -652,11 +658,12 @@ module block(
         :
         real_length - 2
     );
-    function put_horizontal_hole_here(axle_hole_index) = (
-        (type != "slope" && type != "curve")
-        || (type == "slope" && axle_hole_index > real_length - real_slope_stud_rows - 1)
-        || (type == "curve" && axle_hole_index > real_length - real_curve_stud_rows - 1)
+    function skip_this_horizontal_hole(xcount, zcount) = (
+        (type == "slope" && ((zcount >= slope_end_height) && (xcount <= real_length - real_slope_stud_rows - 1)))
+        ||
+        (type == "curve" && ((zcount >= curve_end_height) && (xcount <= real_length - real_curve_stud_rows - 1)))
     );
+
     function horizontal_holes_x_offset() = (
         (horizontal_hole_diameter / 2)
         + (
@@ -673,7 +680,7 @@ module block(
     );
     
     function put_stud_here(xcount, ycount) = (
-        (type != "wing" && type != "baseplate")
+        (type != "wing" && real_roadway_width > 0 && real_roadway_length > 0)
         ||
         (type == "wing" && (
             (wing_type == "full" && (ycount+1 > ceil(width_loss(xcount+1)/2)) && (ycount+1 <= floor(real_width - (width_loss(xcount+1)/2))))
@@ -682,7 +689,31 @@ module block(
             )
         )
         ||
-        (type == "baseplate" && (real_roadway_width && real_roadway_length) && !pos_in_roadway(xcount, ycount))
+        (real_roadway_width == 0 && real_roadway_length == 0)
+        ||
+        (!pos_in_roadway(xcount, ycount))
+    );
+    
+    function put_vertical_axle_hole_here(xcount, ycount) = (
+        !skip_this_axle_hole(xcount, ycount)
+    );
+    
+    function skip_this_vertical_axle_hole(xcount, ycount) = (
+        (type == "slope" && xcount < (real_length - real_slope_stud_rows + 1))
+        ||
+        (type == "curve" && xcount < (real_length - real_curve_stud_rows + 1))
+        
+    );
+    
+    function skip_this_stud(xcount, ycount) = (
+        (type == "wing" && (
+            (wing_type == "full" && ((ycount+1 <= ceil(width_loss(xcount+1)/2)) || (ycount+1 > floor(real_width - (width_loss(xcount+1)/2)))))
+            || (wing_type == "left" && ycount+1 > wing_width(xcount+1))
+            || (wing_type == "right" && ycount < width_loss(xcount+1))
+            )
+        )
+        ||
+        (real_roadway_width > 0 && real_roadway_length > 0 && pos_in_roadway(xcount, ycount))
     );
 
     function pos_in_roadway(x, y) = (
