@@ -509,7 +509,7 @@ module block(
                         }
                     }
 
-                    if (stud_notches) {
+                    if (real_stud_notches) {
                         translate([overall_length/2, overall_width/2, 0])
                             translate([0, 0, -(1/3 * block_height)]) block(
                                 width=real_width,
@@ -517,7 +517,8 @@ module block(
                                 height=1/3,
                                 brand=brand,
                                 stud_type="solid",
-                                type="brick"
+                                type="brick",
+                                stud_rescale=1.5
                             );
                     }
                 }
