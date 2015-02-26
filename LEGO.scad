@@ -588,6 +588,35 @@ module block(
                     }
                 }
             }
+            
+            if (dual_sided) {
+                translate([overall_length/2, overall_width/2, block_height * height]) mirror([0,0,1]) block(
+                    width=real_width,
+                    length=real_length,
+                    height=real_height,
+                    type=type,
+                    brand=brand,
+                    stud_type=stud_type,
+                    horizontal_holes=real_horizontal_holes,
+                    vertical_axle_holes=real_vertical_axle_holes,
+                    reinforcement=real_reinforcement,
+                    wing_type=wing_type,
+                    wing_end_width=real_wing_end_width,
+                    wing_base_length=real_wing_base_length-1,
+                    stud_notches=real_stud_notches,
+                    slope_stud_rows=real_slope_stud_rows,
+                    slope_end_height=real_slope_end_height,
+                    curve_stud_rows=real_curve_stud_rows,
+                    curve_type=real_curve_type,
+                    curve_end_height=real_curve_end_height,
+                    roadway_width=real_roadway_width,
+                    roadway_length=real_roadway_length,
+                    roadway_x=real_roadway_x,
+                    roadway_y=real_roadway_y,
+                    stud_rescale=stud_rescale,
+                    dual_sided=false
+                );
+            }
     }
 
     module post(vertical_axle_hole) {
