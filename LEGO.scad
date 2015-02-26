@@ -233,7 +233,7 @@ module block(
     wing_slope = (wing_type == "full" ?
         ((real_width - (real_wing_end_width + 1)) / 2) / (real_length - (real_wing_base_length - 1))
         :
-        (real_width - (real_wing_end_width + .5)) / (real_length - (real_wing_base_length - 1))
+        (real_width - (real_wing_end_width)) / (real_length - (real_wing_base_length - 1))
     );
 
    translate([-overall_length/2, -overall_width/2, 0]) // Comment to position at 0,0,0 instead of centered on X and Y.
@@ -366,9 +366,9 @@ module block(
                             [stud_spacing * (real_wing_base_length-1), -0.01],
                             [overall_length + 0.01, -0.01],
                             [overall_length + 0.01, (wing_type == "full" ?
-                                (overall_width / 2 - (real_wing_end_width * stud_spacing / 2) - (stud_spacing/2))
+                                (overall_width / 2 - (real_wing_end_width * stud_spacing / 2))
                                 :
-                                (overall_width - (real_wing_end_width * stud_spacing) - (stud_spacing/2))
+                                (overall_width - (real_wing_end_width * stud_spacing))
                             )]
                         ]
                         );
@@ -377,7 +377,7 @@ module block(
                         translate([0, 0, -0.5]) linear_extrude(block_height * real_height + stud_height + 1) polygon(points=[
                             [stud_spacing * (real_wing_base_length-1), overall_width + 0.01],
                             [overall_length + 0.01, overall_width + 0.01],
-                            [overall_length + 0.01, (wing_type == "full" ? overall_width / 2 : 0) + (real_wing_end_width * stud_spacing / (wing_type == "full" ? 2 : 1)) + (stud_spacing/2)]
+                            [overall_length + 0.01, (wing_type == "full" ? overall_width / 2 : 0) + (real_wing_end_width * stud_spacing / (wing_type == "full" ? 2 : 1))]
                         ]
                         );
 
@@ -470,14 +470,14 @@ module block(
                             linear_extrude(block_height * real_height) polygon(points=[
                                 [stud_spacing * (real_wing_base_length-1), 0],
                                 [overall_length, (wing_type == "full" ? 
-                                    ((overall_width / 2) - (real_wing_end_width * stud_spacing / 2) - (stud_spacing/2))
+                                    ((overall_width / 2) - (real_wing_end_width * stud_spacing / 2))
                                     :
-                                    (overall_width - (real_wing_end_width * stud_spacing) - (stud_spacing/2))
+                                    (overall_width - (real_wing_end_width * stud_spacing))
                                 )],
                                 [overall_length, (wing_type == "full" ? 
-                                    ((overall_width / 2) - (real_wing_end_width * stud_spacing / 2) - (stud_spacing/2))
+                                    ((overall_width / 2) - (real_wing_end_width * stud_spacing / 2))
                                     :
-                                    (overall_width - (real_wing_end_width * stud_spacing) - (stud_spacing/2))
+                                    (overall_width - (real_wing_end_width * stud_spacing))
                                 ) + wall_thickness],
                                 [stud_spacing * (real_wing_base_length-1), wall_thickness]
                             ]);
