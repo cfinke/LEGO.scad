@@ -502,8 +502,8 @@ module block(
                         if (wing_type == "full" || wing_type == "left") {
                             linear_extrude(block_height * real_height) polygon(points=[
                                 [stud_spacing * (real_wing_base_length-1), overall_width],
-                                [overall_length, (wing_type == "full" ? overall_width / 2 : 0) + (real_wing_end_width * stud_spacing / (wing_type == "full" ? 2 : 1)) + (stud_spacing/2)],
-                                [overall_length, (wing_type == "full" ? overall_width / 2 : 0) + (real_wing_end_width * stud_spacing / (wing_type == "full" ? 2 : 1)) + (stud_spacing/2) - wall_thickness],
+                                [overall_length, (wing_type == "full" ? overall_width / 2 : 0) + (real_wing_end_width * stud_spacing / (wing_type == "full" ? 2 : 1))],
+                                [overall_length, (wing_type == "full" ? overall_width / 2 : 0) + (real_wing_end_width * stud_spacing / (wing_type == "full" ? 2 : 1)) - wall_thickness],
                                 [stud_spacing * (real_wing_base_length-1), overall_width - wall_thickness]
                             ]);
                         }
