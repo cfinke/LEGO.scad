@@ -83,6 +83,9 @@ roadway_y = 0;
 // Put studs on the top and buttom?
 dual_sided = "no"; // [no:No, yes:Yes]
 
+// Instead of both sides having studs, both sides can have no studs.
+dual_bottom = "no"; // [no:No, yes:Yes]
+
 /* [Printer-Specific] */
 
 // Should extra reinforcement be included to make printing on an FDM printer easier? Ignored for tiles, since they're printed upside-down and don't need the reinforcement. Recommended for block heights less than 1 or for Duplo bricks. 
@@ -119,7 +122,8 @@ translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]
         roadway_x=roadway_x,
         roadway_y=roadway_y,
         stud_rescale=stud_rescale,
-        dual_sided=(dual_sided=="yes")
+        dual_sided=(dual_sided=="yes"),
+        dual_bottom=(dual_bottom=="yes")
     );
 }
 
@@ -147,7 +151,8 @@ module block(
     roadway_x=0,
     roadway_y=0,
     stud_rescale=1,
-    dual_sided=false
+    dual_sided=false,
+    dual_bottom=false
     ) {
     post_wall_thickness = (brand == "lego" ? 0.85 : 1);
     wall_thickness=(brand == "lego" ? 1.45 : 1.5);
@@ -224,6 +229,7 @@ module block(
 
     real_stud_notches = stud_notches && !dual_sided;
     real_dual_sided = dual_sided && type != "curve" && type != "slope" && type != "tile";
+    real_dual_bottom = dual_bottom && !real_dual_sided && type != "curve" && type != "slope";
 
     total_studs_width = (stud_diameter * stud_rescale * real_width) + ((real_width - 1) * (stud_spacing - (stud_diameter * stud_rescale)));
     total_studs_length = (stud_diameter * stud_rescale * real_length) + ((real_length - 1) * (stud_spacing - (stud_diameter * stud_rescale)));
@@ -261,7 +267,7 @@ module block(
                     }
 
                     // The studs on top of the block (if it's not a tile).
-                    if ( type != "tile" ) {
+                    if ( type != "tile" && !real_dual_bottom ) {
                         translate([stud_diameter * stud_rescale / 2, stud_diameter * stud_rescale / 2, 0]) 
                         translate([(overall_length - total_studs_length)/2, (overall_width - total_studs_width)/2, 0]) {
                             for (ycount=[0:real_width-1]) {
@@ -285,7 +291,7 @@ module block(
                         translate([overall_length - wall_thickness -  spline_length, ycount * stud_spacing, 0]) cube([spline_length, spline_thickness, real_height * block_height]);
                     }
 
-                    if (type != "baseplate" && real_width > 1 && real_length > 1 && !dual_sided && roof_thickness < block_height * height) {
+                    if (type != "baseplate" && real_width > 1 && real_length > 1 && !real_dual_sided && roof_thickness < block_height * height) {
                         // Reinforcements and posts
                         translate([post_diameter / 2, post_diameter / 2, 0]) {
                             translate([(overall_length - total_posts_length)/2, (overall_width - total_posts_width)/2, 0]) {
@@ -318,7 +324,7 @@ module block(
                         }
                     }
 
-                    if (type != "baseplate" && (real_width == 1 || real_length == 1) && real_width != real_length && !dual_sided && roof_thickness < block_height * height) {
+                    if (type != "baseplate" && (real_width == 1 || real_length == 1) && real_width != real_length && !real_dual_sided && roof_thickness < block_height * height) {
                         // Pins
                         if (real_width == 1) {
                             translate([(pin_diameter/2) + (overall_length - total_pins_length) / 2, overall_width/2, 0]) {
@@ -589,7 +595,7 @@ module block(
                 }
             }
             
-            if (dual_sided) {
+            if (real_dual_sided) {
                 translate([overall_length/2, overall_width/2, block_height * height]) mirror([0,0,1]) block(
                     width=real_width,
                     length=real_length,
@@ -615,6 +621,36 @@ module block(
                     roadway_y=real_roadway_y,
                     stud_rescale=stud_rescale,
                     dual_sided=false
+                );
+            }
+
+            if (real_dual_bottom) {
+                translate([overall_length/2, overall_width/2, block_height * height * 2]) mirror([0,0,1]) block(
+                    width=real_width,
+                    length=real_length,
+                    height=real_height,
+                    type="tile",
+                    brand=brand,
+                    stud_type=stud_type,
+                    horizontal_holes=real_horizontal_holes,
+                    vertical_axle_holes=real_vertical_axle_holes,
+                    reinforcement=real_reinforcement,
+                    wing_type=wing_type,
+                    wing_end_width=real_wing_end_width,
+                    wing_base_length=real_wing_base_length-1,
+                    stud_notches=real_stud_notches,
+                    slope_stud_rows=real_slope_stud_rows,
+                    slope_end_height=real_slope_end_height,
+                    curve_stud_rows=real_curve_stud_rows,
+                    curve_type=real_curve_type,
+                    curve_end_height=real_curve_end_height,
+                    roadway_width=real_roadway_width,
+                    roadway_length=real_roadway_length,
+                    roadway_x=real_roadway_x,
+                    roadway_y=real_roadway_y,
+                    stud_rescale=stud_rescale,
+                    dual_sided=false,
+                    dual_bottom=false
                 );
             }
     }
