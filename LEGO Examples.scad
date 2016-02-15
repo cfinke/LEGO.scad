@@ -18,6 +18,13 @@ rotate([0, 0, 180]) union() {
             height=1/3
         );
     
+        color( "orange" ) place(-6.5, -3, 0) uncenter(1/3, 11, 3) rotate([90, 0, 0]) block(
+            dual_bottom=true,
+            width=3,
+            length=15,
+            height=1/3
+        );
+    
         color( "red" ) place(1, 0, 0) uncenter(2, 9) block(
             width=2,
             length=9,
