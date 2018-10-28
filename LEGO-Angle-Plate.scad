@@ -1,4 +1,4 @@
-use <Lego.scad>;
+use <LEGO.scad>;
 
 module angle_plate( angle=90, base_stud_length=2, base_stud_width=2, overhang_stud_length=2, overhang_stud_width=2 ) {
     // Values from Lego.scad.
