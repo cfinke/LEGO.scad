@@ -1,7 +1,7 @@
 /**
  * Derived from http://www.thingiverse.com/thing:5699
  *
- * LEGO®, the LEGO® logo, the Brick, DUPLO®, and MINDSTORMS® are trademarks of the LEGO® Group. ©2012 The LEGO® Group.
+ * LEGO, the LEGO logo, the Brick, DUPLO, and MINDSTORMS are trademarks of the LEGO Group. 2012 The LEGO Group.
  */
 
 /* [General] */
