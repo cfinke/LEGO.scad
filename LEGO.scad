@@ -80,7 +80,7 @@ roadway_y = 0;
 /* [SNOT] */
 
 // SNOT means Studs Not On Top -- bricks with alternative stud configurations.
-// Put studs on the top and buttom?
+// Put studs on the top and bottom?
 dual_sided = "no"; // [no:No, yes:Yes]
 
 // Instead of both sides having studs, both sides can have no studs.
