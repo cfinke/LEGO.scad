@@ -24,6 +24,12 @@ block_brand = "lego"; // [lego:LEGO, duplo:DUPLO]
 // What stud type do you want? Hollow studs allow rods to be pushed into the stud.
 stud_type = "solid"; // [solid:Solid, hollow:Hollow]
 
+// What type of block bottom do you want? Open blocks are the standard, closed bottom blocks can be used for stacking composite shapes.
+block_bottom_type = "open"; // [closed:Closed, open:Open]
+
+// Should the block wall include splines? Valid only for a open block bottom type.
+include_wall_splines = "yes"; // [no:No, yes:Yes]
+
 // Should the block include round horizontal holes like the Technics LEGO bricks have?
 technic_holes = "no"; // [no:No, yes:Yes]
 
@@ -105,6 +111,8 @@ translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]
         type=block_type,
         brand=block_brand,
         stud_type=stud_type,
+        block_bottom_type=block_bottom_type,
+        include_wall_splines=(include_wall_splines=="yes"),
         horizontal_holes=(technic_holes=="yes"),
         vertical_axle_holes=(vertical_axle_holes=="yes"),
         reinforcement=(use_reinforcement=="yes"),
@@ -134,6 +142,8 @@ module block(
     type="brick",
     brand="lego",
     stud_type="solid",
+    block_bottom_type="open",
+    include_wall_splines=true,
     horizontal_holes=false,
     vertical_axle_holes=false,
     reinforcement=false,
@@ -166,6 +176,7 @@ module block(
     cylinder_precision=(brand == "lego" ? 0.1 : 0.05);
     reinforcing_width = (brand == "lego" ? 0.7 : 1);
 
+    real_include_wall_splines = block_bottom_type == "open" && include_wall_splines;
     spline_length = (brand == "lego" ? 0.25 : 1.7);
     spline_thickness = (brand == "lego" ? 0.7 : 1.3);
 
@@ -263,7 +274,9 @@ module block(
                     // The mass of the block.
                     difference() {
                         cube([overall_length, overall_width, real_height * block_height]);
-                        translate([wall_thickness,wall_thickness,-roof_thickness]) cube([overall_length-wall_thickness*2,overall_width-wall_thickness*2,block_height*real_height]);
+                        if (block_bottom_type == "open") {
+                          translate([wall_thickness,wall_thickness,-roof_thickness]) cube([overall_length-wall_thickness*2,overall_width-wall_thickness*2,block_height*real_height]);
+                        }
                     }
 
                     // The studs on top of the block (if it's not a tile).
@@ -281,17 +294,19 @@ module block(
                     }
 
                     // Interior splines to catch the studs.
-                    translate([stud_spacing / 2 - wall_play - (spline_thickness/2), 0, 0]) for (xcount = [0:real_length-1]) {
-                        translate([0,wall_thickness,0]) translate([xcount * stud_spacing, 0, 0]) cube([spline_thickness, spline_length, real_height * block_height]);
-                        translate([xcount * stud_spacing, overall_width - wall_thickness -  spline_length, 0]) cube([spline_thickness, spline_length, real_height * block_height]);
+                    if (real_include_wall_splines) {
+                      translate([stud_spacing / 2 - wall_play - (spline_thickness/2), 0, 0]) for (xcount = [0:real_length-1]) {
+                          translate([0,wall_thickness,0]) translate([xcount * stud_spacing, 0, 0]) cube([spline_thickness, spline_length, real_height * block_height]);
+                          translate([xcount * stud_spacing, overall_width - wall_thickness -  spline_length, 0]) cube([spline_thickness, spline_length, real_height * block_height]);
+                      }
+
+                      translate([0, stud_spacing / 2 - wall_play - (spline_thickness/2), 0]) for (ycount = [0:real_width-1]) {
+                          translate([wall_thickness,0,0]) translate([0, ycount * stud_spacing, 0]) cube([spline_length, spline_thickness, real_height * block_height]);
+                          translate([overall_length - wall_thickness -  spline_length, ycount * stud_spacing, 0]) cube([spline_length, spline_thickness, real_height * block_height]);
+                      }
                     }
 
-                    translate([0, stud_spacing / 2 - wall_play - (spline_thickness/2), 0]) for (ycount = [0:real_width-1]) {
-                        translate([wall_thickness,0,0]) translate([0, ycount * stud_spacing, 0]) cube([spline_length, spline_thickness, real_height * block_height]);
-                        translate([overall_length - wall_thickness -  spline_length, ycount * stud_spacing, 0]) cube([spline_length, spline_thickness, real_height * block_height]);
-                    }
-
-                    if (type != "baseplate" && real_width > 1 && real_length > 1 && !real_dual_sided && roof_thickness < block_height * height) {
+                    if (type != "baseplate" && block_bottom_type == "open" && real_width > 1 && real_length > 1 && !real_dual_sided && roof_thickness < block_height * height) {
                         // Reinforcements and posts
                         translate([post_diameter / 2, post_diameter / 2, 0]) {
                             translate([(overall_length - total_posts_length)/2, (overall_width - total_posts_width)/2, 0]) {
@@ -324,7 +339,7 @@ module block(
                         }
                     }
 
-                    if (type != "baseplate" && (real_width == 1 || real_length == 1) && real_width != real_length && !real_dual_sided && roof_thickness < block_height * height) {
+                    if (type != "baseplate" && block_bottom_type == "open" && (real_width == 1 || real_length == 1) && real_width != real_length && !real_dual_sided && roof_thickness < block_height * height) {
                         // Pins
                         if (real_width == 1) {
                             translate([(pin_diameter/2) + (overall_length - total_pins_length) / 2, overall_width/2, 0]) {
@@ -804,12 +819,26 @@ module block(
     }
 }
 
-module uncenter(width, length, height) {
-    // stud_spacing = 8
-    // wall_play = 0.1
-    translate([((8 * length) / 2) - 0.1, ((8 * width) / 2) - 0.1, height ? ((8 * height) / 2) - 0.1 : 0]) children();
+module uncenter(
+    width,
+    length,
+    height,
+    stud_spacing=8,
+    x_wall_play=0.1,
+    y_wall_play=0.1,
+    z_wall_play=0.1
+    ) {
+    translate([((stud_spacing * length) / 2) - x_wall_play, ((stud_spacing * width) / 2) - y_wall_play, height ? ((stud_spacing * height) / 2) - z_wall_play : 0]) children();
 }
 
 module place(x, y, z=0) {
     translate([8 * y, 8 * x, z * 9.6]) children();
+}
+
+module stack(x=0,y=0,z=0) {
+    union() {
+        place(x,y,z) {
+            children();
+        }
+    }
 }
