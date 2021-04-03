@@ -538,6 +538,8 @@ module block(
                                 height=1/3,
                                 brand=brand,
                                 stud_type="solid",
+                                block_bottom_type=block_bottom_type,
+                                include_wall_splines=include_wall_splines,
                                 type="brick",
                                 stud_rescale=1.5
                             );
@@ -618,6 +620,8 @@ module block(
                     type=type,
                     brand=brand,
                     stud_type=stud_type,
+                    block_bottom_type=block_bottom_type,
+                    include_wall_splines=include_wall_splines,
                     horizontal_holes=real_horizontal_holes,
                     vertical_axle_holes=real_vertical_axle_holes,
                     reinforcement=real_reinforcement,
@@ -647,6 +651,8 @@ module block(
                     type="tile",
                     brand=brand,
                     stud_type=stud_type,
+                    block_bottom_type=block_bottom_type,
+                    include_wall_splines=include_wall_splines,
                     horizontal_holes=real_horizontal_holes,
                     vertical_axle_holes=real_vertical_axle_holes,
                     reinforcement=real_reinforcement,
