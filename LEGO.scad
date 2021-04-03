@@ -102,6 +102,9 @@ stud_rescale = 1;
 //stud_rescale = 1.0475 * 1; // Orion Delta, T-Glase
 //stud_rescale = 1.022 * 1; // Orion Delta, ABS
 
+// If you want stud tops to be curved, specify a value between 0 and 1, where 0 is no roundness and 1 is very round
+stud_top_roundness = 0; // [0:0.01:1]
+
 // Print tiles upside down.
 translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]) rotate([0, (block_type == "tile" ? 180 : 0), 0]) {
     block(
@@ -130,6 +133,7 @@ translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]
         roadway_x=roadway_x,
         roadway_y=roadway_y,
         stud_rescale=stud_rescale,
+        stud_top_roundness=stud_top_roundness,
         dual_sided=(dual_sided=="yes"),
         dual_bottom=(dual_bottom=="yes")
     );
@@ -161,6 +165,7 @@ module block(
     roadway_x=0,
     roadway_y=0,
     stud_rescale=1,
+    stud_top_roundness=0,
     dual_sided=false,
     dual_bottom=false
     ) {
@@ -541,7 +546,8 @@ module block(
                                 block_bottom_type=block_bottom_type,
                                 include_wall_splines=include_wall_splines,
                                 type="brick",
-                                stud_rescale=1.5
+                                stud_rescale=1.5,
+                                stud_top_roundness=stud_top_roundness
                             );
                     }
                 }
@@ -639,6 +645,7 @@ module block(
                     roadway_x=real_roadway_x,
                     roadway_y=real_roadway_y,
                     stud_rescale=stud_rescale,
+                    stud_top_roundness=stud_top_roundness,
                     dual_sided=false
                 );
             }
@@ -670,6 +677,7 @@ module block(
                     roadway_x=real_roadway_x,
                     roadway_y=real_roadway_y,
                     stud_rescale=stud_rescale,
+                    stud_top_roundness=stud_top_roundness,
                     dual_sided=false,
                     dual_bottom=false
                 );
@@ -705,14 +713,49 @@ module block(
     }
 
     module stud() {
+        stud_top_height=1;
+        stud_body_height=(stud_top_roundness != 0) ? (stud_height - stud_top_height) : stud_height;
         difference() {
-            cylinder(r=(stud_diameter*stud_rescale)/2,h=stud_height,$fs=cylinder_precision);
+            union() {
+                cylinder(r=(stud_diameter*stud_rescale)/2,h=stud_body_height,$fs=cylinder_precision);
+                if (stud_top_roundness != 0) {
+                    translate([0,0,stud_body_height])
+                    rounded_stud_top(height=stud_top_height, radius=(stud_diameter*stud_rescale)/2,curve_height=stud_top_roundness);
+                }
+            }
 
             if (stud_type == "hollow") {
                 // 0.5 is for cleaner preview; doesn't affect functionality.
                 cylinder(r=(hollow_stud_inner_diameter*stud_rescale)/2,h=stud_height+0.5,$fs=cylinder_precision);
             }
         }
+    }
+
+    module rounded_stud_top(
+        height,
+        radius,
+        curve_height
+        ) {
+        assert(curve_height < (radius/2), "Curve height must be less than half the radius");
+        assert(height >= curve_height, "Curve height must be greater than or equal to height");
+        base_height=height-curve_height;
+        union() {
+            cylinder(h=base_height, r=radius, $fs=cylinder_precision);
+            translate([0,0,base_height])
+            difference() {
+                union() {
+                    rotate_extrude($fs=cylinder_precision)
+                    hull() {
+                        translate([radius-curve_height, 0, 0])
+                        circle(curve_height, $fs=cylinder_precision);
+                    };
+                    cylinder(h=curve_height, r=(radius-curve_height), $fs=cylinder_precision);
+                }
+                translate([0,0,-curve_height])
+                cylinder(h=curve_height, r=(radius), $fs=cylinder_precision);
+            }
+
+        };
     }
 
     function curve_circle_length() = (overall_length - (stud_spacing * min(real_length - 1, real_curve_stud_rows)) + (wall_play/2)) * 2;

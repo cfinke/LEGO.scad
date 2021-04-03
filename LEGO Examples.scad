@@ -174,4 +174,10 @@ rotate([0, 0, 180]) union() {
             }
         }
     }
+    color("gray") place(8, 10, 0) uncenter(2, 2) block(
+        height=1/3,
+        width=2,
+        length=2,
+        stud_top_roundness=0.3
+    );
 }
