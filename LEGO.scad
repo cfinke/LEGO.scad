@@ -175,7 +175,7 @@ module block(
     hollow_stud_inner_diameter = (brand == "lego" ? 3.1 : 6.7);
     stud_height=(brand == "lego" ? 1.8 : 4.4);
     stud_spacing=(brand == "lego" ? 8 : 8 * 2);
-    block_height=(brand == "lego" ? (type == "baseplate" ? 1.3 : 9.6) : 9.6 * 2);
+    block_height=compute_block_height(type, brand);
     pin_diameter=(brand == "lego" ? 3 : 3 * 2);
     post_diameter=(brand == "lego" ? 6.5 : 13.2);
     cylinder_precision=(brand == "lego" ? 0.1 : 0.05);
@@ -201,7 +201,7 @@ module block(
     // Ensure that width is always less than or equal to length.
     real_width = (type == "wing" ? width : min(width, length) );
     real_length = (type == "wing" ? length : max(width, length) );
-    real_height = max((type == "baseplate" ? 1 : 1/3), height);
+    real_height = compute_real_height(type, height);
 
     // Ensure that the wing end width is even if the width is even, odd if odd, and a reasonable value.
     real_wing_end_width = (wing_type == "full"
@@ -891,3 +891,21 @@ module stack(x=0,y=0,z=0) {
         }
     }
 }
+
+function compute_real_height(type, height) = max((type == "baseplate" ? 1 : 1/3), height);
+
+function compute_block_height(type, brand) = (brand == "lego" ? (type == "baseplate" ? 1.3 : 9.6) : 9.6 * 2);
+
+function block_height(height_ratio=1, brand="lego", type="block") =
+  let (
+    real_height = compute_real_height(type, height_ratio),
+    block_height = compute_block_height(type, brand)
+  )
+  (real_height * block_height);
+
+
+function minimum_block_count(
+    length=0,
+    stud_spacing=8,
+    wall_play=0.1
+    ) = ceil((length/stud_spacing)-wall_play);
