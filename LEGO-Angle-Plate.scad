@@ -15,6 +15,7 @@ module angle_plate( angle=90, base_stud_length=2, base_stud_width=2, overhang_st
     overhang_width = (overhang_stud_width * stud_spacing) - (wall_play * 2);
     overhang_length = (overhang_stud_length * stud_spacing) - (wall_play * 2);
 
+    // Generate the base.
     if (base_stud_length > base_stud_width) {
         // Lego.scad always makes the longest number the length. Rotate it manually if we want it wider than long.
         rotate([0, 0, 90])
