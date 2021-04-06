@@ -1,6 +1,12 @@
 use <Lego.scad>;
 
-module angle_plate( angle=90, base_stud_length=2, base_stud_width=2, overhang_stud_length=2, overhang_stud_width=2 ) {
+module angle_plate(
+    angle=90, // To turn the overhang so it's pointing up, use negative degrees, like -90.
+    base_stud_length=2,
+    base_stud_width=2,
+    overhang_stud_length=2,
+    overhang_stud_width=2
+    ) {
     // Values from Lego.scad.
     lego_brick_height = 9.6; // Height of the non-stud portion of a regular brick.
     stud_spacing=8; // Distance between centers of studs.
