@@ -96,6 +96,8 @@ stud_rescale = 1.00;
 //stud_rescale = 1.0475 * 1; // Orion Delta, T-Glase
 //stud_rescale = 1.022 * 1; // Orion Delta, ABS
 
+block_height=(block_brand == "lego" ? (block_type == "baseplate" ? 1.3 : 9.6) : 9.6 * 2);
+
 // Print tiles upside down.
 translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]) rotate([0, (block_type == "tile" ? 180 : 0), 0]) {
     block(
