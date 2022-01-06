@@ -815,21 +815,6 @@ module block(
         )
     );
     
-    function put_stud_here(xcount, ycount) = (
-        (type != "wing" && real_roadway_width > 0 && real_roadway_length > 0)
-        ||
-        (type == "wing" && (
-            (wing_type == "full" && (ycount+1 > ceil(width_loss(xcount+1)/2)) && (ycount+1 <= floor(real_width - (width_loss(xcount+1)/2))))
-            || (wing_type == "left" && ycount+1 <= wing_width(xcount+1))
-            || (wing_type == "right" && ycount >= width_loss(xcount+1))
-            )
-        )
-        ||
-        (real_roadway_width == 0 && real_roadway_length == 0)
-        ||
-        (!pos_in_roadway(xcount, ycount))
-    );
-    
     function put_vertical_axle_hole_here(xcount, ycount) = (
         !skip_this_axle_hole(xcount, ycount)
     );
