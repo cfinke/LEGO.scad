@@ -1,6 +1,18 @@
 use <LEGO.scad>;
 
 rotate([0, 0, 180]) union() {
+    color("gray") place(0, -14) uncenter(-4, 0) rotate([0, 0, 90]) block(
+        type="brick",
+        roadway_mode="minifig",
+        width=4,
+        length=3,
+        height=1/3,
+        roadway_width=1,
+        roadway_length=2,
+        roadway_y=1,
+        roadway_x=1
+    );
+
     place(-4, -12) uncenter(22, 6) rotate([0, 0, 90]) block(
         type="baseplate",
         width=6,
@@ -9,8 +21,7 @@ rotate([0, 0, 180]) union() {
         roadway_length=6,
         roadway_x=12
     );
-    
-    //place(0, 0, 13/96) {
+        //place(0, 0, 13/96) {
         color( "yellow" ) place(-5, -5, 0) uncenter(1/3, 15, 4) rotate([90, 0, 0]) block(
             dual_sided=true,
             width=4,

@@ -83,6 +83,9 @@ roadway_x = 0;
 // Where should the roadway start (y-value)? A value of zero puts the roadway at the front of the plate.
 roadway_y = 0;
 
+// Should the road be inverted? Useful for minifigure display with one row of studs on the middle.
+roadway_mode = "road"; // [road:Road, minifig:Minifig]
+
 /* [SNOT] */
 
 // SNOT means Studs Not On Top -- bricks with alternative stud configurations.
@@ -132,6 +135,7 @@ translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]
         roadway_length=roadway_length,
         roadway_x=roadway_x,
         roadway_y=roadway_y,
+        roadway_mode=roadway_mode,
         stud_rescale=stud_rescale,
         stud_top_roundness=stud_top_roundness,
         dual_sided=(dual_sided=="yes"),
@@ -164,6 +168,7 @@ module block(
     roadway_length=0,
     roadway_x=0,
     roadway_y=0,
+    roadway_mode="road",
     stud_rescale=1,
     stud_top_roundness=0,
     dual_sided=false,
@@ -834,7 +839,9 @@ module block(
             )
         )
         ||
-        (real_roadway_width > 0 && real_roadway_length > 0 && pos_in_roadway(xcount, ycount))
+        (roadway_mode == "road" && real_roadway_width > 0 && real_roadway_length > 0 && pos_in_roadway(xcount, ycount))
+        ||
+        (roadway_mode == "minifig" && real_roadway_width > 0 && real_roadway_length > 0 && !pos_in_roadway(xcount, ycount))
     );
 
     function pos_in_roadway(x, y) = (
