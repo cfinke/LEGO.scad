@@ -439,7 +439,6 @@ module block(
                 }
                 else if (type == "curve") {
                     if (real_curve_type == "concave") {
-                                            echo(curve_circle_height());
                         difference() {
                             translate([
                                     -curve_circle_length() / 2, // Align the center of the cube with the end of the block.
