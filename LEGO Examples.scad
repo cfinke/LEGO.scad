@@ -105,7 +105,6 @@ rotate([0, 0, 180]) union() {
             length=6,
             height=2,
             curve_end_height=1,
-            curve_stud_rows=5,
             brand="duplo",
             type="curve",
             curve_type="convex",
