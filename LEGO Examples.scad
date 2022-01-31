@@ -3,7 +3,7 @@ use <LEGO.scad>;
 rotate([0, 0, 180]) union() {
     color("gray") place(0, -14) uncenter(-4, 0) rotate([0, 0, 90]) block(
         type="brick",
-        roadway_mode="minifig",
+        roadway_invert=true,
         width=4,
         length=3,
         height=1/3,
