@@ -102,6 +102,7 @@ use_reinforcement = "no"; // [no:No, yes:Yes]
 
 // If your printer prints the blocks correctly except for the stud diameter, use this variable to resize just the studs for your printer. A value of 1.05 will print the studs 105% wider than standard.
 stud_rescale = 1.00;
+//stud_rescale = 1.03 * 1;  // Creality Ender 3 Pro, PLA
 //stud_rescale = 1.0475 * 1; // Orion Delta, T-Glase
 //stud_rescale = 1.022 * 1; // Orion Delta, ABS
 
