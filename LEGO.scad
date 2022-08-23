@@ -16,7 +16,7 @@ block_length = 6;
 block_height_ratio = 1; // [.33333333333:1/3, .5:1/2, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:10]
 
 // What type of block should this be? For type-specific options, see the "Wings," "Slopes," "Curves", and "Baseplates" tabs.
-block_type = "brick"; // [brick:Brick, tile:Tile, wing:Wing, slope:Slope, curve:Curve, baseplate:Baseplate]
+block_type = "brick"; // [brick:Brick, tile:Tile, wing:Wing, slope:Slope, curve:Curve, baseplate:Baseplate, round:Round]
 
 // What brand of block should this be? LEGO for regular LEGO bricks, Duplo for the toddler-focused larger bricks.
 block_brand = "lego"; // [lego:LEGO, duplo:DUPLO]
@@ -86,6 +86,14 @@ roadway_y = 0;
 // Should the road be inverted? Useful for minifigure display with one row of studs on the middle.
 roadway_invert = false; // [false:False, true:True]
 
+/* [Round] */
+
+// How many studs should be rounded at the corners?
+round_radius = 3;
+
+// Should the rounded edges be notched to accept studs below?
+round_stud_notches = "yes";
+
 /* [SNOT] */
 
 // SNOT means Studs Not On Top -- bricks with alternative stud configurations.
@@ -126,7 +134,7 @@ translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]
         wing_type=wing_type,
         wing_end_width=wing_end_width,
         wing_base_length=wing_base_length,
-        stud_notches=(wing_stud_notches=="yes"),
+        stud_notches=(wing_stud_notches=="yes" || round_stud_notches=="yes"),
         slope_stud_rows=slope_stud_rows,
         slope_end_height=slope_end_height,
         curve_stud_rows=curve_stud_rows,
@@ -137,6 +145,7 @@ translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]
         roadway_x=roadway_x,
         roadway_y=roadway_y,
         roadway_invert=roadway_invert,
+        round_radius=round_radius,
         stud_rescale=stud_rescale,
         stud_top_roundness=stud_top_roundness,
         dual_sided=(dual_sided=="yes"),
@@ -170,6 +179,7 @@ module block(
     roadway_x=0,
     roadway_y=0,
     roadway_invert=false,
+    round_radius=0,
     stud_rescale=1,
     stud_top_roundness=0,
     dual_sided=false,
@@ -273,8 +283,14 @@ module block(
         :
         (real_width - (real_wing_end_width)) / (real_length - (real_wing_base_length - 1))
     );
+    
+    // trying to round the corners more then the width of the results in broken geometry
+    // TODO allow setting each corner's rounding radius?
+    max_round = min(real_width, real_length) / 2;
+    real_rounding = round_radius > 0 ? min(max_round,round_radius) : 0;
+    round_distance = real_rounding * stud_spacing;
 
-   translate([-overall_length/2, -overall_width/2, 0]) // Comment to position at 0,0,0 instead of centered on X and Y.
+    translate([-overall_length/2, -overall_width/2, 0]) // Comment to position at 0,0,0 instead of centered on X and Y.
         union() {
             difference() {
                 union() {
@@ -481,6 +497,15 @@ module block(
                         translate([overall_length, 0, 0]) translate([-((stud_spacing / 2) - wall_play), ((stud_spacing / 2) - wall_play), 0]) rotate([0, 0, 270]) negative_rounded_corner(r=((stud_spacing / 2) - wall_play), h=real_height * block_height);
                     }
                 }
+                else if (type == "round") {
+                    // Rounded corners.
+                    union() {
+                        translate([overall_length, overall_width, 0]) translate([-((round_distance) - wall_play), -((round_distance) - wall_play), -.499])                     negative_rounded_corner(r=((round_distance) - wall_play), h=real_height * block_height, inside=true);
+                        translate([0, overall_width, 0])              translate([ ((round_distance) - wall_play), -((round_distance) - wall_play), -.499]) rotate([0, 0, 90 ]) negative_rounded_corner(r=((round_distance) - wall_play), h=real_height * block_height, inside=true);
+                                                                      translate([ ((round_distance) - wall_play),  ((round_distance) - wall_play), -.499]) rotate([0, 0, 180]) negative_rounded_corner(r=((round_distance) - wall_play), h=real_height * block_height, inside=true);
+                        translate([overall_length, 0, 0])             translate([-((round_distance) - wall_play),  ((round_distance) - wall_play), -.499]) rotate([0, 0, 270]) negative_rounded_corner(r=((round_distance) - wall_play), h=real_height * block_height, inside=true);
+                    }
+                }
 
                 if (real_horizontal_holes) {
                     // The holes for the horizontal axles.
@@ -540,21 +565,7 @@ module block(
                         }
                     }
 
-                    if (real_stud_notches) {
-                        translate([overall_length/2, overall_width/2, 0])
-                            translate([0, 0, -(1/3 * block_height)]) block(
-                                width=real_width,
-                                length=real_length,
-                                height=1/3,
-                                brand=brand,
-                                stud_type="solid",
-                                block_bottom_type=block_bottom_type,
-                                include_wall_splines=include_wall_splines,
-                                type="brick",
-                                stud_rescale=1.5,
-                                stud_top_roundness=stud_top_roundness
-                            );
-                    }
+                    if (real_stud_notches) {subtract_stud_notches();}
                 }
             }
             else if (type == "slope") {
@@ -620,6 +631,17 @@ module block(
                                     cylinder(r=block_height * real_height, h=overall_width+1, $fs=cylinder_precision);
                             }
                     }
+                }
+            }
+            else if (type == "round") {
+                difference() {
+                    union() {
+                        translate([round_distance,                    round_distance,                 0])             rounded_corner_wall(real_rounding);
+                        translate([overall_length - (round_distance), round_distance,                 0]) rotate(90)  rounded_corner_wall(real_rounding);
+                        translate([overall_length - (round_distance), overall_width - round_distance, 0]) rotate(180) rounded_corner_wall(real_rounding);
+                        translate([round_distance,                    overall_width - round_distance, 0]) rotate(270) rounded_corner_wall(real_rounding);
+                    }
+                if (real_stud_notches) {subtract_stud_notches();}
                 }
             }
             
@@ -763,6 +785,39 @@ module block(
         };
     }
 
+    module subtract_stud_notches() {
+        translate([overall_length/2, overall_width/2, -.001])
+            translate([0, 0, -(1/3 * block_height)]) block(
+                width=real_width,
+                length=real_length,
+                height=1/3,
+                brand=brand,
+                stud_type="solid",
+                block_bottom_type=block_bottom_type,
+                include_wall_splines=include_wall_splines,
+                type="brick",
+                stud_rescale=1.5,
+                stud_top_roundness=stud_top_roundness
+            );
+    }
+                        
+    module rounded_corner_wall(round_radius) {
+        difference() {
+            rotate([0,0,180]) {
+                rotate_extrude(angle=90) {
+                    square([round_radius * stud_spacing,real_height * block_height]);
+                }
+            }
+            translate([0,0,-.001])
+            rotate([0,0,179]) {
+                // just a little wider to avoid false surfaces
+                rotate_extrude(angle=92) {
+                    square([(round_radius * stud_spacing) - wall_thickness,(real_height * block_height)+ .001]);
+                }
+            }
+        }
+    }
+
     function curve_circle_length() = (overall_length - (stud_spacing * min(real_length - 1, real_curve_stud_rows)) + (wall_play/2)) * 2;
     function curve_circle_height() = (
             (
@@ -831,6 +886,7 @@ module block(
         
     );
     
+    // Ranges are zeron indexed
     function skip_this_stud(xcount, ycount) = (
         (type == "wing" && (
             (wing_type == "full" && ((ycount+1 <= ceil(width_loss(xcount+1)/2)) || (ycount+1 > floor(real_width - (width_loss(xcount+1)/2)))))
@@ -842,6 +898,13 @@ module block(
         ( ! roadway_invert && real_roadway_width > 0 && real_roadway_length > 0 && pos_in_roadway(xcount, ycount))
         ||
         ( roadway_invert && real_roadway_width > 0 && real_roadway_length > 0 && !pos_in_roadway(xcount, ycount))
+        ||
+        (type == "round" && (
+            ((xcount+1) * (ycount+1)) < real_rounding
+            || ((real_length - xcount) * (ycount+1)) < real_rounding
+            || ((real_length - xcount) * (real_width - ycount)) < real_rounding
+            || ((xcount+1) * (real_width - ycount)) < real_rounding
+        ))
     );
 
     function pos_in_roadway(x, y) = (
@@ -852,10 +915,11 @@ module block(
     );
         
     
-    module negative_rounded_corner(r,h) {
+    module negative_rounded_corner(r,h,inside=false) {
+        ir=inside ? r-wall_thickness : r;
         difference() {
             translate([0, 0, -.5]) cube([r+1, r+1, h+1]);
-            translate([0, 0, -1]) cylinder(r=r, h=h + 2, $fs=cylinder_precision);
+            translate([0, 0, -1]) cylinder(r=ir, h=h + 2, $fs=cylinder_precision);
         }
     }
 }
