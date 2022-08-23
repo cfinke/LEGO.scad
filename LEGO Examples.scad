@@ -190,4 +190,11 @@ rotate([0, 0, 180]) union() {
         length=2,
         stud_top_roundness=0.3
     );
+    color("white") place(-6, 13) block(
+        type="round",
+        width=3,
+        length=3
+    );
+
+
 }

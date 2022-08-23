@@ -287,7 +287,7 @@ module block(
     // trying to round the corners more then the width of the results in broken geometry
     // TODO allow setting each corner's rounding radius?
     max_round = min(real_width, real_length) / 2;
-    real_rounding = round_radius > 0 ? min(max_round,round_radius) : 0;
+    real_rounding = round_radius > 0 ? min(max_round,round_radius) : max_round;
     round_distance = real_rounding * stud_spacing;
 
     translate([-overall_length/2, -overall_width/2, 0]) // Comment to position at 0,0,0 instead of centered on X and Y.
