@@ -208,9 +208,11 @@ module block(
 
     roof_thickness = (type == "baseplate" || dual_sided ? block_height * height : 1 * 1);
 
+    // Duplo axle dimensions are based on "Early Simple Machines Set 9656"
+    axle_spline_width = (brand == "lego" ? 2.0 : 3.10);
+    axle_diameter = (brand == "lego" ? 5 * 1 : 7.25);
+
     // Brand-independent measurements.
-    axle_spline_width = 2.0;
-    axle_diameter = 5 * 1;
     wall_play = 0.1 * 1;
     horizontal_hole_wall_thickness = 1 * 1;
 
