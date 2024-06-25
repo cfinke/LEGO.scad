@@ -36,6 +36,9 @@ technic_holes = "no"; // [no:No, yes:Yes]
 // Should the block include vertical cross-shaped axle holes?
 vertical_axle_holes = "no"; // [no:No, yes:Yes]
 
+// Create bottom posts, or not. No posts at the bottom adds space for custom content.
+with_posts = true;
+
 /* [Wings] */
 
 // What type of wing? Full is suitable for the front of a plane, left/right are for the left/right of a plane.
@@ -149,7 +152,8 @@ translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]
         stud_rescale=stud_rescale,
         stud_top_roundness=stud_top_roundness,
         dual_sided=(dual_sided=="yes"),
-        dual_bottom=(dual_bottom=="yes")
+        dual_bottom=(dual_bottom=="yes"),
+        with_posts=with_posts
     );
 }
 
@@ -183,7 +187,8 @@ module block(
     stud_rescale=1,
     stud_top_roundness=0,
     dual_sided=false,
-    dual_bottom=false
+    dual_bottom=false,
+    with_posts=true
     ) {
     post_wall_thickness = (brand == "lego" ? 0.85 : 1);
     wall_thickness=(brand == "lego" ? 1.45 : 1.5);
@@ -341,9 +346,11 @@ module block(
                             translate([(overall_length - total_posts_length)/2, (overall_width - total_posts_width)/2, 0]) {
                                 union() {
                                     // Posts
-                                    for (ycount=[1:real_width-1]) {
-                                        for (xcount=[1:real_length-1]) {
-                                            translate([(xcount-1)*stud_spacing,(ycount-1)*stud_spacing,0]) post(real_vertical_axle_holes && !skip_this_vertical_axle_hole(xcount, ycount));
+                                    if(with_posts) {
+                                        for (ycount=[1:real_width-1]) {
+                                            for (xcount=[1:real_length-1]) {
+                                                translate([(xcount-1)*stud_spacing,(ycount-1)*stud_spacing,0]) post(real_vertical_axle_holes && !skip_this_vertical_axle_hole(xcount, ycount));
+                                            }
                                         }
                                     }
 
