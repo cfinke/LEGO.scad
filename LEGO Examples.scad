@@ -196,5 +196,11 @@ rotate([0, 0, 180]) union() {
         length=3
     );
 
-
+    color( "purple" ) place(-3, 12, 1) uncenter(2, 2) rotate([180, 0, 90]) block(
+        width=4,
+        length=2,
+        stud_type="hollow",
+        with_posts=false,
+        include_wall_splines="no"
+    );
 }
