@@ -270,8 +270,8 @@ module block(
     );
 
     // Ensure that the base length is a reasonable value.
-    real_wing_base_length = min(real_length-1, max(1, wing_base_length)) + 1; // +1 because the angle starts before the last stud.
-        
+    real_wing_base_length = min(real_length-1, max(1, wing_base_length));
+
     // Validate all the rest of the arguments.
     real_slope_end_height = max(0, min(real_height - 1/3, slope_end_height));
     real_slope_stud_rows = min(real_length - 1, slope_stud_rows);
