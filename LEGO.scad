@@ -129,7 +129,7 @@ dual_bottom = "no"; // [no:No, yes:Yes]
 
 /* [Printer-Specific] */
 
-// Should extra reinforcement be included to make printing on an FDM printer easier? Ignored for tiles, since they're printed upside-down and don't need the reinforcement. Recommended for block heights less than 1 or for Duplo bricks. 
+// Should extra reinforcement be included to make printing on an FDM printer easier? Ignored for tiles, since they're printed upside-down and don't need the reinforcement. Recommended for block heights less than 1 or for Duplo bricks.
 use_reinforcement = "no"; // [no:No, yes:Yes]
 
 // If your printer prints the blocks correctly except for the stud diameter, use this variable to resize just the studs for your printer. A value of 1.05 will print the studs 105% wider than standard.
@@ -250,7 +250,7 @@ module block(
     // Ensure that the wing end width is even if the width is even, odd if odd, and a reasonable value.
     real_wing_end_width = (wing_type == "full"
         ?
-        min(real_width - 2, ((real_width % 2 == 0) ? 
+        min(real_width - 2, ((real_width % 2 == 0) ?
             (max(2, (
                 wing_end_width % 2 == 0 ?
                 (wing_end_width)
@@ -311,7 +311,7 @@ module block(
         :
         (real_width - (real_wing_end_width)) / (real_length - (real_wing_base_length - 1))
     );
-    
+
     // trying to round the corners more then the width of the results in broken geometry
     // TODO allow setting each corner's rounding radius?
     max_round = min(real_width, real_length) / 2;
@@ -325,7 +325,7 @@ module block(
                     /**
                      * Include any union()s that should come before the final difference()s.
                      */
-                    
+
                     // The mass of the block.
                     difference() {
                         cube([overall_length, overall_width, real_height * block_height]);
@@ -336,7 +336,7 @@ module block(
 
                     // The studs on top of the block (if it's not a tile).
                     if ( type != "tile" && !real_dual_bottom ) {
-                        translate([stud_diameter * stud_rescale / 2, stud_diameter * stud_rescale / 2, 0]) 
+                        translate([stud_diameter * stud_rescale / 2, stud_diameter * stud_rescale / 2, 0])
                         translate([(overall_length - total_studs_length)/2, (overall_width - total_studs_width)/2, 0]) {
                             for (ycount=[0:real_width-1]) {
                                 for (xcount=[0:real_length-1]) {
@@ -419,7 +419,7 @@ module block(
                         // 1-length bricks have the hole underneath the stud.
                         // >1-length bricks have the holes between the studs.
                         for (height_index = [0 : height - 1]) {
-                            translate([horizontal_holes_x_offset(), overall_width, height_index * block_height]) 
+                            translate([horizontal_holes_x_offset(), overall_width, height_index * block_height])
                             translate([(overall_length - total_studs_length)/2, 0, 0]) {
                             for (axle_hole_index=[horizontal_hole_start_index() : horizontal_hole_end_index()]) {
                                 if (!skip_this_horizontal_hole(axle_hole_index, height_index)) {
@@ -431,11 +431,11 @@ module block(
                     }
                 }
 
-                
+
                 /**
                  * Include any differences from the basic brick here.
                  */
-                
+
                 if (real_vertical_axle_holes) {
                     if (real_width > 1 && real_length > 1) {
                         translate([axle_diameter / 2, axle_diameter / 2, 0]) {
@@ -521,7 +521,7 @@ module block(
                     // Rounded corners.
                     union() {
                         translate([overall_length, overall_width, 0]) translate([-((stud_spacing / 2) - wall_play), -((stud_spacing / 2) - wall_play), 0]) negative_rounded_corner(r=((stud_spacing / 2) - wall_play), h=real_height * block_height);
-                        
+
                         translate([0, overall_width, 0]) translate([((stud_spacing / 2) - wall_play), -((stud_spacing / 2) - wall_play), 0]) rotate([0, 0, 90]) negative_rounded_corner(r=((stud_spacing / 2) - wall_play), h=real_height * block_height);
                         translate([((stud_spacing / 2) - wall_play), ((stud_spacing / 2) - wall_play), 0]) rotate([0, 0, 180]) negative_rounded_corner(r=((stud_spacing / 2) - wall_play), h=real_height * block_height);
                         translate([overall_length, 0, 0]) translate([-((stud_spacing / 2) - wall_play), ((stud_spacing / 2) - wall_play), 0]) rotate([0, 0, 270]) negative_rounded_corner(r=((stud_spacing / 2) - wall_play), h=real_height * block_height);
@@ -542,13 +542,13 @@ module block(
                     // 1-length bricks have the hole underneath the stud.
                     // >1-length bricks have the holes between the studs.
                     for (height_index = [0 : height - 1]) {
-                        translate([horizontal_holes_x_offset(), 0, height_index * block_height]) 
+                        translate([horizontal_holes_x_offset(), 0, height_index * block_height])
                         translate([(overall_length - total_studs_length)/2, 0, 0]) {
                             for (axle_hole_index=[horizontal_hole_start_index() : horizontal_hole_end_index()]) {
                                 if (!skip_this_horizontal_hole(axle_hole_index, height_index)) {
                                     union() {
                                         translate([axle_hole_index*stud_spacing,overall_width,horizontal_hole_z_offset]) rotate([90, 0, 0])  cylinder(r=horizontal_hole_diameter/2, h=overall_width,$fs=cylinder_precision);
-    
+
                                         // Bevels. The +/- 0.1 measurements are here just for nicer previews in OpenSCAD, and could be removed.
                                         translate([axle_hole_index*stud_spacing,horizontal_hole_bevel_depth-0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1,$fs=cylinder_precision);
                                         translate([axle_hole_index*stud_spacing,overall_width+0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1,$fs=cylinder_precision);
@@ -560,23 +560,23 @@ module block(
                 }
             }
 
-            
+
             /**
              * Any final union()s for the brick.
              */
-            
+
             if (type == "wing") {
                 difference() {
                     union() {
                         if ( wing_type == "full" || wing_type == "right" ){
                             linear_extrude(block_height * real_height) polygon(points=[
                                 [stud_spacing * (real_wing_base_length-1), 0],
-                                [overall_length, (wing_type == "full" ? 
+                                [overall_length, (wing_type == "full" ?
                                     ((overall_width / 2) - (real_wing_end_width * stud_spacing / 2))
                                     :
                                     (overall_width - (real_wing_end_width * stud_spacing))
                                 )],
-                                [overall_length, (wing_type == "full" ? 
+                                [overall_length, (wing_type == "full" ?
                                     ((overall_width / 2) - (real_wing_end_width * stud_spacing / 2))
                                     :
                                     (overall_width - (real_wing_end_width * stud_spacing))
@@ -616,7 +616,7 @@ module block(
                             ])
                             cube([curve_circle_length(), overall_width + 1, curve_circle_height()]);
 
-                        difference() {   
+                        difference() {
                             translate([
                                     curve_circle_length() / 2,  // Align the end of the curve with the end of the block.
                                     overall_width / 2, // Center it on the block.
@@ -674,7 +674,7 @@ module block(
                 if (real_stud_notches) {subtract_stud_notches();}
                 }
             }
-            
+
             if (real_dual_sided) {
                 translate([overall_length/2, overall_width/2, block_height * height]) mirror([0,0,1]) block(
                     width=real_width,
@@ -830,7 +830,7 @@ module block(
                 stud_top_roundness=stud_top_roundness
             );
     }
-                        
+
     module rounded_corner_wall(round_radius) {
         difference() {
             rotate([0,0,180]) {
@@ -904,18 +904,18 @@ module block(
             (stud_spacing / 2)
         )
     );
-    
+
     function put_vertical_axle_hole_here(xcount, ycount) = (
         !skip_this_axle_hole(xcount, ycount)
     );
-    
+
     function skip_this_vertical_axle_hole(xcount, ycount) = (
         (type == "slope" && xcount < (real_length - real_slope_stud_rows + 1))
         ||
         (type == "curve" && xcount < (real_length - real_curve_stud_rows + 1))
-        
+
     );
-    
+
     // Ranges are zeron indexed
     function skip_this_stud(xcount, ycount) = (
         (type == "wing" && (
@@ -943,8 +943,8 @@ module block(
         && y < real_roadway_y + real_roadway_width
         && x < real_roadway_x + real_roadway_length
     );
-        
-    
+
+
     module negative_rounded_corner(r,h,inside=false) {
         ir=inside ? r-wall_thickness : r;
         difference() {
