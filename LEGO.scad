@@ -110,6 +110,50 @@ roadway_y = 0;
 // Should the road be inverted? Useful for minifigure display with one row of studs on the middle.
 roadway_invert = false; // [false:False, true:True]
 
+/* [Stud matrix] */
+
+// The stud matrix is a collection of (x,y) positions to explicity
+// draw (or omit) selected studs.  Naturally, it's also clipped by the
+// brick itself (no Studs in Space-ace-ce-e!). This isn't that useful
+// for making real bricks, but it's handy for some specialized
+// situations.
+
+// The interaction with a roadway can be a little tricky to
+// understand, particularly with inversion of either. So either figure
+// things out experimentally or stick with just a stud matrix or just
+// a roadway, but not both.
+
+// It would be nice if we could just parameterize a list of (X,Y)
+// positions to define the stud matrix, but the OpenSCAD customizer
+// doesn't have a way to do that. Instead, we define the matrix as a
+// single string representing a collection of rows, with each
+// character representing a column position in the row. The rows in
+// the string are all the same length, but that can be different from
+// either dimension of the brick.
+
+// An asterisk (*) means "yes" and any other character means "no". To
+// make the string more readable, you might like to define
+// stud_matrix_columns to be an extra column wide so you can use a
+// space to visually separate the logical rows in the string. Any
+// (X,y) position that is beyond the end of a logical row in the
+// string or beyond the entire string is taken as not having an
+// asterisk in that position. That way, you can define just enough
+// string to get the studs you want without having to cover the entire
+// brick dimensions. For example, you could supply the string
+// "*.*.* .***." with a stud_matrix_columns value of 6.
+
+// A single string representing rows of stud positions. An asterisk means "put a stud there"; any other character means "omit the stud there".
+stud_matrix_string = "";
+
+// How many columns per row in the stud matrix string? Not directly related to the size of the baseplate.
+stud_matrix_columns = 0;
+
+// Should the stud matrix be inverted? Asterisk for studs to be removed.
+stud_matrix_invert = false; // [false:False, true:True]
+
+// Overall drawing has the larger dimension horizontal. Use this to quickly swap the X and Y understanding of the stud matrix.
+stud_matrix_swapxy = false; // [false:False, true:True]
+
 /* [Round] */
 
 // How many studs should be rounded at the corners?
@@ -174,7 +218,11 @@ translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]
         stud_top_roundness=stud_top_roundness,
         dual_sided=(dual_sided=="yes"),
         dual_bottom=(dual_bottom=="yes"),
-        with_posts=with_posts
+        with_posts=with_posts,
+        stud_matrix_string=stud_matrix_string,
+        stud_matrix_columns=stud_matrix_columns,
+        stud_matrix_invert=stud_matrix_invert,
+        stud_matrix_swapxy=stud_matrix_swapxy
     );
 }
 
@@ -209,7 +257,11 @@ module block(
     stud_top_roundness=0,
     dual_sided=false,
     dual_bottom=false,
-    with_posts=true
+    with_posts=true,
+    stud_matrix_string="",
+    stud_matrix_columns=0,
+    stud_matrix_invert=false,
+    stud_matrix_swapxy=false
     ) {
     post_wall_thickness = (brand == "lego" ? 0.85 : 1);
     wall_thickness=(brand == "lego" ? 1.45 : 1.5);
@@ -925,6 +977,10 @@ module block(
             )
         )
         ||
+        ( stud_matrix_invert && pos_in_stud_matrix(xcount, ycount))
+        ||
+        ( ! stud_matrix_invert && !pos_in_stud_matrix(xcount, ycount))
+        ||
         ( ! roadway_invert && real_roadway_width > 0 && real_roadway_length > 0 && pos_in_roadway(xcount, ycount))
         ||
         ( roadway_invert && real_roadway_width > 0 && real_roadway_length > 0 && !pos_in_roadway(xcount, ycount))
@@ -944,7 +1000,17 @@ module block(
         && x < real_roadway_x + real_roadway_length
     );
         
-    
+    function pos_in_stud_matrix(x, y) = (
+      (stud_matrix_swapxy && pos_in_stud_matrix_swappable(y,x))
+      ||
+      (!stud_matrix_swapxy && pos_in_stud_matrix_swappable(x,y))
+    );
+
+    function pos_in_stud_matrix_swappable(x, y) = (
+      stud_matrix_string != "" && x<stud_matrix_columns &&
+      "*" == stud_matrix_string[y*stud_matrix_columns + x]
+    );
+
     module negative_rounded_corner(r,h,inside=false) {
         ir=inside ? r-wall_thickness : r;
         difference() {

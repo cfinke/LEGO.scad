@@ -46,6 +46,11 @@ The `block` module is most basic module, able to generate most basic parts.
 | `roadway_x` | int| Where should the roadway start (x-value)?|
 | `roadway_y` | int| Where should the roadway start (y-value)?|
 | `roadway_invert` | `true`, `false` | Should the road be inverted? Useful for minifigure display with one row of studs on the middle. |
+| `stud_matrix_string` | string| A single string representing rows of stud positions. See comments in the source file for how this works.|
+| `stud_matrix_columns` | int| How many columns per row in the stud matrix string? Not directly related to the size of the baseplate.|
+| `stud_matrix_invert` | `true`, `false` | Should the stud matrix be inverted? Asterisk for studs to be removed.|
+| `stud_matrix_swapxy` | `true`, `false` | Overall drawing has the larger dimension horizontal. Use this to quickly swap the X and Y understanding of the stud matrix.|
+
 | `round_radius` | int | How many studs should be rounded at the corners?|
 | `round_stud_notches` | `yes`, `no` | Should the rounded edges be notched to accept studs below?|
 | `dual_sided` | `yes`, `no` | SNOT means Studs Not On Top -- bricks with alternative stud configurations. Put studs on the top and bottom? |
