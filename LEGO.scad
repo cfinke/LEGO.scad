@@ -187,6 +187,7 @@ module block(
     stud_type="solid",
     block_bottom_type="open",
     include_wall_splines=true,
+    wall_splines_rescale=1.0,
     horizontal_holes=false,
     vertical_axle_holes=false,
     reinforcement=false,
@@ -224,7 +225,7 @@ module block(
     reinforcing_width = (brand == "lego" ? 0.7 : 1);
 
     real_include_wall_splines = block_bottom_type == "open" && include_wall_splines;
-    spline_length = (brand == "lego" ? 0.25 : 1.7);
+    spline_length = (brand == "lego" ? 0.25 : 1.7) * wall_splines_rescale;
     spline_thickness = (brand == "lego" ? 0.7 : 1.3);
 
     horizontal_hole_diameter = (brand == "lego" ? 4.8 : 4.8 * 2);
@@ -685,6 +686,7 @@ module block(
                     stud_type=stud_type,
                     block_bottom_type=block_bottom_type,
                     include_wall_splines=include_wall_splines,
+		    wall_splines_rescale=wall_splines_rescale,
                     horizontal_holes=real_horizontal_holes,
                     vertical_axle_holes=real_vertical_axle_holes,
                     reinforcement=real_reinforcement,
