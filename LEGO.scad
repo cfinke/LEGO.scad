@@ -378,9 +378,11 @@ module block(
                                     // Reinforcements
                                     if (real_reinforcement) {
                                         difference() {
-                                            for (ycount=[1:real_width-1]) {
-                                                for (xcount=[1:real_length-1]) {
-                                                    translate([(xcount-1)*stud_spacing,(ycount-1)*stud_spacing,0]) reinforcement();
+                                            union() {
+                                                for (ycount=[1:real_width-1]) {
+                                                    for (xcount=[1:real_length-1]) {
+                                                        translate([(xcount-1)*stud_spacing,(ycount-1)*stud_spacing,0]) reinforcement();
+                                                    }
                                                 }
                                             }
 
