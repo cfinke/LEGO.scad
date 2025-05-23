@@ -30,6 +30,7 @@ The `block` module is most basic module, able to generate most basic parts.
 | `stud_type` | `solid`, `hollow` | What stud type do you want? Hollow studs allow rods to be pushed into the stud.|
 | `block_bottom_type` | `open`, `closed` | Open blocks are the standard, closed bottom blocks can be used for stacking composite shapes.|
 | `include_wall_splines` | `yes`, `no` | Should the block wall include splines? Valid only for an open block bottom type.|
+| `wall_splines_rescale` | float | Rescale factor to resize the splines length on the walls. A value of 0.9 will print the walls splines with 90% of the standard length. |
 | `horizontal_holes` | `yes`, `no` | Should the block include round horizontal holes like the Technics LEGO bricks have?|
 | `vertical_axle_holes` | `yes`, `no` | Should the block include vertical cross-shaped axle holes?                                  |
 | `wing_type` | `full`, `left`, `right` | What type of wing? Full is suitable for the front of a plane, left/right are for the left/right of a plane. |
