@@ -139,7 +139,7 @@ stud_rescale = 1.00; // [0.51:0.01:1.49]
 //stud_rescale = 1.022 * 1; // Orion Delta, ABS
 
 // Rescale factor to resize the splines length on the walls. A value of 0.9 will print the walls splines with 90% of the standard length.
-wall_splines_rescale = 1.00
+wall_splines_rescale = 1.00;
 //wall_splines_rescale = 0.3; // Bambu Lab A1 Mini, PETG
 
 // If you want stud tops to be curved, specify a value between 0 and 1, where 0 is no roundness and 1 is very round
