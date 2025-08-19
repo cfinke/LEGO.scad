@@ -1,6 +1,18 @@
 use <LEGO.scad>;
 
 rotate([0, 0, 180]) union() {
+    color("gray") place(0, -14) uncenter(-4, 0) rotate([0, 0, 90]) block(
+        type="brick",
+        roadway_invert=true,
+        width=4,
+        length=3,
+        height=1/3,
+        roadway_width=1,
+        roadway_length=2,
+        roadway_y=1,
+        roadway_x=1
+    );
+
     place(-4, -12) uncenter(22, 6) rotate([0, 0, 90]) block(
         type="baseplate",
         width=6,
@@ -9,8 +21,7 @@ rotate([0, 0, 180]) union() {
         roadway_length=6,
         roadway_x=12
     );
-    
-    //place(0, 0, 13/96) {
+        //place(0, 0, 13/96) {
         color( "yellow" ) place(-5, -5, 0) uncenter(1/3, 15, 4) rotate([90, 0, 0]) block(
             dual_sided=true,
             width=4,
@@ -94,7 +105,6 @@ rotate([0, 0, 180]) union() {
             length=6,
             height=2,
             curve_end_height=1,
-            curve_stud_rows=5,
             brand="duplo",
             type="curve",
             curve_type="convex",
@@ -132,4 +142,65 @@ rotate([0, 0, 180]) union() {
             wing_base_length=1
         );
    // }
+    stack(-7,-9,0) {
+        color("red") uncenter(0, 0) block(
+            width=4,
+            length=6,
+            height=1/3,
+            type="block",
+            reinforcement="yes",
+            include_wall_splines="no"
+        );
+        stack(0,0,1/3) {
+            color("yellow") uncenter(0,0) rotate([0,0,90]) block(
+                width=2,
+                length=4,
+                height=1/3,
+                type="block",
+                block_bottom_type="closed"
+            );
+            color("green") uncenter(0, 0) block(
+                width=2,
+                length=4,
+                height=1,
+                type="block",
+                block_bottom_type="closed"
+            );
+            stack(0,0,1) {
+                color("blue") uncenter(0, 0) block(
+                        width=2,
+                        length=2,
+                        height=1/3,
+                        block_bottom_type="closed"
+                    );
+                stack(0,0,1/3) {
+                    color("purple") uncenter(0, 1) rotate([0,0,90]) block(
+                        width=1,
+                        length=2,
+                        height=1,
+                        block_bottom_type="closed"
+                    );
+                }
+            }
+        }
+    }
+    color("gray") place(8, 10, 0) uncenter(2, 2) block(
+        height=1/3,
+        width=2,
+        length=2,
+        stud_top_roundness=0.3
+    );
+    color("white") place(-6, 13) block(
+        type="round",
+        width=3,
+        length=3
+    );
+
+    color( "purple" ) place(-3, 12, 1) uncenter(2, 2) rotate([180, 0, 90]) block(
+        width=4,
+        length=2,
+        stud_type="hollow",
+        with_posts=false,
+        include_wall_splines="no"
+    );
 }
