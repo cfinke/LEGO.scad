@@ -1,4 +1,4 @@
-use <Lego.scad>;
+use <LEGO.scad>;
 
 module angle_plate(
     angle=90, // To turn the overhang so it's pointing up, use negative degrees, like -90.
