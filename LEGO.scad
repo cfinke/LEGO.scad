@@ -986,9 +986,9 @@ module block(
             )
         )
         ||
-        ( stud_matrix_invert && pos_in_stud_matrix(xcount, ycount))
+        ( stud_matrix_string != "" && stud_matrix_invert && pos_in_stud_matrix(xcount, ycount))
         ||
-        ( ! stud_matrix_invert && !pos_in_stud_matrix(xcount, ycount))
+        ( stud_matrix_string != "" && ! stud_matrix_invert && !pos_in_stud_matrix(xcount, ycount))
         ||
         ( ! roadway_invert && real_roadway_width > 0 && real_roadway_length > 0 && pos_in_roadway(xcount, ycount))
         ||
