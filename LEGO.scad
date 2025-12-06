@@ -190,7 +190,7 @@ wall_splines_rescale = 1.00;
 stud_top_roundness = 0; // [0:0.01:1]
 
 // Print tiles upside down.
-translate([0, 0, (block_type == "tile" ? block_height_ratio * block_height : 0)]) rotate([0, (block_type == "tile" ? 180 : 0), 0]) {
+translate([0, 0, (block_type == "tile" ? block_height_ratio * compute_block_height(block_type, block_brand) : 0)]) rotate([0, (block_type == "tile" ? 180 : 0), 0]) {
     block(
         width=block_width,
         length=block_length,
