@@ -25,6 +25,8 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+$fs = 0.1; $fa = 1;
+
 /* [General] */
 
 // Width of the block, in studs
@@ -189,6 +191,9 @@ wall_splines_rescale = 1.00;
 // If you want stud tops to be curved, specify a value between 0 and 1, where 0 is no roundness and 1 is very round
 stud_top_roundness = 0; // [0:0.01:1]
 
+// When scaling bricks up, we want the tolerances to remain static values. This allows for scaling the brick sizes withotu affecting tolerances.
+scale = 1.0; // [0.01:0.01:100.00]
+
 // Print tiles upside down.
 translate([0, 0, (block_type == "tile" ? block_height_ratio * compute_block_height(block_type, block_brand) : 0)]) rotate([0, (block_type == "tile" ? 180 : 0), 0]) {
     block(
@@ -200,7 +205,7 @@ translate([0, 0, (block_type == "tile" ? block_height_ratio * compute_block_heig
         stud_type=stud_type,
         block_bottom_type=block_bottom_type,
         include_wall_splines=(include_wall_splines=="yes"),
-	wall_splines_rescale=wall_splines_rescale,
+        wall_splines_rescale=wall_splines_rescale,
         horizontal_holes=(technic_holes=="yes"),
         vertical_axle_holes=(vertical_axle_holes=="yes"),
         reinforcement=(use_reinforcement=="yes"),
@@ -227,7 +232,8 @@ translate([0, 0, (block_type == "tile" ? block_height_ratio * compute_block_heig
         stud_matrix_string=stud_matrix_string,
         stud_matrix_columns=stud_matrix_columns,
         stud_matrix_invert=stud_matrix_invert,
-        stud_matrix_swapxy=stud_matrix_swapxy
+        stud_matrix_swapxy=stud_matrix_swapxy,
+        scale=scale
     );
 }
 
@@ -267,38 +273,63 @@ module block(
     stud_matrix_string="",
     stud_matrix_columns=0,
     stud_matrix_invert=false,
-    stud_matrix_swapxy=false
+    stud_matrix_swapxy=false,
+    scale=1.0
     ) {
-    post_wall_thickness = (brand == "lego" ? 0.85 : 1);
-    wall_thickness=(brand == "lego" ? 1.45 : 1.5);
-    stud_diameter=(brand == "lego" ? 4.85 : 9.40);
-    hollow_stud_inner_diameter = (brand == "lego" ? 3.1 : 6.7);
-    stud_height=(brand == "lego" ? 1.8 : 4.4);
-    stud_spacing=(brand == "lego" ? 8 : 8 * 2);
-    block_height=compute_block_height(type, brand);
-    pin_diameter=(brand == "lego" ? 3 : 3 * 2);
-    post_diameter=(brand == "lego" ? 6.5 : 13.2);
-    cylinder_precision=(brand == "lego" ? 0.1 : 0.05);
-    reinforcing_width = (brand == "lego" ? 0.7 : 1);
+    // Brand-independent measurements.
+    wall_play = 0.1; // When bricks are next to each other, how much space is between the outer walls.
+    stud_play = 0.1191 / 2; // The amount of space between the edge of the stud and the edge of the post wall.
+
+    horizontal_hole_wall_thickness = 1 * 1 * scale;
+
+    stud_spacing=(brand == "lego" ? 8 : 8 * 2) * scale;
+
+    stud_diameter=(brand == "lego" ? 4.8 : 9.40) * scale;
+
+    // For a 2x2 brick:
+    // The stud is centered at ( ( stud_spacing / 2 ) - wall_play, ( stud_spacing / 2 ) - wall_play )
+    // The post is centered at ( stud_spacing - wall_play, stud_spacing - wall_play )
+    // The post wall and stud edge should almost kiss, leaving stud_play mm between them.
+
+    // The interior post area will always have a diameter of stud_diameter, but the post wall needs to get wider than just
+    // scaling it linearly would do, since we want to leave a constant amount of space between the interlocking stud and the
+    // post wall, rather than allowing that space to scale linearly.
+    distance_from_post_center_to_stud_center = sqrt( 2 * ( ( stud_spacing - wall_play ) - ( ( stud_spacing / 2 ) - wall_play ) ) ^ 2 );
+
+    post_wall_thickness = (brand == "lego" ? ( distance_from_post_center_to_stud_center - ( stud_diameter / 2 ) - stud_play - ( stud_diameter / 2 ) )  : 1 * scale );
+
+    wall_thickness=(brand == "lego" ? 1.2 : 1.5) * scale;
+
+    hollow_stud_inner_diameter = (brand == "lego" ? 3.1 : 6.7) * scale;
+
+    stud_height=(brand == "lego" ? 1.8 : 4.4) * scale;
+
+    block_height=compute_block_height(type, brand) * scale;
+    pin_diameter=(brand == "lego" ? 3 : 3 * 2) * scale;
+    post_diameter=(brand == "lego" ? stud_diameter + ( 2 * post_wall_thickness ) : 13.2 * scale );
+
+    cylinder_precision=(brand == "lego" ? 0.1 : 0.05) * scale;
+    reinforcing_width = (brand == "lego" ? 0.7 : 1) * scale;
 
     real_include_wall_splines = block_bottom_type == "open" && include_wall_splines;
-    spline_length = (brand == "lego" ? 0.25 : 1.7) * wall_splines_rescale;
-    spline_thickness = (brand == "lego" ? 0.7 : 1.3);
 
-    horizontal_hole_diameter = (brand == "lego" ? 4.8 : 4.8 * 2);
-    horizontal_hole_z_offset = (brand == "lego" ? 5.8 : 5.8 * 2);
-    horizontal_hole_bevel_diameter = (brand == "lego" ? 6.2 : 6.2 * 2);
-    horizontal_hole_bevel_depth = (brand == "lego" ? 0.9 : 0.9 * 1.5 / 1.2 );
+    // For LEGO-style bricks, scaling is taken into account by the length being calculated as a function of other scaled values.
+    // The "length" is the amount that the spline sticks into the empty space of the brick.
+    spline_length = (brand == "lego" ? ( stud_spacing / 2 ) - wall_play - wall_thickness - stud_play - ( stud_diameter / 2 ) : 1.7 * scale ) * wall_splines_rescale;
 
-    roof_thickness = (type == "baseplate" || dual_sided ? block_height * height : 1 * 1);
+    // The "thickness" is the distance the spline shares with the brick wall.
+    spline_thickness = (brand == "lego" ? 0.6 : 1.3) * scale;
+
+    horizontal_hole_diameter = (brand == "lego" ? 4.8 : 4.8 * 2) * scale;
+    horizontal_hole_z_offset = (brand == "lego" ? 5.8 : 5.8 * 2) * scale;
+    horizontal_hole_bevel_diameter = (brand == "lego" ? 6.2 : 6.2 * 2) * scale;
+    horizontal_hole_bevel_depth = (brand == "lego" ? 0.9 : 0.9 * 1.5 / 1.2 ) * scale;
+
+    roof_thickness = (type == "baseplate" || dual_sided ? block_height * height : 1 * 1) * scale;
 
     // Duplo axle dimensions are based on "Early Simple Machines Set 9656"
-    axle_spline_width = (brand == "lego" ? 2.0 : 3.10);
-    axle_diameter = (brand == "lego" ? 5 * 1 : 7.25);
-
-    // Brand-independent measurements.
-    wall_play = 0.1 * 1;
-    horizontal_hole_wall_thickness = 1 * 1;
+    axle_spline_width = (brand == "lego" ? 2.0 : 3.10) * scale;
+    axle_diameter = (brand == "lego" ? 5 * 1 : 7.25) * scale;
 
     // Ensure that width is always less than or equal to length.
     real_width = ((type == "wing" || type == "slope") ? width : min(width, length) );
@@ -745,7 +776,7 @@ module block(
                     stud_type=stud_type,
                     block_bottom_type=block_bottom_type,
                     include_wall_splines=include_wall_splines,
-		    wall_splines_rescale=wall_splines_rescale,
+            wall_splines_rescale=wall_splines_rescale,
                     horizontal_holes=real_horizontal_holes,
                     vertical_axle_holes=real_vertical_axle_holes,
                     reinforcement=real_reinforcement,
@@ -1008,7 +1039,7 @@ module block(
         && y < real_roadway_y + real_roadway_width
         && x < real_roadway_x + real_roadway_length
     );
-        
+
     function pos_in_stud_matrix(x, y) = (
       (stud_matrix_swapxy && pos_in_stud_matrix_swappable(y,x))
       ||
