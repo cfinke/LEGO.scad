@@ -189,7 +189,7 @@ wall_splines_rescale = 1.00;
 //wall_splines_rescale = 0.3; // Bambu Lab A1 Mini, PETG
 
 // If you want stud tops to be curved, specify a value between 0 and 1, where 0 is no roundness and 1 is very round
-stud_top_roundness = 0; // [0:0.01:1]
+stud_top_roundness = 0.2; // [0:0.01:1]
 
 // When scaling bricks up, we want the tolerances to remain static values. This allows for scaling the brick sizes withotu affecting tolerances.
 scale = 1.0; // [0.01:0.01:100.00]
@@ -266,7 +266,7 @@ module block(
     roadway_invert=false,
     round_radius=0,
     stud_rescale=1,
-    stud_top_roundness=0,
+    stud_top_roundness=0.2,
     dual_sided=false,
     dual_bottom=false,
     with_posts=true,
