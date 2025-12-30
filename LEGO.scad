@@ -305,7 +305,7 @@ module block(
     stud_height=(brand == "lego" ? 1.8 : 4.4) * scale;
 
     block_height=compute_block_height(type, brand) * scale;
-    pin_diameter=(brand == "lego" ? 3 : 3 * 2) * scale;
+
     post_diameter=(brand == "lego" ? stud_diameter + ( 2 * post_wall_thickness ) : 13.2 * scale );
 
     cylinder_precision=(brand == "lego" ? 0.1 : 0.05) * scale;
@@ -319,6 +319,11 @@ module block(
 
     // The "thickness" is the distance the spline shares with the brick wall.
     spline_thickness = (brand == "lego" ? 0.6 : 1.3) * scale;
+
+    // The pin on a 2x1 brick needs to be the right diameter so that its edge makes a square with the splines.
+    pin_radius = stud_spacing - wall_play - wall_thickness - spline_length - stud_diameter - (2 * stud_play);
+
+    pin_diameter=(brand == "lego" ? (pin_radius * 2) : 3 * 2 * scale );
 
     horizontal_hole_diameter = (brand == "lego" ? 4.8 : 4.8 * 2) * scale;
     horizontal_hole_z_offset = (brand == "lego" ? 5.8 : 5.8 * 2) * scale;
