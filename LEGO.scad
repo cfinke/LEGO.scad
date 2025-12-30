@@ -318,7 +318,7 @@ module block(
     // The pin on a 2x1 brick needs to be the right diameter so that its edge makes a square with the splines.
     pin_radius = stud_spacing - wall_play - wall_thickness - spline_length - stud_diameter - (2 * stud_play);
 
-    pin_diameter=(brand == "lego" ? (pin_radius * 2) : 3 * 2 * scale );
+    pin_diameter=(brand == "lego" ? (pin_radius * 2) : 3 * 2 * scale);
 
     horizontal_hole_diameter = (brand == "lego" ? 4.8 : 4.8 * 2) * scale;
     horizontal_hole_z_offset = (brand == "lego" ? 5.8 : 5.8 * 2) * scale;
@@ -795,7 +795,8 @@ module block(
                     roadway_y=real_roadway_y,
                     stud_rescale=stud_rescale,
                     stud_top_roundness=stud_top_roundness,
-                    dual_sided=false
+                    dual_sided=false,
+                    scale=scale
                 );
             }
 
@@ -828,7 +829,8 @@ module block(
                     stud_rescale=stud_rescale,
                     stud_top_roundness=stud_top_roundness,
                     dual_sided=false,
-                    dual_bottom=false
+                    dual_bottom=false,
+                    scale=scale
                 );
             }
     }
@@ -861,12 +863,15 @@ module block(
         }
     }
 
+
+
     module stud() {
         stud_top_height=1;
         stud_body_height=(stud_top_roundness != 0) ? (stud_height - stud_top_height) : stud_height;
         difference() {
             union() {
                 cylinder(r=(stud_diameter*stud_rescale)/2,h=stud_body_height,$fs=cylinder_precision);
+
                 if (stud_top_roundness != 0) {
                     translate([0,0,stud_body_height])
                     rounded_stud_top(height=stud_top_height, radius=(stud_diameter*stud_rescale)/2,curve_height=stud_top_roundness);
@@ -919,7 +924,8 @@ module block(
                 include_wall_splines=include_wall_splines,
                 type="brick",
                 stud_rescale=1.5,
-                stud_top_roundness=stud_top_roundness
+                stud_top_roundness=stud_top_roundness,
+                scale=scale
             );
     }
 
