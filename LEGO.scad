@@ -175,7 +175,7 @@ dual_bottom = "no"; // [no:No, yes:Yes]
 
 /* [Printer-Specific] */
 
-// Should extra reinforcement be included to make printing on an FDM printer easier? Ignored for tiles, since they're printed upside-down and don't need the reinforcement. Recommended for block heights less than 1 or for Duplo bricks.
+// Should extra reinforcement be included to make printing on an FDM printer easier? Ignored for tiles, since they can easily be printed upside-down and don't need the reinforcement. Recommended for block heights less than 1 or for Duplo bricks.
 use_reinforcement = "no"; // [no:No, yes:Yes]
 
 // If your printer prints the blocks correctly except for the stud diameter, use this variable to resize just the studs for your printer. A value of 1.05 will print the studs 105% wider than standard.
@@ -194,48 +194,45 @@ stud_top_roundness = 0.2; // [0:0.01:1]
 // When scaling bricks up, we want the tolerances to remain static values. This allows for scaling the brick sizes withotu affecting tolerances.
 scale = 1.0; // [0.01:0.01:100.00]
 
-// Print tiles upside down.
-translate([0, 0, (block_type == "tile" ? block_height_ratio * compute_block_height(block_type, block_brand) : 0)]) rotate([0, (block_type == "tile" ? 180 : 0), 0]) {
-    block(
-        width=block_width,
-        length=block_length,
-        height=block_height_ratio,
-        type=block_type,
-        brand=block_brand,
-        stud_type=stud_type,
-        block_bottom_type=block_bottom_type,
-        include_wall_splines=(include_wall_splines=="yes"),
-        wall_splines_rescale=wall_splines_rescale,
-        horizontal_holes=(technic_holes=="yes"),
-        vertical_axle_holes=(vertical_axle_holes=="yes"),
-        reinforcement=(use_reinforcement=="yes"),
-        wing_type=wing_type,
-        wing_end_width=wing_end_width,
-        wing_base_length=wing_base_length,
-        stud_notches=(wing_stud_notches=="yes" || round_stud_notches=="yes"),
-        slope_stud_rows=slope_stud_rows,
-        slope_end_height=slope_end_height,
-        curve_stud_rows=curve_stud_rows,
-        curve_type=curve_type,
-        curve_end_height=curve_end_height,
-        roadway_width=roadway_width,
-        roadway_length=roadway_length,
-        roadway_x=roadway_x,
-        roadway_y=roadway_y,
-        roadway_invert=roadway_invert,
-        round_radius=round_radius,
-        stud_rescale=stud_rescale,
-        stud_top_roundness=stud_top_roundness,
-        dual_sided=(dual_sided=="yes"),
-        dual_bottom=(dual_bottom=="yes"),
-        with_posts=with_posts,
-        stud_matrix_string=stud_matrix_string,
-        stud_matrix_columns=stud_matrix_columns,
-        stud_matrix_invert=stud_matrix_invert,
-        stud_matrix_swapxy=stud_matrix_swapxy,
-        scale=scale
-    );
-}
+block(
+    width=block_width,
+    length=block_length,
+    height=block_height_ratio,
+    type=block_type,
+    brand=block_brand,
+    stud_type=stud_type,
+    block_bottom_type=block_bottom_type,
+    include_wall_splines=(include_wall_splines=="yes"),
+    wall_splines_rescale=wall_splines_rescale,
+    horizontal_holes=(technic_holes=="yes"),
+    vertical_axle_holes=(vertical_axle_holes=="yes"),
+    reinforcement=(use_reinforcement=="yes"),
+    wing_type=wing_type,
+    wing_end_width=wing_end_width,
+    wing_base_length=wing_base_length,
+    stud_notches=(wing_stud_notches=="yes" || round_stud_notches=="yes"),
+    slope_stud_rows=slope_stud_rows,
+    slope_end_height=slope_end_height,
+    curve_stud_rows=curve_stud_rows,
+    curve_type=curve_type,
+    curve_end_height=curve_end_height,
+    roadway_width=roadway_width,
+    roadway_length=roadway_length,
+    roadway_x=roadway_x,
+    roadway_y=roadway_y,
+    roadway_invert=roadway_invert,
+    round_radius=round_radius,
+    stud_rescale=stud_rescale,
+    stud_top_roundness=stud_top_roundness,
+    dual_sided=(dual_sided=="yes"),
+    dual_bottom=(dual_bottom=="yes"),
+    with_posts=with_posts,
+    stud_matrix_string=stud_matrix_string,
+    stud_matrix_columns=stud_matrix_columns,
+    stud_matrix_invert=stud_matrix_invert,
+    stud_matrix_swapxy=stud_matrix_swapxy,
+    scale=scale
+);
 
 module block(
     width=1,
