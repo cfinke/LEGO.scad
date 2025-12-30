@@ -277,30 +277,28 @@ module block(
     scale=1.0
     ) {
     // Brand-independent measurements.
-    wall_play = 0.1; // When bricks are next to each other, how much space is between the outer walls.
-    stud_play = 0.1191 / 2; // The amount of space between the edge of the stud and the edge of the post wall.
+    wall_play = 0.1; // When bricks are next to each other, how much space is between the outer walls?
+    stud_play = 0.05955; // The amount of space between the edge of a stud and the edge of a post wall or spline that it is locked into.
+    bar_play = 0.01; // The amount of space between a bar and a hollow stud wall that it is pressed into.
+
+    // Stud spacing and stud diameter are the measurements that most other measurements rely on.
+    stud_spacing=(brand == "lego" ? 8 : 8 * 2) * scale;
+    stud_diameter=(brand == "lego" ? 4.8 : 9.40) * scale;
+    wall_thickness=(brand == "lego" ? 1.2 : 1.5) * scale;
 
     horizontal_hole_wall_thickness = 1 * 1 * scale;
-
-    stud_spacing=(brand == "lego" ? 8 : 8 * 2) * scale;
-
-    stud_diameter=(brand == "lego" ? 4.8 : 9.40) * scale;
-
-    // For a 2x2 brick:
-    // The stud is centered at ( ( stud_spacing / 2 ) - wall_play, ( stud_spacing / 2 ) - wall_play )
-    // The post is centered at ( stud_spacing - wall_play, stud_spacing - wall_play )
-    // The post wall and stud edge should almost kiss, leaving stud_play mm between them.
 
     // The interior post area will always have a diameter of stud_diameter, but the post wall needs to get wider than just
     // scaling it linearly would do, since we want to leave a constant amount of space between the interlocking stud and the
     // post wall, rather than allowing that space to scale linearly.
     distance_from_post_center_to_stud_center = sqrt( 2 * ( ( stud_spacing - wall_play ) - ( ( stud_spacing / 2 ) - wall_play ) ) ^ 2 );
 
-    post_wall_thickness = (brand == "lego" ? ( distance_from_post_center_to_stud_center - ( stud_diameter / 2 ) - stud_play - ( stud_diameter / 2 ) )  : 1 * scale );
+    post_wall_thickness = (brand == "lego" ? ( distance_from_post_center_to_stud_center - ( stud_diameter / 2 ) - stud_play - ( stud_diameter / 2 ) ) : 1 * scale );
 
-    wall_thickness=(brand == "lego" ? 1.2 : 1.5) * scale;
-
-    hollow_stud_inner_diameter = (brand == "lego" ? 3.1 : 6.7) * scale;
+    // A hollow stud should accept a bar with a press fit. A bar is normally 3.18mm in diameter, so a 1x sized hollow stud should
+    // have a 3.2mm diameter opening. When scaled, it should maintain that static difference so that a 5x scaled bar (15.9mm) press
+    // fits into a 5x scaled hollow stud (15.9 + 0.02mm diameter).
+    hollow_stud_inner_diameter = (brand == "lego" ? ( 3.18 * scale + ( bar_play * 2 ) ) : 6.7 * scale);
 
     stud_height=(brand == "lego" ? 1.8 : 4.4) * scale;
 
@@ -313,7 +311,7 @@ module block(
 
     real_include_wall_splines = block_bottom_type == "open" && include_wall_splines;
 
-    // For LEGO-style bricks, scaling is taken into account by the length being calculated as a function of other scaled values.
+    // For LEGO-style bricks, scaling is taken into account by the spline length being calculated as a function of other scaled values.
     // The "length" is the amount that the spline sticks into the empty space of the brick.
     spline_length = (brand == "lego" ? ( stud_spacing / 2 ) - wall_play - wall_thickness - stud_play - ( stud_diameter / 2 ) : 1.7 * scale ) * wall_splines_rescale;
 
