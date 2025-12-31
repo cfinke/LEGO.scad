@@ -25,8 +25,6 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-$fs = 0.1; $fa = 1;
-
 /* [General] */
 
 // Width of the block, in studs
@@ -650,6 +648,16 @@ module block(
                         translate([0, overall_width, 0])              translate([ ((round_distance) - wall_play), -((round_distance) - wall_play), -.499]) rotate([0, 0, 90 ]) negative_rounded_corner(r=((round_distance) - wall_play), h=real_height * block_height, inside=true);
                                                                       translate([ ((round_distance) - wall_play),  ((round_distance) - wall_play), -.499]) rotate([0, 0, 180]) negative_rounded_corner(r=((round_distance) - wall_play), h=real_height * block_height, inside=true);
                         translate([overall_length, 0, 0])             translate([-((round_distance) - wall_play),  ((round_distance) - wall_play), -.499]) rotate([0, 0, 270]) negative_rounded_corner(r=((round_distance) - wall_play), h=real_height * block_height, inside=true);
+                    }
+
+                    if (type == "round") {
+                        // Ensure that studs don't extend past the edge of the rounded corners.
+                        union() translate( [0, 0, real_height * block_height ] ) {
+                            translate([overall_length, overall_width, 0]) translate([-((round_distance) - wall_play), -((round_distance) - wall_play), -.499])                     negative_rounded_corner(r=((round_distance) - wall_play), h=stud_height);
+                            translate([0, overall_width, 0])              translate([ ((round_distance) - wall_play), -((round_distance) - wall_play), -.499]) rotate([0, 0, 90 ]) negative_rounded_corner(r=((round_distance) - wall_play), h=stud_height);
+                                                                          translate([ ((round_distance) - wall_play),  ((round_distance) - wall_play), -.499]) rotate([0, 0, 180]) negative_rounded_corner(r=((round_distance) - wall_play), h=stud_height);
+                            translate([overall_length, 0, 0])             translate([-((round_distance) - wall_play),  ((round_distance) - wall_play), -.499]) rotate([0, 0, 270]) negative_rounded_corner(r=((round_distance) - wall_play), h=stud_height);
+                        }
                     }
                 }
 
