@@ -976,7 +976,7 @@ module block(
                 block_bottom_type=block_bottom_type,
                 include_wall_splines=include_wall_splines,
                 type="brick",
-                stud_rescale=1.5,
+                stud_rescale=1.1,
                 stud_top_roundness=stud_top_roundness,
                 scale=scale
             );
