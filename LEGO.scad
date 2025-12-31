@@ -210,7 +210,7 @@ block(
     wing_type=wing_type,
     wing_end_width=wing_end_width,
     wing_base_length=wing_base_length,
-    stud_notches=(wing_stud_notches=="yes" || round_stud_notches=="yes"),
+    stud_notches=(block_type == "wing" && wing_stud_notches=="yes") || ((block_type == "round" || block_type == "round-tile") && round_stud_notches=="yes"),
     slope_stud_rows=slope_stud_rows,
     slope_end_height=slope_end_height,
     curve_stud_rows=curve_stud_rows,
