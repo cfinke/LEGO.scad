@@ -39,7 +39,7 @@ block_length = 6;
 block_height_ratio = 1; // [.33333333333:1/3, .5:1/2, 1:1, 1.5:1 1/2, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:10]
 
 // What type of block should this be? For type-specific options, see the "Wings," "Slopes," "Curves", and "Baseplates" tabs.
-block_type = "brick"; // [brick:Brick, tile:Tile, wing:Wing, slope:Slope, curve:Curve, baseplate:Baseplate, round:Round]
+block_type = "brick"; // [brick:Brick, tile:Tile, wing:Wing, slope:Slope, curve:Curve, baseplate:Baseplate, round:Round, round-tile:Round Tile]
 
 // What brand of block should this be? LEGO for regular LEGO bricks, Duplo for the toddler-focused larger bricks.
 block_brand = "lego"; // [lego:LEGO, duplo:DUPLO]
@@ -283,6 +283,9 @@ module block(
     stud_diameter=(brand == "lego" ? 4.8 : 9.40) * scale;
     wall_thickness=(brand == "lego" ? 1.2 : 1.5) * scale;
 
+    bottom_gap_height = (brand == "lego" ? 0.4 : 0); // This is so tiles can be removed with a separator, and it shouldn't need to scale.
+    bottom_gap_width = (brand == "lego" ? 0.4 : 0);
+
     horizontal_hole_wall_thickness = 1 * 1 * scale;
 
     // The interior post area will always have a diameter of stud_diameter, but the post wall needs to get wider than just
@@ -369,7 +372,7 @@ module block(
     real_curve_end_height = max(0, min(real_height - 1/3, curve_end_height));
     real_horizontal_holes = horizontal_holes && ((type == "baseplate" && real_height >= 8) || real_height >= 1) && !dual_sided;
     real_vertical_axle_holes = vertical_axle_holes && real_width > 1;
-    real_reinforcement = reinforcement && type != "baseplate" && type != "tile" && !dual_sided;
+    real_reinforcement = reinforcement && type != "baseplate" && ( type != "tile" && type != "round-tile" ) && !dual_sided;
 
     real_roadway_width = max(0, min(roadway_width, real_width));
     real_roadway_length = max(0, min(roadway_length, real_length));
@@ -377,7 +380,7 @@ module block(
     real_roadway_y = max(0, min(real_width - real_roadway_width, roadway_y));
 
     real_stud_notches = stud_notches && !dual_sided;
-    real_dual_sided = dual_sided && type != "curve" && type != "slope" && type != "tile";
+    real_dual_sided = dual_sided && type != "curve" && type != "slope" && type != "tile" && type != "round-tile";
     real_dual_bottom = dual_bottom && !real_dual_sided && type != "curve" && type != "slope";
 
     total_studs_width = (stud_diameter * stud_rescale * real_width) + ((real_width - 1) * (stud_spacing - (stud_diameter * stud_rescale)));
@@ -418,13 +421,27 @@ module block(
                     // The mass of the block.
                     difference() {
                         cube([overall_length, overall_width, real_height * block_height]);
+
+                        // Subtract everything underneath the brick in the open area, where pins, posts, and splines will be added.
                         if (block_bottom_type == "open") {
-                          translate([wall_thickness,wall_thickness,-roof_thickness]) cube([overall_length-wall_thickness*2,overall_width-wall_thickness*2,block_height*real_height]);
+                            translate([wall_thickness,wall_thickness,-roof_thickness]) {
+                                cube([overall_length-wall_thickness*2,overall_width-wall_thickness*2,block_height*real_height]);
+                            }
+                        }
+
+                        // Subtract the gap around the bottom edge if it's a tile.
+                        if (type == "tile" || type == "round-tile"){
+                            difference() {
+                                cube([overall_length, overall_width, bottom_gap_height]);
+                                translate([bottom_gap_width,bottom_gap_width,0]) {
+                                    cube([overall_length - ( 2 * bottom_gap_width ), overall_width - ( 2 * bottom_gap_width ), bottom_gap_height]);
+                                }
+                            }
                         }
                     }
 
                     // The studs on top of the block (if it's not a tile).
-                    if ( type != "tile" && !real_dual_bottom ) {
+                    if ( type != "tile" && type != "round-tile" && !real_dual_bottom ) {
                         translate([stud_diameter * stud_rescale / 2, stud_diameter * stud_rescale / 2, 0])
                         translate([(overall_length - total_studs_length)/2, (overall_width - total_studs_width)/2, 0]) {
                             for (ycount=[0:real_width-1]) {
@@ -618,7 +635,7 @@ module block(
                         translate([overall_length, 0, 0]) translate([-((stud_spacing / 2) - wall_play), ((stud_spacing / 2) - wall_play), 0]) rotate([0, 0, 270]) negative_rounded_corner(r=((stud_spacing / 2) - wall_play), h=real_height * block_height);
                     }
                 }
-                else if (type == "round") {
+                else if (type == "round" || type == "round-tile") {
                     // Rounded corners.
                     union() {
                         translate([overall_length, overall_width, 0]) translate([-((round_distance) - wall_play), -((round_distance) - wall_play), -.499])                     negative_rounded_corner(r=((round_distance) - wall_play), h=real_height * block_height, inside=true);
@@ -754,7 +771,7 @@ module block(
                     }
                 }
             }
-            else if (type == "round") {
+            else if (type == "round" || type == "round-tile") {
                 difference() {
                     union() {
                         translate([round_distance,                    round_distance,                 0])             rounded_corner_wall(real_rounding);
@@ -762,7 +779,29 @@ module block(
                         translate([overall_length - (round_distance), overall_width - round_distance, 0]) rotate(180) rounded_corner_wall(real_rounding);
                         translate([round_distance,                    overall_width - round_distance, 0]) rotate(270) rounded_corner_wall(real_rounding);
                     }
-                if (real_stud_notches) {subtract_stud_notches();}
+
+                    if (real_stud_notches) {
+                        subtract_stud_notches();
+                    }
+
+                    if (type == "round-tile") {
+                        // Subtract the gap around the bottom edge.
+                        difference() {
+                            union() {
+                                translate([round_distance,                    round_distance,                 0])             rounded_corner_wall(real_rounding, height=bottom_gap_height);
+                                translate([overall_length - (round_distance), round_distance,                 0]) rotate(90)  rounded_corner_wall(real_rounding, height=bottom_gap_height);
+                                translate([overall_length - (round_distance), overall_width - round_distance, 0]) rotate(180) rounded_corner_wall(real_rounding, height=bottom_gap_height);
+                                translate([round_distance,                    overall_width - round_distance, 0]) rotate(270) rounded_corner_wall(real_rounding, height=bottom_gap_height);
+                            }
+
+                            translate([bottom_gap_width,bottom_gap_width,0]) resize([overall_length - ( bottom_gap_width * 2 ), overall_width - ( bottom_gap_width * 2 ) ,0]) union() {
+                                translate([round_distance,                    round_distance,                 0])             rounded_corner_wall(real_rounding, height=bottom_gap_height);
+                                translate([overall_length - (round_distance), round_distance,                 0]) rotate(90)  rounded_corner_wall(real_rounding, height=bottom_gap_height);
+                                translate([overall_length - (round_distance), overall_width - round_distance, 0]) rotate(180) rounded_corner_wall(real_rounding, height=bottom_gap_height);
+                                translate([round_distance,                    overall_width - round_distance, 0]) rotate(270) rounded_corner_wall(real_rounding, height=bottom_gap_height);
+                            }
+                        }
+                    }
                 }
             }
 
@@ -863,8 +902,6 @@ module block(
         }
     }
 
-
-
     module stud() {
         stud_top_height=1;
         stud_body_height=(stud_top_roundness != 0) ? (stud_height - stud_top_height) : stud_height;
@@ -929,18 +966,18 @@ module block(
             );
     }
 
-    module rounded_corner_wall(round_radius) {
+    module rounded_corner_wall(radius, height=real_height * block_height) {
         difference() {
             rotate([0,0,180]) {
                 rotate_extrude(angle=90) {
-                    square([round_radius * stud_spacing,real_height * block_height]);
+                    square([radius * stud_spacing, height]);
                 }
             }
             translate([0,0,-.001])
             rotate([0,0,179]) {
                 // just a little wider to avoid false surfaces
                 rotate_extrude(angle=92) {
-                    square([(round_radius * stud_spacing) - wall_thickness,(real_height * block_height)+ .001]);
+                    square([(radius * stud_spacing) - wall_thickness, height + .001]);
                 }
             }
         }
