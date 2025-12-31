@@ -288,8 +288,8 @@ module block(
     stud_diameter=(brand == "lego" ? 4.8 : 9.40) * scale;
     wall_thickness=(brand == "lego" ? 1.2 : 1.5) * scale;
 
-    bottom_gap_height = (brand == "lego" ? 0.4 : 0); // This is so tiles can be removed with a separator, and it shouldn't need to scale.
-    bottom_gap_width = (brand == "lego" ? 0.4 : 0);
+    bottom_gap_height = (brand == "lego" ? 0.4 * scale : 0);
+    bottom_gap_width = (brand == "lego" ? 0.4 * scale: 0);
 
     horizontal_hole_wall_thickness = 1 * 1 * scale;
 
