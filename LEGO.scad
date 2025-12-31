@@ -133,18 +133,23 @@ roadway_invert = false; // [false:False, true:True]
 // the string are all the same length, but that can be different from
 // either dimension of the brick.
 
-// An asterisk (*) means "yes" and any other character means "no". To
-// make the string more readable, you might like to define
-// stud_matrix_columns to be an extra column wide so you can use a
-// space to visually separate the logical rows in the string. Any
-// (X,y) position that is beyond the end of a logical row in the
+// An asterisk (*) means "yes" and any other character means "no". Newlines
+// will be ignored, so it would make sense to define your matrix as a visual
+// representation of the brick, like this, for a 3x3 brick with the middle stud
+// missing:
+//
+// ***
+// *_*
+// ***
+//
+// Any (x,y) position that is beyond the end of a logical row in the
 // string or beyond the entire string is taken as not having an
 // asterisk in that position. That way, you can define just enough
 // string to get the studs you want without having to cover the entire
 // brick dimensions. For example, you could supply the string
 // "*.*.* .***." with a stud_matrix_columns value of 6.
 
-// A single string representing rows of stud positions. An asterisk means "put a stud there"; any other character means "omit the stud there".
+// A single string representing rows of stud position, automatically wrapping to subsequent rows. An asterisk means "put a stud there"; any other character means "omit the stud there". Newlines will be ignored.
 stud_matrix_string = "";
 
 // How many columns per row in the stud matrix string? Not directly related to the size of the baseplate.
@@ -409,6 +414,9 @@ module block(
     max_round = min(real_width, real_length) / 2;
     real_rounding = round_radius > 0 ? min(max_round,round_radius) : max_round;
     round_distance = real_rounding * stud_spacing;
+
+    // Strip newlines out of the stud matrix string.
+    stud_matrix_string = char_replace( stud_matrix_string, "\n", "" );
 
     translate([-overall_length/2, -overall_width/2, 0]) // Comment to position at 0,0,0 instead of centered on X and Y.
         union() {
@@ -815,7 +823,7 @@ module block(
                     stud_type=stud_type,
                     block_bottom_type=block_bottom_type,
                     include_wall_splines=include_wall_splines,
-            wall_splines_rescale=wall_splines_rescale,
+                    wall_splines_rescale=wall_splines_rescale,
                     horizontal_holes=real_horizontal_holes,
                     vertical_axle_holes=real_vertical_axle_holes,
                     reinforcement=real_reinforcement,
@@ -1101,6 +1109,8 @@ module block(
             translate([0, 0, -1]) cylinder(r=ir, h=h + 2, $fs=cylinder_precision);
         }
     }
+
+    function char_replace(s, old=" ", new="_" ) = chr([for(i=[0:len(s)-1]) s[i]==old?ord(new):ord(s[i])]);
 }
 
 module uncenter(
