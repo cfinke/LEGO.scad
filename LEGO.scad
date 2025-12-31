@@ -162,7 +162,7 @@ stud_matrix_swapxy = false; // [false:False, true:True]
 round_radius = 3;
 
 // Should the rounded edges be notched to accept studs below?
-round_stud_notches = "yes";
+round_stud_notches = "yes"; // [yes:Yes, no:No]
 
 /* [SNOT] */
 
