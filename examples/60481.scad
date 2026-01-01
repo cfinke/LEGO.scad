@@ -1,3 +1,8 @@
 use <../LEGO.scad>;
 
-block( width=1, length=2, height=2, type="slope" );
+block(
+    width=1,
+    length=2,
+    height=2,
+    type="slope"
+);

@@ -1,3 +1,6 @@
 use <../LEGO.scad>;
 
-block( width=1, length=12 );
+block(
+    width=1,
+    length=12
+);

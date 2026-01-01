@@ -1,3 +1,7 @@
 use <../LEGO.scad>;
 
-block( width=48, length=48, type="baseplate" );
+block(
+    width=48,
+    length=48,
+    type="baseplate"
+);
