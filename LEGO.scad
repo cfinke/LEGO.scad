@@ -161,7 +161,7 @@ stud_matrix_swapxy = false; // [false:False, true:True]
 
 /* [Round] */
 
-// How many studs should be rounded at the corners?
+// If the brick is `type=round`, what should the corner radius be, in studs? The default makes for a circular brick.
 round_radius = 3;
 
 // Should the rounded edges be notched to accept studs below?
@@ -194,7 +194,7 @@ wall_splines_rescale = 1.00;
 // If you want stud tops to be curved, specify a value between 0 and 1, where 0 is no roundness and 1 is very round
 stud_top_roundness = 0.2; // [0:0.01:1]
 
-// When scaling bricks up, we want the tolerances to remain static values. This allows for scaling the brick sizes withotu affecting tolerances.
+// When scaling bricks up, we want the tolerances to remain static values. This allows for scaling the brick sizes without affecting tolerances.
 scale = 1.0; // [0.01:0.01:100.00]
 
 block(
