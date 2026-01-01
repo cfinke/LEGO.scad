@@ -288,9 +288,6 @@ module block(
     stud_diameter=(brand == "lego" ? 4.8 : 9.40) * scale;
     wall_thickness=(brand == "lego" ? 1.2 : 1.5) * scale;
 
-    bottom_gap_height = (brand == "lego" ? 0.4 * scale : 0);
-    bottom_gap_width = (brand == "lego" ? 0.4 * scale: 0);
-
     horizontal_hole_wall_thickness = 1 * 1 * scale;
 
     // The interior post area will always have a diameter of stud_diameter, but the post wall needs to get wider than just
@@ -403,6 +400,53 @@ module block(
     overall_length = (real_length * stud_spacing) - (2 * wall_play);
     overall_width = (real_width * stud_spacing) - (2 * wall_play);
 
+    // On 1x1 round bricks, the bottom gap should be big enough that it can be pressed down between the studs of another brick.
+    // On any other tiles, it should be 0.4, scaled appropriately.
+    bottom_gap_height = (
+        brand == "lego"
+            ?
+            (
+                ( ( type == "round" || type == "round-tile" ) && width == 1 && length == 1 )
+                ?
+                stud_height + stud_play
+                :
+                (
+                    ( type == "tile" || type == "round-tile" )
+                    ?
+                    0.4 * scale
+                    :
+                    0
+                )
+            )
+            :
+            0
+    );
+
+    diagonal_stud_spacing = sqrt( 2 ) * stud_spacing;
+    diagonal_distance_between_stud_edges = diagonal_stud_spacing - stud_diameter;
+
+    // On 1x1 round bricks, the bottom gap should be wide enough that it can be pressed down between the studs of another brick.
+    // On any other tiles, it should be 0.4, scaled appropriately.
+    bottom_gap_width = (
+        brand == "lego"
+            ?
+            (
+                ( ( type == "round" || type == "round-tile" ) && width == 1 && length == 1 )
+                ?
+                ( overall_length + ( 2 * stud_play ) - diagonal_distance_between_stud_edges ) / 2
+                :
+                (
+                    ( type == "tile" || type == "round-tile" )
+                    ?
+                    0.4 * scale
+                    :
+                    0
+                )
+            )
+            :
+            0
+    );
+
     wing_slope = (wing_type == "full" ?
         ((real_width - (real_wing_end_width + 1)) / 2) / (real_length - (real_wing_base_length - 1))
         :
@@ -438,7 +482,7 @@ module block(
                         }
 
                         // Subtract the gap around the bottom edge if it's a tile.
-                        if (type == "tile" || type == "round-tile"){
+                        if (bottom_gap_height > 0 && bottom_gap_width > 0) {
                             difference() {
                                 cube([overall_length, overall_width, bottom_gap_height]);
                                 translate([bottom_gap_width,bottom_gap_width,0]) {
@@ -825,7 +869,7 @@ module block(
                         subtract_stud_notches();
                     }
 
-                    if (type == "round-tile") {
+                    if (bottom_gap_height > 0 && bottom_gap_width > 0) {
                         // Subtract the gap around the bottom edge.
                         difference() {
                             union() {
