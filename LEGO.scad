@@ -42,8 +42,8 @@ block_type = "brick"; // [brick:Brick, tile:Tile, wing:Wing, slope:Slope, curve:
 // What brand of block should this be? LEGO for regular LEGO bricks, Duplo for the toddler-focused larger bricks.
 block_brand = "lego"; // [lego:LEGO, duplo:DUPLO]
 
-// What stud type do you want? Hollow studs allow rods to be pushed into the stud.
-stud_type = "solid"; // [solid:Solid, hollow:Hollow]
+// What stud type do you want?
+stud_type = "solid"; // [solid:Solid, hollow:Hollow, open:Open]
 
 // What type of block bottom do you want? Open blocks are the standard, closed bottom blocks can be used for stacking composite shapes.
 block_bottom_type = "open"; // [closed:Closed, open:Open]
@@ -280,6 +280,8 @@ module block(
     wall_play = 0.1; // When bricks are next to each other, how much space is between the outer walls?
     stud_play = 0.05955; // The amount of space between the edge of a stud and the edge of a post wall or spline that it is locked into.
     bar_play = 0.01; // The amount of space between a bar and a hollow stud wall that it is pressed into.
+
+    overlap_for_clean_previews = 2;
 
     // Stud spacing and stud diameter are the measurements that most other measurements rely on.
     stud_spacing=(brand == "lego" ? 8 : 8 * 2) * scale;
@@ -549,6 +551,29 @@ module block(
                 /**
                  * Include any differences from the basic brick here.
                  */
+
+                // If the studs are hollow or have through-holes, remove those parts here.
+                if ( type != "tile" && type != "round-tile" && ( stud_type == "hollow" || stud_type == "open" ) ) {
+                    translate([stud_diameter * stud_rescale / 2, stud_diameter * stud_rescale / 2, 0]) {
+                        translate([(overall_length - total_studs_length)/2, (overall_width - total_studs_width)/2, 0]) {
+                            for (ycount=[0:real_width-1]) {
+                                for (xcount=[0:real_length-1]) {
+                                    if (!skip_this_stud(xcount, ycount)) {
+                                        translate([xcount*stud_spacing,ycount*stud_spacing,block_height*real_height]) {
+                                            if ( stud_type == "hollow" ) {
+                                                cylinder( r = ( hollow_stud_inner_diameter * stud_rescale ) / 2, h = stud_height + overlap_for_clean_previews, $fs = cylinder_precision );
+                                            } else if ( stud_type == "open" ) {
+                                                translate( [ 0, 0, -roof_thickness - overlap_for_clean_previews ] ) {
+                                                    cylinder( r = ( hollow_stud_inner_diameter * stud_rescale ) / 2, h = stud_height + roof_thickness + ( 2 * overlap_for_clean_previews ), $fs = cylinder_precision );
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
 
                 if (real_vertical_axle_holes) {
                     if (real_width > 1 && real_length > 1) {
@@ -929,11 +954,6 @@ module block(
                     translate([0,0,stud_body_height])
                     rounded_stud_top(height=stud_top_height, radius=(stud_diameter*stud_rescale)/2,curve_height=stud_top_roundness);
                 }
-            }
-
-            if (stud_type == "hollow") {
-                // 0.5 is for cleaner preview; doesn't affect functionality.
-                cylinder(r=(hollow_stud_inner_diameter*stud_rescale)/2,h=stud_height+0.5,$fs=cylinder_precision);
             }
         }
     }
