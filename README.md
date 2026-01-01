@@ -71,7 +71,10 @@ See the files in examples/ for example usage and the corresponding image in exam
 ```javascript
 use <../LEGO.scad>;
 
-block( width=2, length=6 );
+block(
+    width=2,
+    length=6
+);
 ```
 
 </td>
@@ -89,7 +92,11 @@ block( width=2, length=6 );
 ```javascript
 use <../LEGO.scad>;
 
-block( width=4, length=2, type="slope" );
+block(
+    width=4,
+    length=2,
+    type="slope"
+);
 ```
 
 </td>
@@ -107,7 +114,15 @@ block( width=4, length=2, type="slope" );
 ```javascript
 use <../LEGO.scad>;
 
-block( width=4, length=4, height=1/3, stud_matrix_string="****________", stud_matrix_columns=4 );
+block(
+    width=4,
+    length=4,
+    height=1/3,
+    stud_matrix_string="****
+____
+____",
+    stud_matrix_columns=4
+);
 ```
 
 </td>
