@@ -63,6 +63,27 @@ The library exposes one modules: `block()`.
 <table>
 <tr><td>
 
+### Part 1126
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=1,
+    length=2,
+	type="round-tile",
+	height=1/3
+);
+
+```
+</td>
+<td>
+
+![Part 1126](examples/images/1126.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 1751
 
 ```javascript
@@ -785,6 +806,27 @@ block(
 </td></tr>
 <tr><td>
 
+### Part 3062
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=1,
+    length=1,
+	type="round",
+	stud_type="hollow"
+);
+
+```
+</td>
+<td>
+
+![Part 3062](examples/images/3062.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 3068
 
 ```javascript
@@ -902,6 +944,27 @@ block(
 </td></tr>
 <tr><td>
 
+### Part 3437
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=2,
+	brand="duplo",
+	stud_type="hollow"
+);
+
+```
+</td>
+<td>
+
+![Part 3437](examples/images/3437.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 3456
 
 ```javascript
@@ -936,6 +999,54 @@ block(
 <td>
 
 ![Part 3460](examples/images/3460.png)
+
+</td></tr>
+<tr><td>
+
+### Part 3544
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=3,
+    length=8,
+    height=1/3,
+    type="wing",
+    wing_type="left",
+    stud_notches=true,
+	wing_base_length=1,
+	wing_end_width=1
+);
+```
+</td>
+<td>
+
+![Part 3544](examples/images/3544.png)
+
+</td></tr>
+<tr><td>
+
+### Part 3545
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=3,
+    length=8,
+    height=1/3,
+    type="wing",
+    wing_type="right",
+    stud_notches=true,
+	wing_base_length=1,
+	wing_end_width=1
+);
+```
+</td>
+<td>
+
+![Part 3545](examples/images/3545.png)
 
 </td></tr>
 <tr><td>
@@ -1035,6 +1146,28 @@ block(
 </td></tr>
 <tr><td>
 
+### Part 3766
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=4,
+    length=6,
+	type="round",
+	height=1/3,
+	stud_notches=true
+);
+
+```
+</td>
+<td>
+
+![Part 3766](examples/images/3766.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 3795
 
 ```javascript
@@ -1126,6 +1259,29 @@ block(
 <td>
 
 ![Part 3958](examples/images/3958.png)
+
+</td></tr>
+<tr><td>
+
+### Part 4032
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=2,
+	type="round",
+	height=1/3,
+	vertical_axle_holes=true,
+	stud_notches=true
+);
+
+```
+</td>
+<td>
+
+![Part 4032](examples/images/4032.png)
 
 </td></tr>
 <tr><td>
@@ -1345,6 +1501,27 @@ block(
 </td></tr>
 <tr><td>
 
+### Part 6141
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=1,
+    length=1,
+	type="round",
+	height=1/3
+);
+
+```
+</td>
+<td>
+
+![Part 6141](examples/images/6141.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 6178
 
 ```javascript
@@ -1506,6 +1683,30 @@ block(
 </td></tr>
 <tr><td>
 
+### Part 14181
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=4,
+    length=9,
+    height=1/3,
+    type="wing",
+    wing_type="full",
+    wing_base_length=4,
+    wing_end_width=1,
+    stud_notches=true
+);
+```
+</td>
+<td>
+
+![Part 14181](examples/images/14181.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 14716
 
 ```javascript
@@ -1521,6 +1722,28 @@ block(
 <td>
 
 ![Part 14716](examples/images/14716.png)
+
+</td></tr>
+<tr><td>
+
+### Part 14769
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=2,
+	type="round-tile",
+	height=1/3,
+	stud_notches=true
+);
+
+```
+</td>
+<td>
+
+![Part 14769](examples/images/14769.png)
 
 </td></tr>
 <tr><td>
@@ -1781,6 +2004,28 @@ block(
 </td></tr>
 <tr><td>
 
+### Part 33243
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=1,
+    length=3,
+	type="curve",
+	height=2,
+	stud_type="hollow"
+);
+
+```
+</td>
+<td>
+
+![Part 33243](examples/images/33243.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 33909
 
 ```javascript
@@ -1798,6 +2043,28 @@ block(
 <td>
 
 ![Part 33909](examples/images/33909.png)
+
+</td></tr>
+<tr><td>
+
+### Part 35480
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=1,
+    length=2,
+	type="round",
+	height=1/3,
+	stud_type="hollow"
+);
+
+```
+</td>
+<td>
+
+![Part 35480](examples/images/35480.png)
 
 </td></tr>
 <tr><td>
@@ -1853,15 +2120,65 @@ block(
     height=1/3,
     type="wing",
     wing_type="right",
-    wing_base_length=2,
+    wing_base_length=1,
     wing_end_width=2,
     stud_notches=true
 );
+
+// There's an extra stud on the base of the wing compared to the LEGO part.
 ```
 </td>
 <td>
 
 ![Part 41769](examples/images/41769.png)
+
+</td></tr>
+<tr><td>
+
+### Part 41770
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=4,
+    height=1/3,
+    type="wing",
+    wing_type="left",
+    wing_base_length=1,
+    wing_end_width=2,
+    stud_notches=true
+);
+
+// There's an extra stud on the base of the wing compared to the LEGO part.
+```
+</td>
+<td>
+
+![Part 41770](examples/images/41770.png)
+
+</td></tr>
+<tr><td>
+
+### Part 42022
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=1,
+    length=6,
+	type="curve",
+	height=2,
+	curve_stud_rows=2
+);
+
+```
+</td>
+<td>
+
+![Part 42022](examples/images/42022.png)
 
 </td></tr>
 <tr><td>
@@ -1910,6 +2227,76 @@ block(
 <td>
 
 ![Part 43723](examples/images/43723.png)
+
+</td></tr>
+<tr><td>
+
+### Part 44126
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=6,
+	type="curve",
+	height=2,
+	curve_stud_rows=2
+);
+
+```
+</td>
+<td>
+
+![Part 44126](examples/images/44126.png)
+
+</td></tr>
+<tr><td>
+
+### Part 47397
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=3,
+    length=12,
+    height=1/3,
+    type="wing",
+    wing_type="left",
+    wing_base_length=1,
+    wing_end_width=1,
+    stud_notches=true
+);
+```
+</td>
+<td>
+
+![Part 47397](examples/images/47397.png)
+
+</td></tr>
+<tr><td>
+
+### Part 47398
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=3,
+    length=12,
+    height=1/3,
+    type="wing",
+    wing_type="right",
+    wing_base_length=1,
+    wing_end_width=1,
+    stud_notches=true
+);
+```
+</td>
+<td>
+
+![Part 47398](examples/images/47398.png)
 
 </td></tr>
 <tr><td>
@@ -1997,6 +2384,32 @@ block(
 <td>
 
 ![Part 49618](examples/images/49618.png)
+
+</td></tr>
+<tr><td>
+
+### Part 50303
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=6,
+    length=7,
+    height=1/3,
+    type="wing",
+    wing_type="full",
+    wing_base_length=3,
+    wing_end_width=2,
+    stud_notches=true
+);
+
+// wing_base_length doesn't match what is actually generated. It should be 2.
+```
+</td>
+<td>
+
+![Part 50303](examples/images/50303.png)
 
 </td></tr>
 <tr><td>
@@ -2219,6 +2632,141 @@ block(
 </td></tr>
 <tr><td>
 
+### Part 65140
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=8,
+    length=8,
+	type="round",
+	height=1/3,
+	stud_notches=true,
+	round_radius=2
+);
+
+```
+</td>
+<td>
+
+![Part 65140](examples/images/65140.png)
+
+</td></tr>
+<tr><td>
+
+### Part 65474
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=6,
+    length=8,
+	type="round-tile",
+	height=1/3,
+	stud_notches=true
+);
+
+```
+</td>
+<td>
+
+![Part 65474](examples/images/65474.png)
+
+</td></tr>
+<tr><td>
+
+### Part 65734
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=1,
+    length=4,
+	type="curve",
+	height=2+(2/3)
+);
+
+```
+</td>
+<td>
+
+![Part 65734](examples/images/65734.png)
+
+</td></tr>
+<tr><td>
+
+### Part 66857
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=4,
+	type="round-tile",
+	height=1/3,
+	stud_notches=true
+);
+
+```
+</td>
+<td>
+
+![Part 66857](examples/images/66857.png)
+
+</td></tr>
+<tr><td>
+
+### Part 67095
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=3,
+    length=3,
+	type="round-tile",
+	height=1/3,
+	stud_notches=true
+);
+
+```
+</td>
+<td>
+
+![Part 67095](examples/images/67095.png)
+
+</td></tr>
+<tr><td>
+
+### Part 68869
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=4,
+    length=4,
+	type="round-tile",
+	height=2/3,
+	stud_notches=true,
+	round_radius=1
+);
+
+// This doesn't match the real brick along the flat edges.
+
+```
+</td>
+<td>
+
+![Part 68869](examples/images/68869.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 69729
 
 ```javascript
@@ -2239,6 +2787,28 @@ block(
 </td></tr>
 <tr><td>
 
+### Part 77850
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=1,
+    length=3,
+	type="round",
+	height=1/3,
+	stud_type="hollow"
+);
+
+```
+</td>
+<td>
+
+![Part 77850](examples/images/77850.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 78329
 
 ```javascript
@@ -2254,6 +2824,76 @@ block(
 <td>
 
 ![Part 78329](examples/images/78329.png)
+
+</td></tr>
+<tr><td>
+
+### Part 78443
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=6,
+    height=1/3,
+    type="wing",
+    wing_type="left",
+    wing_base_length=1,
+    wing_end_width=2,
+    stud_notches=true
+);
+```
+</td>
+<td>
+
+![Part 78443](examples/images/78443.png)
+
+</td></tr>
+<tr><td>
+
+### Part 78444
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=6,
+    height=1/3,
+    type="wing",
+    wing_type="right",
+    wing_base_length=1,
+    wing_end_width=2,
+    stud_notches=true
+);
+```
+</td>
+<td>
+
+![Part 78444](examples/images/78444.png)
+
+</td></tr>
+<tr><td>
+
+### Part 85861
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=1,
+    length=1,
+	type="round",
+	height=1/3,
+	stud_type="hollow"
+);
+
+```
+</td>
+<td>
+
+![Part 85861](examples/images/85861.png)
 
 </td></tr>
 <tr><td>
@@ -2412,6 +3052,27 @@ block(
 <td>
 
 ![Part 92438](examples/images/92438.png)
+
+</td></tr>
+<tr><td>
+
+### Part 98138
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=1,
+    length=1,
+	type="round-tile",
+	height=1/3
+);
+
+```
+</td>
+<td>
+
+![Part 98138](examples/images/98138.png)
 
 </td></tr>
 <tr><td>
