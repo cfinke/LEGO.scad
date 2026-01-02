@@ -66,7 +66,7 @@ The library exposes one modules: `block()`.
 ### Part 1751
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=4,
@@ -86,7 +86,7 @@ block(
 ### Part 2419
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=6,
@@ -109,7 +109,7 @@ block(
 ### Part 2431
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -129,7 +129,7 @@ block(
 ### Part 2445
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -148,7 +148,7 @@ block(
 ### Part 2450
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=3,
@@ -171,7 +171,7 @@ block(
 ### Part 2453
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -191,7 +191,7 @@ block(
 ### Part 2454
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -211,7 +211,7 @@ block(
 ### Part 2456
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -229,7 +229,7 @@ block(
 ### Part 2465
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -247,7 +247,7 @@ block(
 ### Part 3001
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -265,7 +265,7 @@ block(
 ### Part 3002
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -283,7 +283,7 @@ block(
 ### Part 3003
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -301,7 +301,7 @@ block(
 ### Part 3004
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -319,7 +319,7 @@ block(
 ### Part 3005
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -337,7 +337,7 @@ block(
 ### Part 3006
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -355,7 +355,7 @@ block(
 ### Part 3007
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -373,7 +373,7 @@ block(
 ### Part 3008
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -391,7 +391,7 @@ block(
 ### Part 3009
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -409,7 +409,7 @@ block(
 ### Part 3010
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -427,7 +427,7 @@ block(
 ### Part 3020
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -446,7 +446,7 @@ block(
 ### Part 3021
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -465,7 +465,7 @@ block(
 ### Part 3022
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -484,7 +484,7 @@ block(
 ### Part 3023
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -503,7 +503,7 @@ block(
 ### Part 3024
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -522,7 +522,7 @@ block(
 ### Part 3027
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=6,
@@ -541,7 +541,7 @@ block(
 ### Part 3028
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=6,
@@ -560,7 +560,7 @@ block(
 ### Part 3029
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=4,
@@ -579,7 +579,7 @@ block(
 ### Part 3030
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=4,
@@ -598,7 +598,7 @@ block(
 ### Part 3031
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=4,
@@ -617,7 +617,7 @@ block(
 ### Part 3032
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=4,
@@ -636,7 +636,7 @@ block(
 ### Part 3033
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=6,
@@ -655,7 +655,7 @@ block(
 ### Part 3034
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -674,7 +674,7 @@ block(
 ### Part 3035
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=4,
@@ -693,7 +693,7 @@ block(
 ### Part 3036
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=6,
@@ -712,7 +712,7 @@ block(
 ### Part 3037
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=4,
@@ -731,7 +731,7 @@ block(
 ### Part 3038
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=3,
@@ -750,7 +750,7 @@ block(
 ### Part 3039
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -769,7 +769,7 @@ block(
 ### Part 3040
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -788,7 +788,7 @@ block(
 ### Part 3068
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -808,7 +808,7 @@ block(
 ### Part 3069
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -828,7 +828,7 @@ block(
 ### Part 3070
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -848,7 +848,7 @@ block(
 ### Part 3254
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -867,7 +867,7 @@ block(
 ### Part 3297
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=4,
@@ -886,7 +886,7 @@ block(
 ### Part 3298
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -905,7 +905,7 @@ block(
 ### Part 3456
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=6,
@@ -924,7 +924,7 @@ block(
 ### Part 3460
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -943,7 +943,7 @@ block(
 ### Part 3622
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -961,7 +961,7 @@ block(
 ### Part 3623
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -980,7 +980,7 @@ block(
 ### Part 3666
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -999,7 +999,7 @@ block(
 ### Part 3678
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -1019,7 +1019,7 @@ block(
 ### Part 3710
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -1038,7 +1038,7 @@ block(
 ### Part 3795
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -1057,7 +1057,7 @@ block(
 ### Part 3811
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=32,
@@ -1076,7 +1076,7 @@ block(
 ### Part 3832
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -1095,7 +1095,7 @@ block(
 ### Part 3857
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=16,
@@ -1114,7 +1114,7 @@ block(
 ### Part 3958
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=6,
@@ -1133,7 +1133,7 @@ block(
 ### Part 4161
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=3,
@@ -1152,7 +1152,7 @@ block(
 ### Part 4162
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -1172,7 +1172,7 @@ block(
 ### Part 4186
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=48,
@@ -1191,7 +1191,7 @@ block(
 ### Part 4282
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -1210,7 +1210,7 @@ block(
 ### Part 4286
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -1229,7 +1229,7 @@ block(
 ### Part 4445
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=8,
@@ -1248,7 +1248,7 @@ block(
 ### Part 4460
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -1269,7 +1269,7 @@ block(
 ### Part 4477
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -1288,7 +1288,7 @@ block(
 ### Part 6106
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=6,
@@ -1312,7 +1312,7 @@ block(
 ### Part 6111
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -1330,7 +1330,7 @@ block(
 ### Part 6112
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -1348,7 +1348,7 @@ block(
 ### Part 6178
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=6,
@@ -1375,7 +1375,7 @@ block(
 ### Part 6179
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=4,
@@ -1399,7 +1399,7 @@ ____",
 ### Part 6180
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=4,
@@ -1423,7 +1423,7 @@ block(
 ### Part 6205
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=6,
@@ -1450,7 +1450,7 @@ block(
 ### Part 6636
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -1470,7 +1470,7 @@ block(
 ### Part 10202
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=6,
@@ -1490,7 +1490,7 @@ block(
 ### Part 11212
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=3,
@@ -1509,7 +1509,7 @@ block(
 ### Part 14716
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -1528,7 +1528,7 @@ block(
 ### Part 22886
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -1547,7 +1547,7 @@ block(
 ### Part 23949
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=6,
@@ -1566,7 +1566,7 @@ block(
 ### Part 24299
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -1588,7 +1588,7 @@ block(
 ### Part 24307
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -1610,7 +1610,7 @@ block(
 ### Part 26603
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -1630,7 +1630,7 @@ block(
 ### Part 30145
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -1649,7 +1649,7 @@ block(
 ### Part 30249
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -1671,7 +1671,7 @@ block(
 ### Part 30355
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=6,
@@ -1695,7 +1695,7 @@ block(
 ### Part 30356
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=6,
@@ -1719,7 +1719,7 @@ block(
 ### Part 30363
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -1738,7 +1738,7 @@ block(
 ### Part 30503
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=4,
@@ -1761,7 +1761,7 @@ block(
 ### Part 30504
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=8,
@@ -1784,7 +1784,7 @@ block(
 ### Part 33909
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -1805,7 +1805,7 @@ block(
 ### Part 41539
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=8,
@@ -1824,7 +1824,7 @@ block(
 ### Part 41740
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -1845,7 +1845,7 @@ block(
 ### Part 41769
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -1869,7 +1869,7 @@ block(
 ### Part 43722
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -1893,7 +1893,7 @@ block(
 ### Part 43723
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -1917,7 +1917,7 @@ block(
 ### Part 48205
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=4,
@@ -1941,7 +1941,7 @@ block(
 ### Part 48208
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=4,
@@ -1965,7 +1965,7 @@ block(
 ### Part 49311
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -1984,7 +1984,7 @@ block(
 ### Part 49618
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -2004,7 +2004,7 @@ block(
 ### Part 50304
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=3,
@@ -2028,7 +2028,7 @@ block(
 ### Part 50305
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=3,
@@ -2052,7 +2052,7 @@ block(
 ### Part 51739
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=4,
@@ -2076,7 +2076,7 @@ block(
 ### Part 54200
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -2096,7 +2096,7 @@ block(
 ### Part 54383
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=3,
@@ -2120,7 +2120,7 @@ block(
 ### Part 54384
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=3,
@@ -2144,7 +2144,7 @@ block(
 ### Part 60477
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -2163,7 +2163,7 @@ block(
 ### Part 60479
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -2182,7 +2182,7 @@ block(
 ### Part 60481
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -2202,7 +2202,7 @@ block(
 ### Part 63864
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -2222,7 +2222,7 @@ block(
 ### Part 69729
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -2242,7 +2242,7 @@ block(
 ### Part 78329
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -2261,7 +2261,7 @@ block(
 ### Part 85984
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -2281,7 +2281,7 @@ block(
 ### Part 86996
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=1,
@@ -2301,7 +2301,7 @@ block(
 ### Part 87079
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -2321,7 +2321,7 @@ block(
 ### Part 88646
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=3,
@@ -2342,7 +2342,7 @@ block(
 ### Part 90498
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=8,
@@ -2362,7 +2362,7 @@ block(
 ### Part 91405
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=16,
@@ -2381,7 +2381,7 @@ block(
 ### Part 91988
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
@@ -2400,7 +2400,7 @@ block(
 ### Part 92438
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=8,
@@ -2419,7 +2419,7 @@ block(
 ### Part 98560
 
 ```javascript
-use <../LEGO.scad>;
+use <LEGO.scad>;
 
 block(
     width=2,
