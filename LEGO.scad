@@ -65,10 +65,10 @@ with_posts = true;
 // What type of wing? Full is suitable for the front of a plane, left/right are for the left/right of a plane.
 wing_type = "full"; // [full:Full, left:Left, right:Right]
 
-// The number of studs across the end of the wing. If block_width is odd, this needs to be odd, and the same for even.
+// The number of studs across the narrower end of the wing. `width` is the equivalent for the wide end of the wing.
 wing_end_width = 2;
 
-// The length of the rectangular portion of the wing, in studs.
+// On the wide end of the wing, how many rows of studs should be placed before the first shorter row of studs?
 wing_base_length = 3;
 
 // Should the wing edges be notched to accept studs below?
