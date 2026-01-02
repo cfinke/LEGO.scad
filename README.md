@@ -105,6 +105,95 @@ block(
 </td></tr>
 <tr><td>
 
+### Part 2291
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=10,
+	brand="duplo",
+	stud_type="hollow"
+);
+
+```
+</td>
+<td>
+
+![Part 2291](examples/images/2291.png)
+
+</td></tr>
+<tr><td>
+
+### Part 2300
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=6,
+	brand="duplo",
+	stud_type="hollow"
+);
+
+```
+</td>
+<td>
+
+![Part 2300](examples/images/2300.png)
+
+</td></tr>
+<tr><td>
+
+### Part 2301
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=3,
+	height=2,
+	brand="duplo",
+	type="curve",
+	stud_type="hollow",
+	curve_type="convex"
+);
+
+```
+</td>
+<td>
+
+![Part 2301](examples/images/2301.png)
+
+</td></tr>
+<tr><td>
+
+### Part 2302
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=3,
+	brand="duplo",
+	type="curve",
+	stud_type="hollow",
+	curve_stud_rows=2
+);
+
+```
+</td>
+<td>
+
+![Part 2302](examples/images/2302.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 2419
 
 ```javascript
@@ -460,6 +549,27 @@ block(
 <td>
 
 ![Part 3010](examples/images/3010.png)
+
+</td></tr>
+<tr><td>
+
+### Part 3011
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=4,
+	brand="duplo",
+	stud_type="hollow"
+);
+
+```
+</td>
+<td>
+
+![Part 3011](examples/images/3011.png)
 
 </td></tr>
 <tr><td>
@@ -1405,6 +1515,70 @@ block(
 </td></tr>
 <tr><td>
 
+### Part 4196
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=6,
+    length=12,
+	brand="duplo",
+	stud_type="hollow",
+	height=1/2
+);
+
+```
+</td>
+<td>
+
+![Part 4196](examples/images/4196.png)
+
+</td></tr>
+<tr><td>
+
+### Part 4199
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=8,
+	brand="duplo",
+	stud_type="hollow"
+);
+
+```
+</td>
+<td>
+
+![Part 4199](examples/images/4199.png)
+
+</td></tr>
+<tr><td>
+
+### Part 4268
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=24,
+    length=24,
+	brand="duplo",
+	height=1/3
+);
+
+```
+</td>
+<td>
+
+![Part 4268](examples/images/4268.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 4282
 
 ```javascript
@@ -1503,6 +1677,28 @@ block(
 <td>
 
 ![Part 4477](examples/images/4477.png)
+
+</td></tr>
+<tr><td>
+
+### Part 4672
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=4,
+    length=8,
+	brand="duplo",
+	stud_type="hollow",
+	height=1/2
+);
+
+```
+</td>
+<td>
+
+![Part 4672](examples/images/4672.png)
 
 </td></tr>
 <tr><td>
@@ -1697,6 +1893,50 @@ block(
 </td></tr>
 <tr><td>
 
+### Part 6474
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=2,
+	height=1.5,
+	brand="duplo",
+	type="slope"
+);
+
+```
+</td>
+<td>
+
+![Part 6474](examples/images/6474.png)
+
+</td></tr>
+<tr><td>
+
+### Part 6490
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=8,
+    length=16,
+	brand="duplo",
+	stud_type="hollow",
+	height=1/2
+);
+
+```
+</td>
+<td>
+
+![Part 6490](examples/images/6490.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 6636
 
 ```javascript
@@ -1739,6 +1979,54 @@ block(
 </td></tr>
 <tr><td>
 
+### Part 11169
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=2,
+	height=1.5,
+	brand="duplo",
+	type="curve",
+	stud_type="hollow",
+	curve_stud_rows=2,
+	curve_type="convex"
+);
+
+```
+</td>
+<td>
+
+![Part 11169](examples/images/11169.png)
+
+</td></tr>
+<tr><td>
+
+### Part 11170
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=2,
+	height=1.5,
+	brand="duplo",
+	type="curve",
+	stud_type="hollow"
+);
+
+```
+</td>
+<td>
+
+![Part 11170](examples/images/11170.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 11212
 
 ```javascript
@@ -1755,6 +2043,30 @@ block(
 <td>
 
 ![Part 11212](examples/images/11212.png)
+
+</td></tr>
+<tr><td>
+
+### Part 11344
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=3,
+	height=2,
+	brand="duplo",
+	type="curve",
+	stud_type="hollow",
+	curve_stud_rows=2
+);
+
+```
+</td>
+<td>
+
+![Part 11344](examples/images/11344.png)
 
 </td></tr>
 <tr><td>
@@ -1800,6 +2112,28 @@ block(
 <td>
 
 ![Part 14716](examples/images/14716.png)
+
+</td></tr>
+<tr><td>
+
+### Part 14721
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=4,
+    length=4,
+	brand="duplo",
+	stud_type="hollow",
+	height=1/2
+);
+
+```
+</td>
+<td>
+
+![Part 14721](examples/images/14721.png)
 
 </td></tr>
 <tr><td>
@@ -1908,6 +2242,28 @@ block(
 <td>
 
 ![Part 24307](examples/images/24307.png)
+
+</td></tr>
+<tr><td>
+
+### Part 25549
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=4,
+    length=6,
+	brand="duplo",
+	stud_type="hollow",
+	height=1/2
+);
+
+```
+</td>
+<td>
+
+![Part 25549](examples/images/25549.png)
 
 </td></tr>
 <tr><td>
@@ -2094,6 +2450,28 @@ block(
 </td></tr>
 <tr><td>
 
+### Part 31110
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=2,
+	brand="duplo",
+	stud_type="hollow",
+	height=2
+);
+
+```
+</td>
+<td>
+
+![Part 31110](examples/images/31110.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 33243
 
 ```javascript
@@ -2138,6 +2516,27 @@ block(
 </td></tr>
 <tr><td>
 
+### Part 35114
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=3,
+	brand="duplo",
+	type="slope"
+);
+
+```
+</td>
+<td>
+
+![Part 35114](examples/images/35114.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 35480
 
 ```javascript
@@ -2156,6 +2555,28 @@ block(
 <td>
 
 ![Part 35480](examples/images/35480.png)
+
+</td></tr>
+<tr><td>
+
+### Part 40666
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=4,
+	brand="duplo",
+	stud_type="hollow",
+	height=1/2
+);
+
+```
+</td>
+<td>
+
+![Part 40666](examples/images/40666.png)
 
 </td></tr>
 <tr><td>
@@ -2348,6 +2769,28 @@ block(
 </td></tr>
 <tr><td>
 
+### Part 44524
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=8,
+	brand="duplo",
+	stud_type="hollow",
+	height=1/2
+);
+
+```
+</td>
+<td>
+
+![Part 44524](examples/images/44524.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 47397
 
 ```javascript
@@ -2468,6 +2911,28 @@ block(
 </td></tr>
 <tr><td>
 
+### Part 49570
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=4,
+	height=3,
+	brand="duplo",
+	type="slope"
+);
+
+```
+</td>
+<td>
+
+![Part 49570](examples/images/49570.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 49618
 
 ```javascript
@@ -2561,6 +3026,28 @@ block(
 <td>
 
 ![Part 50305](examples/images/50305.png)
+
+</td></tr>
+<tr><td>
+
+### Part 51262
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=8,
+    length=8,
+	brand="duplo",
+	stud_type="hollow",
+	height=1/2
+);
+
+```
+</td>
+<td>
+
+![Part 51262](examples/images/51262.png)
 
 </td></tr>
 <tr><td>
@@ -2743,6 +3230,28 @@ block(
 </td></tr>
 <tr><td>
 
+### Part 63871
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=3,
+	height=2,
+	brand="duplo",
+	type="slope"
+);
+
+```
+</td>
+<td>
+
+![Part 63871](examples/images/63871.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 65140
 
 ```javascript
@@ -2894,6 +3403,50 @@ block(
 <td>
 
 ![Part 69729](examples/images/69729.png)
+
+</td></tr>
+<tr><td>
+
+### Part 70676
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=2,
+	height=2,
+	brand="duplo",
+	type="slope"
+);
+
+```
+</td>
+<td>
+
+![Part 70676](examples/images/70676.png)
+
+</td></tr>
+<tr><td>
+
+### Part 76371
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=1,
+	brand="duplo",
+	stud_type="hollow",
+	height=2
+);
+
+```
+</td>
+<td>
+
+![Part 76371](examples/images/76371.png)
 
 </td></tr>
 <tr><td>
@@ -3054,6 +3607,27 @@ block(
 </td></tr>
 <tr><td>
 
+### Part 87074
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=3,
+	brand="duplo",
+	stud_type="hollow"
+);
+
+```
+</td>
+<td>
+
+![Part 87074](examples/images/87074.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 87079
 
 ```javascript
@@ -3195,6 +3769,76 @@ block(
 <td>
 
 ![Part 98138](examples/images/98138.png)
+
+</td></tr>
+<tr><td>
+
+### Part 98222
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=4,
+    length=4,
+	brand="duplo",
+	type="round",
+	height=1/2,
+	stud_notches=true,
+	stud_type="hollow"
+);
+
+```
+</td>
+<td>
+
+![Part 98222](examples/images/98222.png)
+
+</td></tr>
+<tr><td>
+
+### Part 98225
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=2,
+	brand="duplo",
+	type="round",
+	height=2,
+	stud_notches=true,
+	stud_type="hollow"
+);
+
+```
+</td>
+<td>
+
+![Part 98225](examples/images/98225.png)
+
+</td></tr>
+<tr><td>
+
+### Part 98233
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=2,
+    length=6,
+	brand="duplo",
+	stud_type="hollow",
+	height=1/2
+);
+
+```
+</td>
+<td>
+
+![Part 98233](examples/images/98233.png)
 
 </td></tr>
 <tr><td>
