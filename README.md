@@ -60,13 +60,181 @@ The library exposes one modules: `block()`.
 
 # Examples
 
-See the files in examples/ for example usage and the corresponding image in examples/images/ for images of the generated bricks. A selection of them is included below
-
 <table>
-<tr>
-<td>
+<tr><td>### Part 10202
 
-### 2x6 Brick
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=6,
+    length=6,
+    height=1/3,
+    type="tile"
+);```</td>
+<td>![Part 10202](examples/images/10202.png)</td></tr>
+<tr><td>### Part 11212
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=3,
+    length=3,
+    height=1/3
+);```</td>
+<td>![Part 11212](examples/images/11212.png)</td></tr>
+<tr><td>### Part 14716
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=1,
+    height=3
+);```</td>
+<td>![Part 14716](examples/images/14716.png)</td></tr>
+<tr><td>### Part 1751
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=4,
+    length=4,
+    height=1/3,
+    type="tile"
+);```</td>
+<td>![Part 1751](examples/images/1751.png)</td></tr>
+<tr><td>### Part 22886
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=2,
+    height=3
+);```</td>
+<td>![Part 22886](examples/images/22886.png)</td></tr>
+<tr><td>### Part 23949
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=6,
+    length=2,
+    type="slope"
+);```</td>
+<td>![Part 23949](examples/images/23949.png)</td></tr>
+<tr><td>### Part 2419
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=6,
+    length=3,
+    height=1/3,
+    type="wing",
+    wing_type="full",
+    wing_end_width=1,
+    stud_notches=true
+);```</td>
+<td>![Part 2419](examples/images/2419.png)</td></tr>
+<tr><td>### Part 24299
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=2,
+    height=1/3,
+    type="wing",
+    wing_type="left",
+    stud_notches=true
+);```</td>
+<td>![Part 24299](examples/images/24299.png)</td></tr>
+<tr><td>### Part 24307
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=2,
+    height=1/3,
+    type="wing",
+    wing_type="right",
+    stud_notches=true
+);```</td>
+<td>![Part 24307](examples/images/24307.png)</td></tr>
+<tr><td>### Part 2431
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=4,
+    height=1/3,
+    type="tile"
+);```</td>
+<td>![Part 2431](examples/images/2431.png)</td></tr>
+<tr><td>### Part 2445
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=12,
+    height=1/3
+);```</td>
+<td>![Part 2445](examples/images/2445.png)</td></tr>
+<tr><td>### Part 2450
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=3,
+    length=3,
+    height=1/3,
+    type="wing",
+    wing_type="left",
+    wing_end_width=1,
+    stud_notches=true
+);```</td>
+<td>![Part 2450](examples/images/2450.png)</td></tr>
+<tr><td>### Part 2453
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=1,
+    height=5,
+    stud_type="hollow"
+);```</td>
+<td>![Part 2453](examples/images/2453.png)</td></tr>
+<tr><td>### Part 2454
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=2,
+    height=5,
+    stud_type="hollow"
+);```</td>
+<td>![Part 2454](examples/images/2454.png)</td></tr>
+<tr><td>### Part 2456
 
 ```javascript
 use <../LEGO.scad>;
@@ -74,20 +242,364 @@ use <../LEGO.scad>;
 block(
     width=2,
     length=6
-);
-```
+);```</td>
+<td>![Part 2456](examples/images/2456.png)</td></tr>
+<tr><td>### Part 2465
 
-</td>
-<td>
+```javascript
+use <../LEGO.scad>;
 
-![2x6 brick](examples/images/2456.png)
+block(
+    width=1,
+    length=16
+);```</td>
+<td>![Part 2465](examples/images/2465.png)</td></tr>
+<tr><td>### Part 26603
 
-</td>
-</tr>
-<tr>
-<td>
+```javascript
+use <../LEGO.scad>;
 
-### 4x2 Slope
+block(
+    width=2,
+    length=3,
+    height=1/3,
+    type="tile"
+);```</td>
+<td>![Part 26603](examples/images/26603.png)</td></tr>
+<tr><td>### Part 3001
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=4
+);```</td>
+<td>![Part 3001](examples/images/3001.png)</td></tr>
+<tr><td>### Part 3002
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=3
+);```</td>
+<td>![Part 3002](examples/images/3002.png)</td></tr>
+<tr><td>### Part 3003
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=2
+);```</td>
+<td>![Part 3003](examples/images/3003.png)</td></tr>
+<tr><td>### Part 3004
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=2
+);```</td>
+<td>![Part 3004](examples/images/3004.png)</td></tr>
+<tr><td>### Part 3005
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=1
+);```</td>
+<td>![Part 3005](examples/images/3005.png)</td></tr>
+<tr><td>### Part 3006
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=10
+);```</td>
+<td>![Part 3006](examples/images/3006.png)</td></tr>
+<tr><td>### Part 3007
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=8
+);```</td>
+<td>![Part 3007](examples/images/3007.png)</td></tr>
+<tr><td>### Part 3008
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=8
+);```</td>
+<td>![Part 3008](examples/images/3008.png)</td></tr>
+<tr><td>### Part 3009
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=6
+);```</td>
+<td>![Part 3009](examples/images/3009.png)</td></tr>
+<tr><td>### Part 3010
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=4
+);```</td>
+<td>![Part 3010](examples/images/3010.png)</td></tr>
+<tr><td>### Part 30145
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=2,
+    height=3
+);```</td>
+<td>![Part 30145](examples/images/30145.png)</td></tr>
+<tr><td>### Part 3020
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=4,
+    height=1/3
+);```</td>
+<td>![Part 3020](examples/images/3020.png)</td></tr>
+<tr><td>### Part 3021
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=3,
+    height=1/3
+);```</td>
+<td>![Part 3021](examples/images/3021.png)</td></tr>
+<tr><td>### Part 3022
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=2,
+    height=1/3
+);```</td>
+<td>![Part 3022](examples/images/3022.png)</td></tr>
+<tr><td>### Part 3023
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=2,
+    height=1/3
+);```</td>
+<td>![Part 3023](examples/images/3023.png)</td></tr>
+<tr><td>### Part 3024
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=1,
+    height=1/3
+);```</td>
+<td>![Part 3024](examples/images/3024.png)</td></tr>
+<tr><td>### Part 30249
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=6,
+    height=5,
+    type="slope",
+    slope_stud_rows=2,
+    stud_type="hollow"
+);```</td>
+<td>![Part 30249](examples/images/30249.png)</td></tr>
+<tr><td>### Part 3027
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=6,
+    length=16,
+    height=1/3
+);```</td>
+<td>![Part 3027](examples/images/3027.png)</td></tr>
+<tr><td>### Part 3028
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=6,
+    length=12,
+    height=1/3
+);```</td>
+<td>![Part 3028](examples/images/3028.png)</td></tr>
+<tr><td>### Part 3029
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=4,
+    length=12,
+    height=1/3
+);```</td>
+<td>![Part 3029](examples/images/3029.png)</td></tr>
+<tr><td>### Part 3030
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=4,
+    length=10,
+    height=1/3
+);```</td>
+<td>![Part 3030](examples/images/3030.png)</td></tr>
+<tr><td>### Part 3031
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=4,
+    length=4,
+    height=1/3
+);```</td>
+<td>![Part 3031](examples/images/3031.png)</td></tr>
+<tr><td>### Part 3032
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=4,
+    length=6,
+    height=1/3
+);```</td>
+<td>![Part 3032](examples/images/3032.png)</td></tr>
+<tr><td>### Part 3033
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=6,
+    length=10,
+    height=1/3
+);```</td>
+<td>![Part 3033](examples/images/3033.png)</td></tr>
+<tr><td>### Part 3034
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=8,
+    height=1/3
+);```</td>
+<td>![Part 3034](examples/images/3034.png)</td></tr>
+<tr><td>### Part 3035
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=4,
+    length=8,
+    height=1/3
+);```</td>
+<td>![Part 3035](examples/images/3035.png)</td></tr>
+<tr><td>### Part 30355
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=6,
+    length=12,
+    height=1/3,
+    type="wing",
+    wing_type="left",
+    wing_base_length=4,
+    wing_end_width=3,
+    stud_notches=true
+);```</td>
+<td>![Part 30355](examples/images/30355.png)</td></tr>
+<tr><td>### Part 30356
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=6,
+    length=12,
+    height=1/3,
+    type="wing",
+    wing_type="right",
+    wing_base_length=4,
+    wing_end_width=3,
+    stud_notches=true
+);```</td>
+<td>![Part 30356](examples/images/30356.png)</td></tr>
+<tr><td>### Part 3036
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=6,
+    length=8,
+    height=1/3
+);```</td>
+<td>![Part 3036](examples/images/3036.png)</td></tr>
+<tr><td>### Part 30363
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=4,
+    type="slope"
+);```</td>
+<td>![Part 30363](examples/images/30363.png)</td></tr>
+<tr><td>### Part 3037
 
 ```javascript
 use <../LEGO.scad>;
@@ -96,20 +608,685 @@ block(
     width=4,
     length=2,
     type="slope"
-);
-```
+);```</td>
+<td>![Part 3037](examples/images/3037.png)</td></tr>
+<tr><td>### Part 3038
 
-</td>
-<td>
+```javascript
+use <../LEGO.scad>;
 
-![4x2 slope](examples/images/3037.png)
+block(
+    width=3,
+    length=2,
+    type="slope"
+);```</td>
+<td>![Part 3038](examples/images/3038.png)</td></tr>
+<tr><td>### Part 3039
 
-</td>
-</tr>
-<tr>
-<td>
+```javascript
+use <../LEGO.scad>;
 
-### Modified 4x4 tile with studs on edge
+block(
+    width=2,
+    length=2,
+    type="slope"
+);```</td>
+<td>![Part 3039](examples/images/3039.png)</td></tr>
+<tr><td>### Part 3040
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=2,
+    type="slope"
+);```</td>
+<td>![Part 3040](examples/images/3040.png)</td></tr>
+<tr><td>### Part 30503
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=4,
+    length=4,
+    height=1/3,
+    type="wing",
+    wing_type="left",
+    wing_end_width=1,
+    stud_notches=true
+);```</td>
+<td>![Part 30503](examples/images/30503.png)</td></tr>
+<tr><td>### Part 30504
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=8,
+    length=8,
+    height=1/3,
+    type="wing",
+    wing_type="left",
+    wing_end_width=1,
+    stud_notches=true
+);```</td>
+<td>![Part 30504](examples/images/30504.png)</td></tr>
+<tr><td>### Part 3068
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=2,
+    height=1/3,
+    type="tile"
+);```</td>
+<td>![Part 3068](examples/images/3068.png)</td></tr>
+<tr><td>### Part 3069
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=2,
+    height=1/3,
+    type="tile"
+);```</td>
+<td>![Part 3069](examples/images/3069.png)</td></tr>
+<tr><td>### Part 3070
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=1,
+    height=1/3,
+    type="tile"
+);```</td>
+<td>![Part 3070](examples/images/3070.png)</td></tr>
+<tr><td>### Part 3254
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=2,
+    height=2
+);```</td>
+<td>![Part 3254](examples/images/3254.png)</td></tr>
+<tr><td>### Part 3297
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=4,
+    length=3,
+    type="slope"
+);```</td>
+<td>![Part 3297](examples/images/3297.png)</td></tr>
+<tr><td>### Part 3298
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=3,
+    type="slope"
+);```</td>
+<td>![Part 3298](examples/images/3298.png)</td></tr>
+<tr><td>### Part 33909
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=2,
+    height=1/3,
+    stud_matrix_string="**",
+    stud_matrix_columns=2
+);```</td>
+<td>![Part 33909](examples/images/33909.png)</td></tr>
+<tr><td>### Part 3456
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=6,
+    length=14,
+    height=1/3
+);```</td>
+<td>![Part 3456](examples/images/3456.png)</td></tr>
+<tr><td>### Part 3460
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=8,
+    height=1/3
+);```</td>
+<td>![Part 3460](examples/images/3460.png)</td></tr>
+<tr><td>### Part 3622
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=3
+);```</td>
+<td>![Part 3622](examples/images/3622.png)</td></tr>
+<tr><td>### Part 3623
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=3,
+    height=1/3
+);```</td>
+<td>![Part 3623](examples/images/3623.png)</td></tr>
+<tr><td>### Part 3666
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=6,
+    height=1/3
+);```</td>
+<td>![Part 3666](examples/images/3666.png)</td></tr>
+<tr><td>### Part 3678
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=2,
+    height=2,
+    type="slope"
+);```</td>
+<td>![Part 3678](examples/images/3678.png)</td></tr>
+<tr><td>### Part 3710
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=4,
+    height=1/3
+);```</td>
+<td>![Part 3710](examples/images/3710.png)</td></tr>
+<tr><td>### Part 3795
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=6,
+    height=1/3
+);```</td>
+<td>![Part 3795](examples/images/3795.png)</td></tr>
+<tr><td>### Part 3811
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=32,
+    length=32,
+    type="baseplate"
+);```</td>
+<td>![Part 3811](examples/images/3811.png)</td></tr>
+<tr><td>### Part 3832
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=10,
+    height=1/3
+);```</td>
+<td>![Part 3832](examples/images/3832.png)</td></tr>
+<tr><td>### Part 3857
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=16,
+    length=32,
+    type="baseplate"
+);```</td>
+<td>![Part 3857](examples/images/3857.png)</td></tr>
+<tr><td>### Part 3958
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=6,
+    length=6,
+    height=1/3
+);```</td>
+<td>![Part 3958](examples/images/3958.png)</td></tr>
+<tr><td>### Part 41539
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=8,
+    length=8,
+    height=1/3
+);```</td>
+<td>![Part 41539](examples/images/41539.png)</td></tr>
+<tr><td>### Part 4161
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=3,
+    length=3,
+    type="slope"
+);```</td>
+<td>![Part 4161](examples/images/4161.png)</td></tr>
+<tr><td>### Part 4162
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=8,
+    height=1/3,
+    type="tile"
+);```</td>
+<td>![Part 4162](examples/images/4162.png)</td></tr>
+<tr><td>### Part 41740
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=4,
+    height=1/3,
+    stud_matrix_string="*__*",
+    stud_matrix_columns=4
+);```</td>
+<td>![Part 41740](examples/images/41740.png)</td></tr>
+<tr><td>### Part 41769
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=4,
+    height=1/3,
+    type="wing",
+    wing_type="right",
+    wing_base_length=2,
+    wing_end_width=2,
+    stud_notches=true
+);```</td>
+<td>![Part 41769](examples/images/41769.png)</td></tr>
+<tr><td>### Part 4186
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=48,
+    length=48,
+    type="baseplate"
+);```</td>
+<td>![Part 4186](examples/images/4186.png)</td></tr>
+<tr><td>### Part 4282
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=16,
+    height=1/3
+);```</td>
+<td>![Part 4282](examples/images/4282.png)</td></tr>
+<tr><td>### Part 4286
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=3,
+    type="slope"
+);```</td>
+<td>![Part 4286](examples/images/4286.png)</td></tr>
+<tr><td>### Part 43722
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=3,
+    height=1/3,
+    type="wing",
+    wing_type="right",
+    wing_base_length=0,
+    wing_end_width=1,
+    stud_notches=true
+);```</td>
+<td>![Part 43722](examples/images/43722.png)</td></tr>
+<tr><td>### Part 43723
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=3,
+    height=1/3,
+    type="wing",
+    wing_type="left",
+    wing_base_length=0,
+    wing_end_width=1,
+    stud_notches=true
+);```</td>
+<td>![Part 43723](examples/images/43723.png)</td></tr>
+<tr><td>### Part 4445
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=8,
+    length=2,
+    type="slope"
+);```</td>
+<td>![Part 4445](examples/images/4445.png)</td></tr>
+<tr><td>### Part 4460
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=2,
+    height=3,
+    type="slope",
+    stud_type="hollow"
+);```</td>
+<td>![Part 4460](examples/images/4460.png)</td></tr>
+<tr><td>### Part 4477
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=10,
+    height=1/3
+);```</td>
+<td>![Part 4477](examples/images/4477.png)</td></tr>
+<tr><td>### Part 48205
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=4,
+    length=6,
+    height=1/3,
+    type="wing",
+    wing_type="right",
+    wing_base_length=0,
+    wing_end_width=1,
+    stud_notches=true
+);```</td>
+<td>![Part 48205](examples/images/48205.png)</td></tr>
+<tr><td>### Part 48208
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=4,
+    length=6,
+    height=1/3,
+    type="wing",
+    wing_type="left",
+    wing_base_length=0,
+    wing_end_width=1,
+    stud_notches=true
+);```</td>
+<td>![Part 48208](examples/images/48208.png)</td></tr>
+<tr><td>### Part 49311
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=4,
+    height=3
+);```</td>
+<td>![Part 49311](examples/images/49311.png)</td></tr>
+<tr><td>### Part 49618
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=8,
+    height=3,
+    type="slope"
+);```</td>
+<td>![Part 49618](examples/images/49618.png)</td></tr>
+<tr><td>### Part 50304
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=3,
+    length=8,
+    height=1/3,
+    type="wing",
+    wing_type="right",
+    wing_base_length=3,
+    wing_end_width=1,
+    stud_notches=true
+);```</td>
+<td>![Part 50304](examples/images/50304.png)</td></tr>
+<tr><td>### Part 50305
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=3,
+    length=8,
+    height=1/3,
+    type="wing",
+    wing_type="left",
+    wing_base_length=3,
+    wing_end_width=1,
+    stud_notches=true
+);```</td>
+<td>![Part 50305](examples/images/50305.png)</td></tr>
+<tr><td>### Part 51739
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=4,
+    length=2,
+    height=1/3,
+    type="wing",
+    wing_type="full",
+    wing_base_length=0,
+    wing_end_width=1,
+    stud_notches=true
+);```</td>
+<td>![Part 51739](examples/images/51739.png)</td></tr>
+<tr><td>### Part 54200
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=1,
+    height=2/3,
+    type="slope"
+);```</td>
+<td>![Part 54200](examples/images/54200.png)</td></tr>
+<tr><td>### Part 54383
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=3,
+    length=6,
+    height=1/3,
+    type="wing",
+    wing_type="right",
+    wing_base_length=0,
+    wing_end_width=1,
+    stud_notches=true
+);```</td>
+<td>![Part 54383](examples/images/54383.png)</td></tr>
+<tr><td>### Part 54384
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=3,
+    length=6,
+    height=1/3,
+    type="wing",
+    wing_type="left",
+    wing_base_length=0,
+    wing_end_width=1,
+    stud_notches=true
+);```</td>
+<td>![Part 54384](examples/images/54384.png)</td></tr>
+<tr><td>### Part 60477
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=4,
+    type="slope"
+);```</td>
+<td>![Part 60477](examples/images/60477.png)</td></tr>
+<tr><td>### Part 60479
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=12,
+    height=1/3
+);```</td>
+<td>![Part 60479](examples/images/60479.png)</td></tr>
+<tr><td>### Part 60481
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=2,
+    height=2,
+    type="slope"
+);```</td>
+<td>![Part 60481](examples/images/60481.png)</td></tr>
+<tr><td>### Part 6106
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=6,
+    length=6,
+    height=1/3,
+    type="wing",
+    wing_type="left",
+    wing_end_width=2,
+    wing_base_length=3,
+    stud_notches=true
+);```</td>
+<td>![Part 6106](examples/images/6106.png)</td></tr>
+<tr><td>### Part 6111
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=10
+);```</td>
+<td>![Part 6111](examples/images/6111.png)</td></tr>
+<tr><td>### Part 6112
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=12
+);```</td>
+<td>![Part 6112](examples/images/6112.png)</td></tr>
+<tr><td>### Part 6178
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=6,
+    length=12,
+    height=1/3,
+    stud_matrix_string="************
+*__________*
+*__________*
+*__________*
+*__________*
+*__________*
+",
+    stud_matrix_columns=12
+);```</td>
+<td>![Part 6178](examples/images/6178.png)</td></tr>
+<tr><td>### Part 6179
 
 ```javascript
 use <../LEGO.scad>;
@@ -123,14 +1300,194 @@ ____
 ____
 ____",
     stud_matrix_columns=4
-);
-```
+);```</td>
+<td>![Part 6179](examples/images/6179.png)</td></tr>
+<tr><td>### Part 6180
 
-</td>
-<td>
+```javascript
+use <../LEGO.scad>;
 
-![Modified 4x4 tile with studs on edge](examples/images/6179.png)
+block(
+    width=4,
+    length=6,
+    height=1/3,
+    stud_matrix_string="******
+*____*
+*____*
+*____*",
+    stud_matrix_columns=6
+);```</td>
+<td>![Part 6180](examples/images/6180.png)</td></tr>
+<tr><td>### Part 6205
 
-</td>
-</tr>
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=6,
+    length=16,
+    height=1/3,
+    stud_matrix_string="****************
+*______________*
+*______________*
+*______________*
+*______________*
+*______________*
+",
+    stud_matrix_columns=16
+);```</td>
+<td>![Part 6205](examples/images/6205.png)</td></tr>
+<tr><td>### Part 63864
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=3,
+    height=1/3,
+    type="tile"
+);```</td>
+<td>![Part 63864](examples/images/63864.png)</td></tr>
+<tr><td>### Part 6636
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=6,
+    height=1/3,
+    type="tile"
+);```</td>
+<td>![Part 6636](examples/images/6636.png)</td></tr>
+<tr><td>### Part 69729
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=6,
+    height=1/3,
+    type="tile"
+);```</td>
+<td>![Part 69729](examples/images/69729.png)</td></tr>
+<tr><td>### Part 78329
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=5,
+    height=1/3
+);```</td>
+<td>![Part 78329](examples/images/78329.png)</td></tr>
+<tr><td>### Part 85984
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=1,
+    height=2/3,
+    type="slope"
+);```</td>
+<td>![Part 85984](examples/images/85984.png)</td></tr>
+<tr><td>### Part 86996
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=1,
+    length=1,
+    height=2/3,
+    stud_type="hollow"
+);```</td>
+<td>![Part 86996](examples/images/86996.png)</td></tr>
+<tr><td>### Part 87079
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=4,
+    height=1/3,
+    type="tile"
+);```</td>
+<td>![Part 87079](examples/images/87079.png)</td></tr>
+<tr><td>### Part 88646
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=3,
+    length=4,
+    height=1/3,
+    stud_matrix_string="____****____",
+    stud_matrix_columns=4
+);```</td>
+<td>![Part 88646](examples/images/88646.png)</td></tr>
+<tr><td>### Part 90498
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=8,
+    length=16,
+    height=1/3,
+    type="tile"
+);```</td>
+<td>![Part 90498](examples/images/90498.png)</td></tr>
+<tr><td>### Part 91405
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=16,
+    length=16,
+    height=1/3
+);```</td>
+<td>![Part 91405](examples/images/91405.png)</td></tr>
+<tr><td>### Part 91988
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=14,
+    height=1/3
+);```</td>
+<td>![Part 91988](examples/images/91988.png)</td></tr>
+<tr><td>### Part 92438
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=8,
+    length=16,
+    height=1/3
+);```</td>
+<td>![Part 92438](examples/images/92438.png)</td></tr>
+<tr><td>### Part 98560
+
+```javascript
+use <../LEGO.scad>;
+
+block(
+    width=2,
+    length=2,
+    height=3,
+    type="slope"
+);```</td>
+<td>![Part 98560](examples/images/98560.png)</td></tr>
 </table>

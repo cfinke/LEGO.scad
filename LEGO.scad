@@ -311,7 +311,7 @@ module block(
     cylinder_precision=(brand == "lego" ? 0.1 : 0.05) * scale;
     reinforcing_width = (brand == "lego" ? 0.7 : 1) * scale;
 
-    real_include_wall_splines = block_bottom_type == "open" && include_wall_splines;
+    real_include_wall_splines = block_bottom_type == "open" && include_wall_splines && ( width > 1 || length > 1 || ( type != "round" && type != "round-tile" ) );
 
     // For LEGO-style bricks, scaling is taken into account by the spline length being calculated as a function of other scaled values.
     // The "length" is the amount that the spline sticks into the empty space of the brick.
