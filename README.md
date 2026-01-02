@@ -95,6 +95,7 @@ block(
     height=1/3,
     type="tile"
 );
+
 ```
 </td>
 <td>
@@ -118,6 +119,7 @@ block(
     wing_end_width=1,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -138,6 +140,7 @@ block(
     height=1/3,
     type="tile"
 );
+
 ```
 </td>
 <td>
@@ -157,6 +160,7 @@ block(
     length=12,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -180,6 +184,7 @@ block(
     wing_end_width=1,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -200,6 +205,7 @@ block(
     height=5,
     stud_type="hollow"
 );
+
 ```
 </td>
 <td>
@@ -220,6 +226,7 @@ block(
     height=5,
     stud_type="hollow"
 );
+
 ```
 </td>
 <td>
@@ -238,6 +245,7 @@ block(
     width=2,
     length=6
 );
+
 ```
 </td>
 <td>
@@ -256,6 +264,7 @@ block(
     width=1,
     length=16
 );
+
 ```
 </td>
 <td>
@@ -274,6 +283,7 @@ block(
     width=2,
     length=4
 );
+
 ```
 </td>
 <td>
@@ -292,6 +302,7 @@ block(
     width=2,
     length=3
 );
+
 ```
 </td>
 <td>
@@ -310,6 +321,7 @@ block(
     width=2,
     length=2
 );
+
 ```
 </td>
 <td>
@@ -328,6 +340,7 @@ block(
     width=1,
     length=2
 );
+
 ```
 </td>
 <td>
@@ -346,6 +359,7 @@ block(
     width=1,
     length=1
 );
+
 ```
 </td>
 <td>
@@ -364,6 +378,7 @@ block(
     width=2,
     length=10
 );
+
 ```
 </td>
 <td>
@@ -382,6 +397,7 @@ block(
     width=2,
     length=8
 );
+
 ```
 </td>
 <td>
@@ -400,6 +416,7 @@ block(
     width=1,
     length=8
 );
+
 ```
 </td>
 <td>
@@ -418,6 +435,7 @@ block(
     width=1,
     length=6
 );
+
 ```
 </td>
 <td>
@@ -436,6 +454,7 @@ block(
     width=1,
     length=4
 );
+
 ```
 </td>
 <td>
@@ -455,6 +474,7 @@ block(
     length=4,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -474,6 +494,7 @@ block(
     length=3,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -493,6 +514,7 @@ block(
     length=2,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -512,6 +534,7 @@ block(
     length=2,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -531,6 +554,7 @@ block(
     length=1,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -550,6 +574,7 @@ block(
     length=16,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -569,6 +594,7 @@ block(
     length=12,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -588,6 +614,7 @@ block(
     length=12,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -607,6 +634,7 @@ block(
     length=10,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -626,6 +654,7 @@ block(
     length=4,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -645,6 +674,7 @@ block(
     length=6,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -664,6 +694,7 @@ block(
     length=10,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -683,6 +714,7 @@ block(
     length=8,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -702,6 +734,7 @@ block(
     length=8,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -721,6 +754,7 @@ block(
     length=8,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -740,6 +774,7 @@ block(
     length=2,
     type="slope"
 );
+
 ```
 </td>
 <td>
@@ -759,6 +794,7 @@ block(
     length=2,
     type="slope"
 );
+
 ```
 </td>
 <td>
@@ -778,6 +814,7 @@ block(
     length=2,
     type="slope"
 );
+
 ```
 </td>
 <td>
@@ -797,6 +834,7 @@ block(
     length=2,
     type="slope"
 );
+
 ```
 </td>
 <td>
@@ -838,6 +876,7 @@ block(
     height=1/3,
     type="tile"
 );
+
 ```
 </td>
 <td>
@@ -858,6 +897,7 @@ block(
     height=1/3,
     type="tile"
 );
+
 ```
 </td>
 <td>
@@ -878,6 +918,7 @@ block(
     height=1/3,
     type="tile"
 );
+
 ```
 </td>
 <td>
@@ -897,6 +938,7 @@ block(
     length=2,
     height=2
 );
+
 ```
 </td>
 <td>
@@ -916,6 +958,7 @@ block(
     length=3,
     type="slope"
 );
+
 ```
 </td>
 <td>
@@ -935,6 +978,7 @@ block(
     length=3,
     type="slope"
 );
+
 ```
 </td>
 <td>
@@ -975,6 +1019,7 @@ block(
     length=14,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -994,6 +1039,7 @@ block(
     length=8,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -1018,6 +1064,7 @@ block(
 	wing_base_length=1,
 	wing_end_width=1
 );
+
 ```
 </td>
 <td>
@@ -1042,6 +1089,7 @@ block(
 	wing_base_length=1,
 	wing_end_width=1
 );
+
 ```
 </td>
 <td>
@@ -1060,6 +1108,7 @@ block(
     width=1,
     length=3
 );
+
 ```
 </td>
 <td>
@@ -1079,6 +1128,7 @@ block(
     length=3,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -1098,6 +1148,7 @@ block(
     length=6,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -1118,6 +1169,7 @@ block(
     height=2,
     type="slope"
 );
+
 ```
 </td>
 <td>
@@ -1137,6 +1189,7 @@ block(
     length=4,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -1178,6 +1231,7 @@ block(
     length=6,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -1197,6 +1251,7 @@ block(
     length=32,
     type="baseplate"
 );
+
 ```
 </td>
 <td>
@@ -1216,6 +1271,7 @@ block(
     length=10,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -1235,6 +1291,7 @@ block(
     length=32,
     type="baseplate"
 );
+
 ```
 </td>
 <td>
@@ -1254,6 +1311,7 @@ block(
     length=6,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -1296,6 +1354,7 @@ block(
     length=3,
     type="slope"
 );
+
 ```
 </td>
 <td>
@@ -1316,6 +1375,7 @@ block(
     height=1/3,
     type="tile"
 );
+
 ```
 </td>
 <td>
@@ -1335,6 +1395,7 @@ block(
     length=48,
     type="baseplate"
 );
+
 ```
 </td>
 <td>
@@ -1354,6 +1415,7 @@ block(
     length=16,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -1373,6 +1435,7 @@ block(
     length=3,
     type="slope"
 );
+
 ```
 </td>
 <td>
@@ -1392,6 +1455,7 @@ block(
     length=2,
     type="slope"
 );
+
 ```
 </td>
 <td>
@@ -1413,6 +1477,7 @@ block(
     type="slope",
     stud_type="hollow"
 );
+
 ```
 </td>
 <td>
@@ -1432,6 +1497,7 @@ block(
     length=10,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -1456,6 +1522,7 @@ block(
     wing_base_length=3,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -1474,6 +1541,7 @@ block(
     width=1,
     length=10
 );
+
 ```
 </td>
 <td>
@@ -1492,6 +1560,7 @@ block(
     width=1,
     length=12
 );
+
 ```
 </td>
 <td>
@@ -1540,6 +1609,7 @@ block(
 ",
     stud_matrix_columns=12
 );
+
 ```
 </td>
 <td>
@@ -1564,6 +1634,7 @@ ____
 ____",
     stud_matrix_columns=4
 );
+
 ```
 </td>
 <td>
@@ -1588,6 +1659,7 @@ block(
 *____*",
     stud_matrix_columns=6
 );
+
 ```
 </td>
 <td>
@@ -1615,6 +1687,7 @@ block(
 ",
     stud_matrix_columns=16
 );
+
 ```
 </td>
 <td>
@@ -1635,6 +1708,7 @@ block(
     height=1/3,
     type="tile"
 );
+
 ```
 </td>
 <td>
@@ -1655,6 +1729,7 @@ block(
     height=1/3,
     type="tile"
 );
+
 ```
 </td>
 <td>
@@ -1674,6 +1749,7 @@ block(
     length=3,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -1698,6 +1774,7 @@ block(
     wing_end_width=1,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -1717,6 +1794,7 @@ block(
     length=1,
     height=3
 );
+
 ```
 </td>
 <td>
@@ -1758,6 +1836,7 @@ block(
     length=2,
     height=3
 );
+
 ```
 </td>
 <td>
@@ -1777,6 +1856,7 @@ block(
     length=2,
     type="slope"
 );
+
 ```
 </td>
 <td>
@@ -1799,6 +1879,7 @@ block(
     wing_type="left",
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -1821,6 +1902,7 @@ block(
     wing_type="right",
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -1841,6 +1923,7 @@ block(
     height=1/3,
     type="tile"
 );
+
 ```
 </td>
 <td>
@@ -1860,6 +1943,7 @@ block(
     length=2,
     height=3
 );
+
 ```
 </td>
 <td>
@@ -1882,6 +1966,7 @@ block(
     slope_stud_rows=2,
     stud_type="hollow"
 );
+
 ```
 </td>
 <td>
@@ -1906,6 +1991,7 @@ block(
     wing_end_width=3,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -1930,6 +2016,7 @@ block(
     wing_end_width=3,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -1949,6 +2036,7 @@ block(
     length=4,
     type="slope"
 );
+
 ```
 </td>
 <td>
@@ -1972,6 +2060,7 @@ block(
     wing_end_width=1,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -1995,6 +2084,7 @@ block(
     wing_end_width=1,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -2038,6 +2128,7 @@ block(
     stud_matrix_string="**",
     stud_matrix_columns=2
 );
+
 ```
 </td>
 <td>
@@ -2079,6 +2170,7 @@ block(
     length=8,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -2100,6 +2192,7 @@ block(
     stud_matrix_string="*__*",
     stud_matrix_columns=4
 );
+
 ```
 </td>
 <td>
@@ -2125,7 +2218,7 @@ block(
     stud_notches=true
 );
 
-// There's an extra stud on the base of the wing compared to the LEGO part.
+
 ```
 </td>
 <td>
@@ -2151,7 +2244,7 @@ block(
     stud_notches=true
 );
 
-// There's an extra stud on the base of the wing compared to the LEGO part.
+
 ```
 </td>
 <td>
@@ -2198,6 +2291,7 @@ block(
     wing_end_width=1,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -2222,6 +2316,7 @@ block(
     wing_end_width=1,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -2268,6 +2363,7 @@ block(
     wing_end_width=1,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -2292,6 +2388,7 @@ block(
     wing_end_width=1,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -2316,6 +2413,7 @@ block(
     wing_end_width=1,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -2340,6 +2438,7 @@ block(
     wing_end_width=1,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -2359,6 +2458,7 @@ block(
     length=4,
     height=3
 );
+
 ```
 </td>
 <td>
@@ -2379,6 +2479,7 @@ block(
     height=3,
     type="slope"
 );
+
 ```
 </td>
 <td>
@@ -2404,7 +2505,7 @@ block(
     stud_notches=true
 );
 
-// wing_base_length doesn't match what is actually generated. It should be 2.
+
 ```
 </td>
 <td>
@@ -2429,6 +2530,7 @@ block(
     wing_end_width=1,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -2453,6 +2555,7 @@ block(
     wing_end_width=1,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -2477,6 +2580,7 @@ block(
     wing_end_width=1,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -2497,6 +2601,7 @@ block(
     height=2/3,
     type="slope"
 );
+
 ```
 </td>
 <td>
@@ -2521,6 +2626,7 @@ block(
     wing_end_width=1,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -2545,6 +2651,7 @@ block(
     wing_end_width=1,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -2564,6 +2671,7 @@ block(
     length=4,
     type="slope"
 );
+
 ```
 </td>
 <td>
@@ -2583,6 +2691,7 @@ block(
     length=12,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -2603,6 +2712,7 @@ block(
     height=2,
     type="slope"
 );
+
 ```
 </td>
 <td>
@@ -2623,6 +2733,7 @@ block(
     height=1/3,
     type="tile"
 );
+
 ```
 </td>
 <td>
@@ -2756,7 +2867,6 @@ block(
 	round_radius=1
 );
 
-// This doesn't match the real brick along the flat edges.
 
 ```
 </td>
@@ -2778,6 +2888,7 @@ block(
     height=1/3,
     type="tile"
 );
+
 ```
 </td>
 <td>
@@ -2819,6 +2930,7 @@ block(
     length=5,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -2843,6 +2955,7 @@ block(
     wing_end_width=2,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -2867,6 +2980,7 @@ block(
     wing_end_width=2,
     stud_notches=true
 );
+
 ```
 </td>
 <td>
@@ -2909,6 +3023,7 @@ block(
     height=2/3,
     type="slope"
 );
+
 ```
 </td>
 <td>
@@ -2929,6 +3044,7 @@ block(
     height=2/3,
     stud_type="hollow"
 );
+
 ```
 </td>
 <td>
@@ -2949,6 +3065,7 @@ block(
     height=1/3,
     type="tile"
 );
+
 ```
 </td>
 <td>
@@ -2970,6 +3087,7 @@ block(
     stud_matrix_string="____****____",
     stud_matrix_columns=4
 );
+
 ```
 </td>
 <td>
@@ -2990,6 +3108,7 @@ block(
     height=1/3,
     type="tile"
 );
+
 ```
 </td>
 <td>
@@ -3009,6 +3128,7 @@ block(
     length=16,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -3028,6 +3148,7 @@ block(
     length=14,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -3047,6 +3168,7 @@ block(
     length=16,
     height=1/3
 );
+
 ```
 </td>
 <td>
@@ -3088,6 +3210,7 @@ block(
     height=3,
     type="slope"
 );
+
 ```
 </td>
 <td>
