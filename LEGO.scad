@@ -276,16 +276,17 @@ module block(
     stud_matrix_swapxy=false,
     scale=1.0
     ) {
+    overlap_for_clean_previews = 2;
+
     // Brand-independent measurements.
     wall_play = 0.1; // When bricks are next to each other, how much space is between the outer walls?
     stud_play = 0.05955; // The amount of space between the edge of a stud and the edge of a post wall or spline that it is locked into.
     bar_play = 0.01; // The amount of space between a bar and a hollow stud wall that it is pressed into.
 
-    overlap_for_clean_previews = 2;
-
     // Stud spacing and stud diameter are the measurements that most other measurements rely on.
     stud_spacing=(brand == "lego" ? 8 : 8 * 2) * scale;
-    stud_diameter=(brand == "lego" ? 4.8 : 9.30) * scale;
+    stud_diameter=(brand == "lego" ? 4.8 : 9.40) * scale;
+    stud_height=(brand == "lego" ? 1.8 : 4.5) * scale;
 
     wall_thickness=(brand == "lego" ? 1.2 : 1.6) * scale;
 
@@ -301,13 +302,16 @@ module block(
     // A hollow stud should accept a bar with a press fit. A bar is normally 3.18mm in diameter, so a 1x sized hollow stud should
     // have a 3.2mm diameter opening. When scaled, it should maintain that static difference so that a 5x scaled bar (15.9mm) press
     // fits into a 5x scaled hollow stud (15.9 + 0.02mm diameter).
-    hollow_stud_inner_diameter = (brand == "lego" ? ( 3.18 * scale + ( bar_play * 2 ) ) : 6.7 * scale);
-
-    stud_height=(brand == "lego" ? 1.8 : 4.4) * scale;
+    //
+    // Duplo hollow studs are measured to have a 1.4mm thick wall, so hollow_stud_inner_diameter = stud_diameter - ( 2 * 1.4 ) for Duplo.
+    hollow_stud_inner_diameter = (brand == "lego" ? ( 3.18 * scale + ( bar_play * 2 ) ) : 6.5 * scale);
 
     block_height=compute_block_height(type, brand) * scale;
 
-    post_diameter=(brand == "lego" ? stud_diameter + ( 2 * post_wall_thickness ) : 13.2 * scale );
+    post_diameter=(brand == "lego" ? stud_diameter + ( 2 * post_wall_thickness ) : 13.1 * scale );
+
+    // Posts don't reach the bottom of the brick. How far are they offset from the bottom?
+    post_offset = ( brand == "lego" ? .2 : 2 ) * scale;
 
     cylinder_precision=(brand == "lego" ? 0.1 : 0.05) * scale;
     reinforcing_width = (brand == "lego" ? 0.7 : 1) * scale;
@@ -316,10 +320,10 @@ module block(
 
     // For LEGO-style bricks, scaling is taken into account by the spline length being calculated as a function of other scaled values.
     // The "length" is the amount that the spline sticks into the empty space of the brick.
-    spline_length = (brand == "lego" ? ( stud_spacing / 2 ) - wall_play - wall_thickness - stud_play - ( stud_diameter / 2 ) : 1.7 * scale ) * wall_splines_rescale;
+    spline_length = ( ( stud_spacing / 2 ) - wall_play - wall_thickness - stud_play - ( stud_diameter / 2 ) ) * wall_splines_rescale;
 
     // The "thickness" is the distance the spline shares with the brick wall.
-    spline_thickness = (brand == "lego" ? 0.6 : 1.3) * scale;
+    spline_thickness = (brand == "lego" ? 0.7 : 1) * scale;
 
     // The pin on a 2x1 brick needs to be the right diameter so that its edge makes a square with the splines.
     pin_radius = stud_spacing - wall_play - wall_thickness - spline_length - stud_diameter - (2 * stud_play);
@@ -962,7 +966,10 @@ module block(
 
     module post(vertical_axle_hole) {
         difference() {
-            cylinder(r=post_diameter/2, h=real_height*block_height,$fs=cylinder_precision);
+            translate( [ 0, 0, post_offset ] ) {
+                cylinder(r=post_diameter/2, h=real_height*block_height-post_offset,$fs=cylinder_precision);
+            }
+
             if (vertical_axle_hole==true) {
                 translate([0,0,-block_height/2])
                     axle();
