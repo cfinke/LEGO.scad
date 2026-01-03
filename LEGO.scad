@@ -285,8 +285,9 @@ module block(
 
     // Stud spacing and stud diameter are the measurements that most other measurements rely on.
     stud_spacing=(brand == "lego" ? 8 : 8 * 2) * scale;
-    stud_diameter=(brand == "lego" ? 4.8 : 9.40) * scale;
-    wall_thickness=(brand == "lego" ? 1.2 : 1.5) * scale;
+    stud_diameter=(brand == "lego" ? 4.8 : 9.30) * scale;
+
+    wall_thickness=(brand == "lego" ? 1.2 : 1.6) * scale;
 
     horizontal_hole_wall_thickness = 1 * 1 * scale;
 
