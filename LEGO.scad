@@ -276,11 +276,11 @@ module block(
     stud_matrix_swapxy=false,
     scale=1.0
     ) {
-    overlap_for_clean_previews = 2;
+    overlap_for_clean_previews = 0.01;
 
     // Brand-independent measurements.
     wall_play = 0.1; // When bricks are next to each other, how much space is between the outer walls?
-    stud_play = 0.05955; // The amount of space between the edge of a stud and the edge of a post wall or spline that it is locked into.
+    stud_play = 0.05; // The amount of space between the edge of a stud and the edge of a post wall or spline that it is locked into.
     bar_play = 0.01; // The amount of space between a bar and a hollow stud wall that it is pressed into.
 
     // Stud spacing and stud diameter are the measurements that most other measurements rely on.
@@ -863,11 +863,18 @@ module block(
             }
             else if (type == "round" || type == "round-tile") {
                 difference() {
-                    union() {
-                        translate([round_distance,                    round_distance,                 0])             rounded_corner_wall(real_rounding);
-                        translate([overall_length - (round_distance), round_distance,                 0]) rotate(90)  rounded_corner_wall(real_rounding);
-                        translate([overall_length - (round_distance), overall_width - round_distance, 0]) rotate(180) rounded_corner_wall(real_rounding);
-                        translate([round_distance,                    overall_width - round_distance, 0]) rotate(270) rounded_corner_wall(real_rounding);
+                    if ( width == 1 && length == 1 ) {
+                        translate([stud_spacing / 2, stud_spacing / 2,0]) difference() {
+                            cylinder( d = stud_diameter + ( 2 * stud_play ) + ( wall_thickness * 2 ), h = block_height * height );
+                            cylinder( d = stud_diameter + ( 2 * stud_play ), h = 100 );
+                        }
+                    } else {
+                        union() {
+                            translate([round_distance,                    round_distance,                 0])             rounded_corner_wall(real_rounding);
+                            translate([overall_length - (round_distance), round_distance,                 0]) rotate(90)  rounded_corner_wall(real_rounding);
+                            translate([overall_length - (round_distance), overall_width - round_distance, 0]) rotate(180) rounded_corner_wall(real_rounding);
+                            translate([round_distance,                    overall_width - round_distance, 0]) rotate(270) rounded_corner_wall(real_rounding);
+                        }
                     }
 
                     if (real_stud_notches) {
