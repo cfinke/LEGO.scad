@@ -51,7 +51,7 @@ block_bottom_type = "open"; // [closed:Closed, open:Open]
 // Should the block wall include splines? Valid only for a open block bottom type.
 include_wall_splines = "yes"; // [no:No, yes:Yes]
 
-// Should the block include round horizontal holes like the Technics LEGO bricks have?
+// Should the block include round horizontal holes like the LEGO Technic bricks have?
 technic_holes = "no"; // [no:No, yes:Yes]
 
 // Should the block include vertical cross-shaped axle holes?
@@ -178,7 +178,7 @@ dual_bottom = "no"; // [no:No, yes:Yes]
 
 /* [Printer-Specific] */
 
-// Should extra reinforcement be included to make printing on an FDM printer easier? Ignored for tiles, since they can easily be printed upside-down and don't need the reinforcement. Recommended for block heights less than 1 or for Duplo bricks.
+// Should extra reinforcement be included to make printing on an FDM printer easier? Ignored for tiles, since they can easily be printed upside-down and don't need the reinforcement. Recommended for block heights greater than 1 or for Duplo bricks.
 use_reinforcement = "no"; // [no:No, yes:Yes]
 
 // If your printer prints the blocks correctly except for the stud diameter, use this variable to resize just the studs for your printer. A value of 1.05 will print the studs 105% wider than standard.

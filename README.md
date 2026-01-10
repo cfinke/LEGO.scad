@@ -14,7 +14,7 @@ See http://www.chrisfinke.com/2015/01/27/3d-printed-lego-compatible-bricks/ for 
 
 # Usage
 
-The library exposes one modules: `block()`.
+The library exposes one module: `block()`.
 
 ## `block()` Parameters
 
@@ -29,7 +29,7 @@ The library exposes one modules: `block()`.
 | `block_bottom_type` | `open`, `closed` | Open bricks are the standard; closed bottom bricks can be used for stacking composite shapes. |
 | `include_wall_splines` | `yes`, `no` | Should the brick wall include splines? Valid only for an open brick bottom type. |
 | `wall_splines_rescale` | float | Rescale factor to resize the splines length on the walls. A value of 0.9 will print the walls splines with 90% of the standard length. |
-| `horizontal_holes` | `yes`, `no` | Should the brick include round horizontal holes like the Technics LEGO bricks have? |
+| `horizontal_holes` | `yes`, `no` | Should the brick include round horizontal holes like the LEGO Technic bricks have? |
 | `vertical_axle_holes` | `yes`, `no` | Should the brick include vertical cross-shaped axle holes? |
 | `wing_type` | `full`, `left`, `right` | What type of wing? Full is suitable for the front of a plane; left/right are for the left/right of a plane. |
 | `wing_end_width` | int | The number of studs across the end of the wing. If `width` is odd, this needs to be odd, and the same for even. |
