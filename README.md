@@ -12,11 +12,11 @@ These bricks are not strictly identical to LEGO bricks, but they should be compa
 
 See http://www.chrisfinke.com/2015/01/27/3d-printed-lego-compatible-bricks/ for more details.
 
-# Usage
+## Usage
 
 The library exposes one module: `block()`.
 
-## `block()` Parameters
+### `block()` Parameters
 
 | Parameter | Values | Description |
 |---|---|---|
@@ -58,7 +58,7 @@ The library exposes one module: `block()`.
 | `with_posts` | `true`, `false` | Whether posts should be generated underneath bricks. `true` by default. |
 | `scale` | float | When scaling bricks up, we want the tolerances to remain static values. This allows for scaling the brick sizes without affecting tolerances. |
 
-# Examples
+## Examples
 
 <table>
 <tr><td>
