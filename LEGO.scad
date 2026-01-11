@@ -51,11 +51,20 @@ block_bottom_type = "open"; // [closed:Closed, open:Open]
 // Should the block wall include splines? Valid only for a open block bottom type.
 include_wall_splines = "yes"; // [no:No, yes:Yes]
 
-// Should the block include round horizontal holes like the LEGO Technic bricks have?
+// Should the block include round horizontal holes like the LEGO Technic bricks have? (TODO: Depricate for horizontal_axle_holes?)
 technic_holes = "no"; // [no:No, yes:Yes]
 
-// Should the block include vertical cross-shaped axle holes?
+// Should the block include horizontal Technic axle holes? (See vertical_axle_hole_shape for shape)
+horizontal_axle_holes = "no"; // [no:No, yes:Yes]
+
+// Should the block include horizontal Technic cross-shaped axle holes?
+horizontal_axle_hole_shape = "round"; // [round:Round, cross:Cross]
+
+// Should the block include vertical Technic axle holes? (See vertical_axle_hole_shape for shape)
 vertical_axle_holes = "no"; // [no:No, yes:Yes]
+
+// Should the block include vertical Technic cross-shaped axle holes?
+vertical_axle_hole_shape = "cross"; // [round:Round, cross:Cross]
 
 // Create bottom posts, or not. No posts at the bottom adds space for custom content.
 with_posts = true;
@@ -208,7 +217,10 @@ block(
     include_wall_splines=(include_wall_splines=="yes"),
     wall_splines_rescale=wall_splines_rescale,
     horizontal_holes=(technic_holes=="yes"),
+    horizontal_axle_holes=(horizontal_axle_holes=="yes"),
+    horizontal_axle_hole_shape=horizontal_axle_hole_shape,
     vertical_axle_holes=(vertical_axle_holes=="yes"),
+    vertical_axle_hole_shape=vertical_axle_hole_shape,
     reinforcement=(use_reinforcement=="yes"),
     wing_type=wing_type,
     wing_end_width=wing_end_width,
@@ -248,7 +260,10 @@ module block(
     include_wall_splines=true,
     wall_splines_rescale=1.0,
     horizontal_holes=false,
+    horizontal_axle_holes=horizontal_holes,
+    horizontal_axle_holes_shape="round",
     vertical_axle_holes=false,
+    vertical_axle_holes_shape="cross",
     reinforcement=false,
     wing_type="full",
     wing_end_width=2,
@@ -371,13 +386,16 @@ module block(
     // Ensure that the base length is a reasonable value.
     real_wing_base_length = min(real_length-1, max(1, wing_base_length));
 
+    // Support old parameter name.
+    horizontal_axle_holes=horizontal_axle_holes || horizontal_holes;
+
     // Validate all the rest of the arguments.
     real_slope_end_height = max(0, min(real_height - 1/3, slope_end_height));
     real_slope_stud_rows = min(real_length - 1, slope_stud_rows);
     real_curve_stud_rows = max(0, curve_stud_rows);
     real_curve_type = (curve_type == "convex" ? "convex" : "concave");
     real_curve_end_height = max(0, min(real_height - 1/3, curve_end_height));
-    real_horizontal_holes = horizontal_holes && ((type == "baseplate" && real_height >= 8) || real_height >= 1) && !dual_sided;
+    real_horizontal_axle_holes = horizontal_axle_holes && ((type == "baseplate" && real_height >= 8) || real_height >= 1) && !dual_sided;
     real_vertical_axle_holes = vertical_axle_holes && real_width > 1;
     real_reinforcement = reinforcement && type != "baseplate" && ( type != "tile" && type != "round-tile" ) && !dual_sided;
 
@@ -579,7 +597,7 @@ module block(
                         }
                     }
 
-                    if (real_horizontal_holes) {
+                    if (real_horizontal_axle_holes) {
                         // The holes for the horizontal axles.
                         // 1-length bricks have the hole underneath the stud.
                         // >1-length bricks have the holes between the studs.
@@ -631,7 +649,7 @@ module block(
                                 for (ycount = [ 1 : real_width - 1 ]) {
                                     for (xcount = [ 1 : real_length - 1]) {
                                         if (!skip_this_vertical_axle_hole(xcount, ycount)) {
-                                            translate([(xcount-1)*stud_spacing,(ycount-1)*stud_spacing,-block_height/2]) axle();
+                                            translate([(xcount-1)*stud_spacing,(ycount-1)*stud_spacing,-block_height/2]) axle_hole(vertical_axle_hole_shape);
                                         }
                                     }
                                 }
@@ -735,7 +753,7 @@ module block(
                     }
                 }
 
-                if (real_horizontal_holes) {
+                if (real_horizontal_axle_holes) {
                     // The holes for the horizontal axles.
                     // 1-length bricks have the hole underneath the stud.
                     // >1-length bricks have the holes between the studs.
@@ -745,11 +763,13 @@ module block(
                             for (axle_hole_index=[horizontal_hole_start_index() : horizontal_hole_end_index()]) {
                                 if (!skip_this_horizontal_hole(axle_hole_index, height_index)) {
                                     union() {
-                                        translate([axle_hole_index*stud_spacing,overall_width,horizontal_hole_z_offset]) rotate([90, 0, 0])  cylinder(r=horizontal_hole_diameter/2, h=overall_width,$fs=cylinder_precision);
+                                        translate([axle_hole_index*stud_spacing,overall_width,horizontal_hole_z_offset]) rotate([90, 0, 0])  axle_hole(horizontal_axle_hole_shape);
 
                                         // Bevels. The +/- 0.1 measurements are here just for nicer previews in OpenSCAD, and could be removed.
-                                        translate([axle_hole_index*stud_spacing,horizontal_hole_bevel_depth-0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1,$fs=cylinder_precision);
-                                        translate([axle_hole_index*stud_spacing,overall_width+0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1,$fs=cylinder_precision);
+                                        if (horizontal_axle_hole_shape == "round") {
+                                            translate([axle_hole_index*stud_spacing,horizontal_hole_bevel_depth-0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1,$fs=cylinder_precision);
+                                            translate([axle_hole_index*stud_spacing,overall_width+0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1,$fs=cylinder_precision);
+                                        }
                                     }
                                 }
                             }
@@ -913,8 +933,11 @@ module block(
                     block_bottom_type=block_bottom_type,
                     include_wall_splines=include_wall_splines,
                     wall_splines_rescale=wall_splines_rescale,
-                    horizontal_holes=real_horizontal_holes,
+                    horizontal_holes=real_horizontal_axle_holes,
+                    horizontal_axle_holes=real_horizontal_axle_holes,
+                    horizontal_axle_hole_shape=horizontal_axle_hole_shape,
                     vertical_axle_holes=real_vertical_axle_holes,
+                    vertical_axle_hole_shape=vertical_axle_hole_shape,
                     reinforcement=real_reinforcement,
                     wing_type=wing_type,
                     wing_end_width=real_wing_end_width,
@@ -946,8 +969,11 @@ module block(
                     stud_type=stud_type,
                     block_bottom_type=block_bottom_type,
                     include_wall_splines=include_wall_splines,
-                    horizontal_holes=real_horizontal_holes,
+                    horizontal_holes=real_horizontal_axle_holes,
+                    horizontal_axle_holes=real_horizontal_axle_holes,
+                    horizontal_axle_hole_shape=horizontal_axle_hole_shape,
                     vertical_axle_holes=real_vertical_axle_holes,
+                    vertical_axle_hole_shape=vertical_axle_hole_shape,
                     reinforcement=real_reinforcement,
                     wing_type=wing_type,
                     wing_end_width=real_wing_end_width,
@@ -979,7 +1005,7 @@ module block(
 
             if (vertical_axle_hole==true) {
                 translate([0,0,-block_height/2])
-                    axle();
+                    axle_hole(vertical_axle_hole_shape);
             } else {
                 translate([0,0,-0.5]) cylinder(r=(post_diameter/2)-post_wall_thickness, h=real_height*block_height+1,$fs=cylinder_precision);
             }
@@ -995,10 +1021,14 @@ module block(
         }
     }
 
-    module axle() {
-        translate([0,0,(real_height+1)*block_height/2]) union() {
-            cube([axle_diameter,axle_spline_width,(real_height+1)*block_height],center=true);
-            cube([axle_spline_width,axle_diameter,(real_height+1)*block_height],center=true);
+    module axle_hole(shape) {
+        if (shape == "cross") {
+            translate([0,0,(real_height+1)*block_height/2]) union() {
+                cube([axle_diameter,axle_spline_width,(real_height+1)*block_height],center=true);
+                cube([axle_spline_width,axle_diameter,(real_height+1)*block_height],center=true);
+            }
+        } else {
+            cylinder(r=horizontal_hole_diameter/2, h=overall_width,$fs=cylinder_precision);
         }
     }
 

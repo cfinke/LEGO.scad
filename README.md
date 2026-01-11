@@ -29,8 +29,10 @@ The library exposes one module: `block()`.
 | `block_bottom_type` | `open`, `closed` | Open bricks are the standard; closed bottom bricks can be used for stacking composite shapes. |
 | `include_wall_splines` | `yes`, `no` | Should the brick wall include splines? Valid only for an open brick bottom type. |
 | `wall_splines_rescale` | float | Rescale factor to resize the splines length on the walls. A value of 0.9 will print the walls splines with 90% of the standard length. |
-| `horizontal_holes` | `yes`, `no` | Should the brick include round horizontal holes like the LEGO Technic bricks have? |
-| `vertical_axle_holes` | `yes`, `no` | Should the brick include vertical cross-shaped axle holes? |
+| `horizontal_axle_holes` | `yes`, `no` | Should the brick include horizontal axle holes like some LEGO Technic bricks have? |
+| `horizontal_axle_hole_shape` | `round`, `cross` | What should be the shape of the horizontal holes? |
+| `vertical_axle_holes` | `yes`, `no` | Should the brick include vertical axle holes like some LEGO Technic bricks have? |
+| `vertical_axle_hole_shape` | `round`, `cross` | What should be the shape of the vertical holes? |
 | `wing_type` | `full`, `left`, `right` | What type of wing? Full is suitable for the front of a plane; left/right are for the left/right of a plane. |
 | `wing_end_width` | int | The number of studs across the end of the wing. If `width` is odd, this needs to be odd, and the same for even. |
 | `wing_base_length` | int | The length of the rectangular portion of the wing, in studs. |
@@ -1442,6 +1444,7 @@ block(
 	type="round",
 	height=1/3,
 	vertical_axle_holes=true,
+    vertical_axle_hole_shape="cross",
 	stud_notches=true
 );
 
