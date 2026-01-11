@@ -260,10 +260,10 @@ module block(
     include_wall_splines=true,
     wall_splines_rescale=1.0,
     horizontal_holes=false,
-    horizontal_axle_holes=horizontal_holes,
-    horizontal_axle_holes_shape="round",
+    horizontal_axle_holes=false,
+    horizontal_axle_hole_shape="round",
     vertical_axle_holes=false,
-    vertical_axle_holes_shape="cross",
+    vertical_axle_hole_shape="cross",
     reinforcement=false,
     wing_type="full",
     wing_end_width=2,
@@ -386,16 +386,13 @@ module block(
     // Ensure that the base length is a reasonable value.
     real_wing_base_length = min(real_length-1, max(1, wing_base_length));
 
-    // Support old parameter name.
-    horizontal_axle_holes=horizontal_axle_holes || horizontal_holes;
-
     // Validate all the rest of the arguments.
     real_slope_end_height = max(0, min(real_height - 1/3, slope_end_height));
     real_slope_stud_rows = min(real_length - 1, slope_stud_rows);
     real_curve_stud_rows = max(0, curve_stud_rows);
     real_curve_type = (curve_type == "convex" ? "convex" : "concave");
     real_curve_end_height = max(0, min(real_height - 1/3, curve_end_height));
-    real_horizontal_axle_holes = horizontal_axle_holes && ((type == "baseplate" && real_height >= 8) || real_height >= 1) && !dual_sided;
+    real_horizontal_axle_holes = (horizontal_axle_holes || horizontal_holes) && ((type == "baseplate" && real_height >= 8) || real_height >= 1) && !dual_sided;
     real_vertical_axle_holes = vertical_axle_holes && real_width > 1;
     real_reinforcement = reinforcement && type != "baseplate" && ( type != "tile" && type != "round-tile" ) && !dual_sided;
 
