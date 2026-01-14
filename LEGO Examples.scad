@@ -53,7 +53,8 @@ rotate([0, 0, 180]) union() {
             width=2,
             length=2,
             height=1/3,
-            vertical_axle_holes=true
+            vertical_axle_holes=true,
+            vertical_axle_hole_shape="cross"
         );
         
         color( "green" ) place(4, 6, 0) uncenter(2, 3) block(
@@ -74,7 +75,8 @@ rotate([0, 0, 180]) union() {
         color( "yellow" ) place(12, 0, 0) uncenter(1, 8) block(
             width=1,
             length=8,
-            horizontal_holes=true
+            horizontal_axle_holes=true,
+            horizontal_axle_hole_shape="round"
         );
         
         color( "black" ) place(16, -5, 0) uncenter(2, 4) block(
