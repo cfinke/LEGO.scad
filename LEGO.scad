@@ -295,7 +295,7 @@ module block(
 
     // Brand-independent measurements.
     wall_play = 0.1; // When bricks are next to each other, how much space is between the outer walls?
-    stud_play = 0.05; // The amount of space between the edge of a stud and the edge of a post wall or spline that it is locked into.
+    stud_play = 0.03; // The amount of space between the edge of a stud and the edge of a post wall or spline that it is locked into.
     bar_play = 0.01; // The amount of space between a bar and a hollow stud wall that it is pressed into.
 
     // Stud spacing and stud diameter are the measurements that most other measurements rely on.
@@ -303,7 +303,7 @@ module block(
     stud_diameter=(brand == "lego" ? 4.8 : 9.40) * scale;
     stud_height=(brand == "lego" ? 1.8 : 4.5) * scale;
 
-    wall_thickness=(brand == "lego" ? 1.2 : 1.6) * scale;
+    wall_thickness_with_splines=(brand == "lego" ? 1.2 : 1.6) * scale;
 
     horizontal_hole_wall_thickness = 1 * 1 * scale;
 
@@ -335,7 +335,13 @@ module block(
 
     // For LEGO-style bricks, scaling is taken into account by the spline length being calculated as a function of other scaled values.
     // The "length" is the amount that the spline sticks into the empty space of the brick.
-    spline_length = ( ( stud_spacing / 2 ) - wall_play - wall_thickness - stud_play - ( stud_diameter / 2 ) ) * wall_splines_rescale;
+    theoretical_spline_length = ( ( stud_spacing / 2 ) - wall_play - wall_thickness_with_splines - stud_play - ( stud_diameter / 2 ) );
+
+    // If splines are not included (like they weren't in older bricks), make the wall thicker to make up for that missing material so that
+    // studs still fit properly into the space.
+    wall_thickness = ( include_wall_splines ? wall_thickness_with_splines : wall_thickness_with_splines + theoretical_spline_length );
+
+    spline_length = ( include_wall_splines ? theoretical_spline_length * wall_splines_rescale : 0 );
 
     // The "thickness" is the distance the spline shares with the brick wall.
     spline_thickness = (brand == "lego" ? 0.7 : 1) * scale;
