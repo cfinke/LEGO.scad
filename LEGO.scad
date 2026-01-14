@@ -311,7 +311,7 @@ module block(
     post_diameter=(brand == "lego" ? stud_diameter + ( 2 * post_wall_thickness ) : 13.1 * scale );
 
     // Posts don't reach the bottom of the brick. How far are they offset from the bottom?
-    post_offset = ( brand == "lego" ? .2 : 2 ) * scale;
+    post_offset = 0; /* Disable this, since it makes printing much harder and doesn't offer any real benefit. If we were to enable it, it would be: ( brand == "lego" ? .2 : 2 ) * scale; */
 
     cylinder_precision=(brand == "lego" ? 0.1 : 0.05) * scale;
     reinforcing_width = (brand == "lego" ? 0.7 : 1) * scale;
