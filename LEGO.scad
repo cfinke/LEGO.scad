@@ -90,7 +90,7 @@ curve_stud_rows = 5;
 // Should the curve be convex or concave?
 curve_type = "concave"; // [concave:Concave, convex:Convex]
 
-// How much vertical height should be left at the end of the curve? e.g, a value of zero means the curve reaches the bottom of the block. A value of 1 means that for a block with height 2, the curve reaches halfway down the block.
+// How much vertical height should be left at the end of the curve? e.g, a value of zero means the curve reaches almost to the bottom of the block. A value of 1 means that for a block with height 2, the curve reaches halfway down the block.
 curve_end_height = 0;
 
 /* [Baseplates] */
