@@ -694,7 +694,7 @@ module block(
                     ]);
                 }
                 else if (type == "curve") {
-                    if (real_curve_type == "concave") {
+                    if (real_curve_type == "convex") {
                         difference() {
                             translate([
                                     -curve_circle_length() / 2, // Align the center of the cube with the end of the block.
@@ -714,7 +714,7 @@ module block(
                                 cylinder(r=real_height * block_height, h=overall_width, $fs=cylinder_precision);
                         }
                     }
-                    else if (real_curve_type == "convex") {
+                    else if (real_curve_type == "concave") {
                         union() {
                             translate([0, 0, real_height * block_height]) cube([overall_length - (real_curve_stud_rows * stud_spacing), overall_width, stud_height + .1]);
                             translate([0, 0, block_height * real_height])
@@ -828,7 +828,7 @@ module block(
                 ]);
             }
             else if (type == "curve") {
-                if (real_curve_type == "concave") {
+                if (real_curve_type == "convex") {
                     intersection() {
                         translate([
                                 -curve_circle_length() / 2, // Align the center of the cube with the end of the block.
@@ -860,7 +860,7 @@ module block(
                         }
                     }
                 }
-                else if (real_curve_type == "convex") {
+                else if (real_curve_type == "concave") {
                     intersection() {
                         translate([
                             0,
@@ -1114,7 +1114,7 @@ module block(
     function curve_circle_length() = (overall_length - (stud_spacing * min(real_length - 1, real_curve_stud_rows)) + (wall_play/2)) * 2;
     function curve_circle_height() = (
             (
-                (block_height * real_height) - (real_curve_end_height * block_height)) * 2) - (real_curve_type == "convex" ? (stud_height * 2) + (wall_thickness * 2) : 0);
+                (block_height * real_height) - (real_curve_end_height * block_height)) * 2) - (real_curve_type == "concave" ? (stud_height * 2) + (wall_thickness * 2) : 0);
 
     function wing_width(x_pos) = (real_width - width_loss(x_pos));
 
