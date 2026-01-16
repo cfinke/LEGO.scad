@@ -328,7 +328,6 @@ module block(
     // Posts don't reach the bottom of the brick. How far are they offset from the bottom?
     post_offset = 0; /* Disable this, since it makes printing much harder and doesn't offer any real benefit. If we were to enable it, it would be: ( brand == "lego" ? .2 : 2 ) * scale; */
 
-    cylinder_precision=(brand == "lego" ? 0.1 : 0.05) * scale;
     reinforcing_width = (brand == "lego" ? 0.7 : 1) * scale;
 
     real_include_wall_splines = block_bottom_type == "open" && include_wall_splines && ( width > 1 || length > 1 || ( type != "round" && type != "round-tile" ) );
@@ -572,7 +571,7 @@ module block(
 
                                             for (ycount=[1:real_width-1]) {
                                                 for (xcount=[1:real_length-1]) {
-                                                    translate([(xcount-1)*stud_spacing,(ycount-1)*stud_spacing,-0.5]) cylinder(r=post_diameter/2-0.1, h=real_height*block_height+0.5, $fs=cylinder_precision);
+                                                    translate([(xcount-1)*stud_spacing,(ycount-1)*stud_spacing,-0.5]) cylinder(r=post_diameter/2-0.1, h=real_height*block_height+0.5);
                                                 }
                                             }
                                         }
@@ -587,14 +586,14 @@ module block(
                         if (real_width == 1) {
                             translate([(pin_diameter/2) + (overall_length - total_pins_length) / 2, overall_width/2, 0]) {
                                 for (xcount=[1:real_length-1]) {
-                                    translate([(xcount-1)*stud_spacing,0,0]) cylinder(r=pin_diameter/2,h=block_height*real_height,$fs=cylinder_precision);
+                                    translate([(xcount-1)*stud_spacing,0,0]) cylinder(r=pin_diameter/2,h=block_height*real_height);
                                 }
                             }
                         }
                         else {
                             translate([overall_length/2, (pin_diameter/2) + (overall_width - total_pins_width) / 2, 0]) {
                                 for (ycount=[1:real_width-1]) {
-                                    translate([0,(ycount-1)*stud_spacing,0]) cylinder(r=pin_diameter/2,h=block_height*real_height,$fs=cylinder_precision);
+                                    translate([0,(ycount-1)*stud_spacing,0]) cylinder(r=pin_diameter/2,h=block_height*real_height);
                                 }
                             }
                         }
@@ -609,7 +608,7 @@ module block(
                             translate([(overall_length - total_studs_length)/2, 0, 0]) {
                             for (axle_hole_index=[horizontal_hole_start_index() : horizontal_hole_end_index()]) {
                                 if (!skip_this_horizontal_hole(axle_hole_index, height_index)) {
-                                        translate([axle_hole_index*stud_spacing,0,horizontal_hole_z_offset]) rotate([90, 0, 0])  cylinder(r=horizontal_hole_diameter/2 + horizontal_hole_wall_thickness, h=overall_width,$fs=cylinder_precision);
+                                        translate([axle_hole_index*stud_spacing,0,horizontal_hole_z_offset]) rotate([90, 0, 0])  cylinder(r=horizontal_hole_diameter/2 + horizontal_hole_wall_thickness, h=overall_width);
                                     }
                                 }
                             }
@@ -631,10 +630,10 @@ module block(
                                     if (!skip_this_stud(xcount, ycount)) {
                                         translate([xcount*stud_spacing,ycount*stud_spacing,block_height*real_height]) {
                                             if ( stud_type == "hollow" ) {
-                                                cylinder( r = ( hollow_stud_inner_diameter * stud_rescale ) / 2, h = stud_height + overlap_for_clean_previews, $fs = cylinder_precision );
+                                                cylinder( r = ( hollow_stud_inner_diameter * stud_rescale ) / 2, h = stud_height + overlap_for_clean_previews );
                                             } else if ( stud_type == "open" ) {
                                                 translate( [ 0, 0, -roof_thickness - overlap_for_clean_previews ] ) {
-                                                    cylinder( r = ( hollow_stud_inner_diameter * stud_rescale ) / 2, h = stud_height + roof_thickness + ( 2 * overlap_for_clean_previews ), $fs = cylinder_precision );
+                                                    cylinder( r = ( hollow_stud_inner_diameter * stud_rescale ) / 2, h = stud_height + roof_thickness + ( 2 * overlap_for_clean_previews ) );
                                                 }
                                             }
                                         }
@@ -711,7 +710,7 @@ module block(
                                 rotate([90, 0, 0]) // Rotate sideways
                                 translate([0, 0, -overall_width/2]) // Move so the cylinder is z-centered.
                                 resize([curve_circle_length(), curve_circle_height(), 0]) // Resize to the approprate scale.
-                                cylinder(r=real_height * block_height, h=overall_width, $fs=cylinder_precision);
+                                cylinder(r=real_height * block_height, h=overall_width);
                         }
                     }
                     else if (real_curve_type == "concave") {
@@ -759,8 +758,8 @@ module block(
 
                                         // Bevels. The +/- 0.1 measurements are here just for nicer previews in OpenSCAD, and could be removed.
                                         if (horizontal_axle_hole_shape == "round") {
-                                            translate([axle_hole_index*stud_spacing,horizontal_hole_bevel_depth-0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1,$fs=cylinder_precision);
-                                            translate([axle_hole_index*stud_spacing,overall_width+0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1,$fs=cylinder_precision);
+                                            translate([axle_hole_index*stud_spacing,horizontal_hole_bevel_depth-0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1);
+                                            translate([axle_hole_index*stud_spacing,overall_width+0.1,horizontal_hole_z_offset]) rotate([90, 0, 0]) cylinder(r=horizontal_hole_bevel_diameter/2, h=horizontal_hole_bevel_depth+0.1);
                                         }
                                     }
                                 }
@@ -837,7 +836,7 @@ module block(
                                 rotate([90, 0, 0]) // Rotate sideways
                                 translate([0, 0, -overall_width/2]) // Move so the cylinder is z-centered.
                                 resize([curve_circle_length(), curve_circle_height(), 0]) // Resize to the approprate scale.
-                                cylinder(r=real_height * block_height, h=overall_width, $fs=cylinder_precision);
+                                cylinder(r=real_height * block_height, h=overall_width);
 
                             translate([
                                     curve_circle_length() / 2,  // Align the end of the curve with the end of the block.
@@ -847,7 +846,7 @@ module block(
                                 rotate([90, 0, 0]) // Rotate sideways
                                 translate([0, 0, -overall_width/2]) // Move so the cylinder is z-centered.
                                 resize([curve_circle_length() - (wall_thickness * 2), curve_circle_height() - (wall_thickness * 2), 0]) // Resize to the approprate scale.
-                                cylinder(r=real_height * block_height, h=overall_width, $fs=cylinder_precision);
+                                cylinder(r=real_height * block_height, h=overall_width);
                         }
                     }
                 }
@@ -866,11 +865,11 @@ module block(
                             translate([0, 0, -overall_width/2]) // z-center
                             difference() {
                                 resize([curve_circle_length() + (wall_thickness * 2), curve_circle_height() + (wall_thickness * 2), 0]) // Resize to the final dimensions.
-                                cylinder(r=block_height * real_height, h=overall_width, $fs=cylinder_precision);
+                                cylinder(r=block_height * real_height, h=overall_width);
 
                                 translate([0, 0, -0.5]) // The inner cylinder is just a little taller, for nicer OpenSCAD previews.
                                     resize([curve_circle_length(), curve_circle_height(), 0]) // Resize to the final dimensions.
-                                    cylinder(r=block_height * real_height, h=overall_width+1, $fs=cylinder_precision);
+                                    cylinder(r=block_height * real_height, h=overall_width+1);
                             }
                     }
                 }
@@ -995,14 +994,14 @@ module block(
     module post(vertical_axle_hole) {
         difference() {
             translate( [ 0, 0, post_offset ] ) {
-                cylinder(r=post_diameter/2, h=real_height*block_height-post_offset,$fs=cylinder_precision);
+                cylinder(r=post_diameter/2, h=real_height*block_height-post_offset);
             }
 
             if (vertical_axle_hole==true) {
                 translate([0,0,-block_height/2])
                     axle_hole(vertical_axle_hole_shape);
             } else {
-                translate([0,0,-0.5]) cylinder(r=(post_diameter/2)-post_wall_thickness, h=real_height*block_height+1,$fs=cylinder_precision);
+                translate([0,0,-0.5]) cylinder(r=(post_diameter/2)-post_wall_thickness, h=real_height*block_height+1);
             }
         }
     }
@@ -1023,7 +1022,7 @@ module block(
                 cube([axle_spline_width,axle_diameter,(real_height+1)*block_height],center=true);
             }
         } else {
-            cylinder(r=horizontal_hole_diameter/2, h=overall_width,$fs=cylinder_precision);
+            cylinder(r=horizontal_hole_diameter/2, h=overall_width);
         }
     }
 
@@ -1032,7 +1031,7 @@ module block(
         stud_body_height=(stud_top_roundness != 0) ? (stud_height - stud_top_height) : stud_height;
         difference() {
             union() {
-                cylinder(r=(stud_diameter*stud_rescale)/2,h=stud_body_height,$fs=cylinder_precision);
+                cylinder(r=(stud_diameter*stud_rescale)/2,h=stud_body_height);
 
                 if (stud_top_roundness != 0) {
                     translate([0,0,stud_body_height])
@@ -1051,19 +1050,19 @@ module block(
         assert(height >= curve_height, "Curve height must be greater than or equal to height");
         base_height=height-curve_height;
         union() {
-            cylinder(h=base_height, r=radius, $fs=cylinder_precision);
+            cylinder(h=base_height, r=radius);
             translate([0,0,base_height])
             difference() {
                 union() {
-                    rotate_extrude($fs=cylinder_precision)
+                    rotate_extrude()
                     hull() {
                         translate([radius-curve_height, 0, 0])
-                        circle(curve_height, $fs=cylinder_precision);
+                        circle(curve_height);
                     };
-                    cylinder(h=curve_height, r=(radius-curve_height), $fs=cylinder_precision);
+                    cylinder(h=curve_height, r=(radius-curve_height));
                 }
                 translate([0,0,-curve_height])
-                cylinder(h=curve_height, r=(radius), $fs=cylinder_precision);
+                cylinder(h=curve_height, r=(radius));
             }
 
         };
