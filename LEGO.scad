@@ -828,6 +828,8 @@ module block(
                 ]);
             }
             else if (type == "curve") {
+                // Build the curved face.
+
                 if (real_curve_type == "convex") {
                     intersection() {
                         translate([
@@ -861,7 +863,6 @@ module block(
                     }
                 }
                 else if (real_curve_type == "concave") {
-                    // Build the curved face.
                     intersection() {
                         translate([
                             0,
