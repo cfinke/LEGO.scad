@@ -8,5 +8,5 @@ block(
 	type="curve",
 	stud_type="hollow",
 	curve_stud_rows=2,
-	curve_type="convex"
+	curve_type="concave"
 );

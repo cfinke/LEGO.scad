@@ -7,5 +7,5 @@ block(
 	brand="duplo",
 	type="curve",
 	stud_type="hollow",
-	curve_type="convex"
+	curve_type="concave"
 );

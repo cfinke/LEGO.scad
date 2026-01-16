@@ -6,5 +6,6 @@ block(
 	height=1.5,
 	brand="duplo",
 	type="curve",
+	curve_type="convex",
 	stud_type="hollow"
 );

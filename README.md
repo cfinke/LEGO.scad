@@ -161,7 +161,7 @@ block(
 	brand="duplo",
 	type="curve",
 	stud_type="hollow",
-	curve_type="convex"
+	curve_type="concave"
 );
 
 ```
@@ -183,6 +183,7 @@ block(
     length=3,
 	brand="duplo",
 	type="curve",
+	curve_type="concave",
 	stud_type="hollow",
 	curve_stud_rows=2
 );
@@ -1291,6 +1292,51 @@ block(
 </td></tr>
 <tr><td>
 
+### Part 3702
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=1,
+    length=8,
+    horizontal_axle_holes=true,
+    horizontal_axle_hole_shape="round",
+);
+
+
+```
+</td>
+<td>
+
+![Part 3702](examples/images/3702.png)
+
+</td></tr>
+<tr><td>
+
+### Part 3709
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=4,
+    length=2,
+    height=1/3,
+    vertical_axle_holes=true,
+    vertical_axle_hole_shape="round",
+    type="bricks"
+);
+
+```
+</td>
+<td>
+
+![Part 3709](examples/images/3709.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 3710
 
 ```javascript
@@ -1444,7 +1490,7 @@ block(
 	type="round",
 	height=1/3,
 	vertical_axle_holes=true,
-    vertical_axle_hole_shape="cross",
+	vertical_axle_hole_shape="cross",
 	stud_notches=true
 );
 
@@ -1995,7 +2041,7 @@ block(
 	type="curve",
 	stud_type="hollow",
 	curve_stud_rows=2,
-	curve_type="convex"
+	curve_type="concave"
 );
 
 ```
@@ -2018,6 +2064,7 @@ block(
 	height=1.5,
 	brand="duplo",
 	type="curve",
+	curve_type="convex",
 	stud_type="hollow"
 );
 
@@ -2061,6 +2108,7 @@ block(
 	height=2,
 	brand="duplo",
 	type="curve",
+	curve_type="convex",
 	stud_type="hollow",
 	curve_stud_rows=2
 );
@@ -2475,6 +2523,27 @@ block(
 </td></tr>
 <tr><td>
 
+### Part 32064
+
+```javascript
+use <LEGO.scad>;
+
+block(
+    width=1,
+    length=2,
+    horizontal_axle_holes=true,
+    horizontal_axle_hole_shape="cross",
+);
+
+```
+</td>
+<td>
+
+![Part 32064](examples/images/32064.png)
+
+</td></tr>
+<tr><td>
+
 ### Part 33243
 
 ```javascript
@@ -2484,6 +2553,7 @@ block(
     width=1,
     length=3,
 	type="curve",
+	curve_type="concave",
 	height=2,
 	stud_type="hollow"
 );
@@ -2687,6 +2757,7 @@ block(
     width=1,
     length=6,
 	type="curve",
+	curve_type="convex",
 	height=2,
 	curve_stud_rows=2
 );
@@ -2759,6 +2830,7 @@ block(
     width=2,
     length=6,
 	type="curve",
+	curve_type="convex",
 	height=2,
 	curve_stud_rows=2
 );
@@ -3309,6 +3381,7 @@ block(
     width=1,
     length=4,
 	type="curve",
+	curve_type="convex",
 	height=2+(2/3)
 );
 
