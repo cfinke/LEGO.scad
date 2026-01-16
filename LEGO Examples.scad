@@ -28,27 +28,27 @@ rotate([0, 0, 180]) union() {
             length=15,
             height=1/3
         );
-    
+
         color( "orange" ) place(-6.5, -3, 0) uncenter(1/3, 11, 3) rotate([90, 0, 0]) block(
             dual_bottom=true,
             width=3,
             length=15,
             height=1/3
         );
-    
+
         color( "red" ) place(1, 0, 0) uncenter(2, 9) block(
             width=2,
             length=9,
             height=2,
             reinforcement=true
         );
-        
+
         color( "blue" ) place(4, 0, 0) uncenter(2, 2) block(
             width=2,
             length=2,
             stud_type="hollow"
         );
-        
+
         color( "white" ) place(4, 3, 0) uncenter(2, 2) block(
             width=2,
             length=2,
@@ -56,14 +56,14 @@ rotate([0, 0, 180]) union() {
             vertical_axle_holes=true,
             vertical_axle_hole_shape="cross"
         );
-        
+
         color( "green" ) place(4, 6, 0) uncenter(2, 3) block(
             width=2,
             length=3,
             height=1/3,
             type="tile"
         );
-        
+
         color( "white" ) place(7, 0, 0) uncenter(4, 9) block(
             width=4,
             length=9,
@@ -71,20 +71,20 @@ rotate([0, 0, 180]) union() {
             type="wing",
             stud_notches=false
         );
-    
+
         color( "yellow" ) place(12, 0, 0) uncenter(1, 8) block(
             width=1,
             length=8,
             horizontal_axle_holes=true,
             horizontal_axle_hole_shape="round"
         );
-        
+
         color( "black" ) place(16, -5, 0) uncenter(2, 4) block(
             width=2,
             length=4,
             type="slope"
         );
-        
+
         color( "green" ) place(-4, 0, 0) uncenter(4, 6) block(
             width=2,
             length=3,
@@ -92,7 +92,7 @@ rotate([0, 0, 180]) union() {
             reinforcement=true,
             stud_type="hollow"
         );
-        
+
         color( "blue" ) place(-4, 7, 0) uncenter(4, 4) rotate([0, 0, 180]) block(
             width=2,
             length=2,
@@ -101,7 +101,7 @@ rotate([0, 0, 180]) union() {
             stud_type="hollow",
             type="curve"
         );
-        
+
         color( "gray" ) place(-4, -5, 0) uncenter(12, 4) rotate([0, 0, 270]) block(
             width=2,
             length=6,
@@ -112,7 +112,7 @@ rotate([0, 0, 180]) union() {
             curve_type="convex",
             curve_stud_rows=5
         );
-    
+
         color( "blue" ) place(9, -5, 0) uncenter(6, 4) rotate([0, 0, 270]) block(
             width=4,
             length=6,
@@ -124,7 +124,7 @@ rotate([0, 0, 180]) union() {
             slope_stud_rows=4,
             slope_end_height=1
         );
-    
+
         color( "red" ) place(14, 0, 0) uncenter(3, 7) block(
             width=3,
             length=7,
@@ -133,7 +133,7 @@ rotate([0, 0, 180]) union() {
             wing_type="left",
             wing_end_width=1
         );
-    
+
         color( "yellow" ) place(1, 10, 0) uncenter(6, 2) rotate([0, 0, 90]) block(
             width=2,
             length=6,
