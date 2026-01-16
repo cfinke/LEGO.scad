@@ -483,7 +483,7 @@ module block(
     // TODO allow setting each corner's rounding radius?
     max_round = min(real_width, real_length) / 2;
     real_rounding = round_radius > 0 ? min(max_round,round_radius) : max_round;
-    round_distance = real_rounding * stud_spacing;
+    round_distance = real_rounding * stud_spacing - wall_play;
 
     // Strip newlines out of the stud matrix string.
     stud_matrix_string = char_replace( stud_matrix_string, "\n", "" );
@@ -722,37 +722,26 @@ module block(
                                 rotate([90, 0, 0])
                                 translate([0, 0, -((overall_width+1)/2)]) // z-center
                                 resize([curve_circle_length(), curve_circle_height(), 0]) // Resize to the final dimensions.
-                                cylinder(r=block_height * real_height, h=overall_width+1, $fs=cylinder_precision);
+                                cylinder(r=block_height * real_height, h=overall_width+1);
                         }
                     }
                 }
                 else if (type == "baseplate") {
                     // Rounded corners.
                     union() {
-                        translate([overall_length, overall_width, 0]) translate([-((stud_spacing / 2) - wall_play), -((stud_spacing / 2) - wall_play), 0]) negative_rounded_corner(r=((stud_spacing / 2) - wall_play), h=real_height * block_height);
-
-                        translate([0, overall_width, 0]) translate([((stud_spacing / 2) - wall_play), -((stud_spacing / 2) - wall_play), 0]) rotate([0, 0, 90]) negative_rounded_corner(r=((stud_spacing / 2) - wall_play), h=real_height * block_height);
-                        translate([((stud_spacing / 2) - wall_play), ((stud_spacing / 2) - wall_play), 0]) rotate([0, 0, 180]) negative_rounded_corner(r=((stud_spacing / 2) - wall_play), h=real_height * block_height);
-                        translate([overall_length, 0, 0]) translate([-((stud_spacing / 2) - wall_play), ((stud_spacing / 2) - wall_play), 0]) rotate([0, 0, 270]) negative_rounded_corner(r=((stud_spacing / 2) - wall_play), h=real_height * block_height);
+                        translate([overall_length, overall_width, 0])                                      translate([-((stud_spacing / 2) - wall_play), -((stud_spacing / 2) - wall_play), 0])                     negative_rounded_corner(r=((stud_spacing / 2)), h=real_height * block_height + stud_height);
+                        translate([0, overall_width, 0])                                                   translate([((stud_spacing / 2) - wall_play), -((stud_spacing / 2) - wall_play), 0])  rotate([0, 0, 90])  negative_rounded_corner(r=((stud_spacing / 2)), h=real_height * block_height + stud_height);
+                        translate([((stud_spacing / 2) - wall_play), ((stud_spacing / 2) - wall_play), 0])                                                                                      rotate([0, 0, 180]) negative_rounded_corner(r=((stud_spacing / 2)), h=real_height * block_height + stud_height);
+                        translate([overall_length, 0, 0])                                                  translate([-((stud_spacing / 2) - wall_play), ((stud_spacing / 2) - wall_play), 0])  rotate([0, 0, 270]) negative_rounded_corner(r=((stud_spacing / 2)), h=real_height * block_height + stud_height);
                     }
                 }
                 else if (type == "round" || type == "round-tile") {
                     // Rounded corners.
-                    union() {
-                        translate([overall_length, overall_width, 0]) translate([-((round_distance) - wall_play), -((round_distance) - wall_play), -.499])                     negative_rounded_corner(r=((round_distance) - wall_play), h=real_height * block_height, inside=true);
-                        translate([0, overall_width, 0])              translate([ ((round_distance) - wall_play), -((round_distance) - wall_play), -.499]) rotate([0, 0, 90 ]) negative_rounded_corner(r=((round_distance) - wall_play), h=real_height * block_height, inside=true);
-                                                                      translate([ ((round_distance) - wall_play),  ((round_distance) - wall_play), -.499]) rotate([0, 0, 180]) negative_rounded_corner(r=((round_distance) - wall_play), h=real_height * block_height, inside=true);
-                        translate([overall_length, 0, 0])             translate([-((round_distance) - wall_play),  ((round_distance) - wall_play), -.499]) rotate([0, 0, 270]) negative_rounded_corner(r=((round_distance) - wall_play), h=real_height * block_height, inside=true);
-                    }
-
-                    if (type == "round") {
-                        // Ensure that studs don't extend past the edge of the rounded corners.
-                        union() translate( [0, 0, real_height * block_height ] ) {
-                            translate([overall_length, overall_width, 0]) translate([-((round_distance) - wall_play), -((round_distance) - wall_play), -.499])                     negative_rounded_corner(r=((round_distance) - wall_play), h=stud_height);
-                            translate([0, overall_width, 0])              translate([ ((round_distance) - wall_play), -((round_distance) - wall_play), -.499]) rotate([0, 0, 90 ]) negative_rounded_corner(r=((round_distance) - wall_play), h=stud_height);
-                                                                          translate([ ((round_distance) - wall_play),  ((round_distance) - wall_play), -.499]) rotate([0, 0, 180]) negative_rounded_corner(r=((round_distance) - wall_play), h=stud_height);
-                            translate([overall_length, 0, 0])             translate([-((round_distance) - wall_play),  ((round_distance) - wall_play), -.499]) rotate([0, 0, 270]) negative_rounded_corner(r=((round_distance) - wall_play), h=stud_height);
-                        }
+                    translate( [ 0, 0, 0 ] ) {
+                        translate([overall_length, overall_width, 0]) translate([-((round_distance)), -((round_distance)), 0])                     negative_rounded_corner(r=((round_distance)), h=real_height * block_height + stud_height);
+                        translate([0, overall_width, 0])              translate([ ((round_distance)), -((round_distance)), 0]) rotate([0, 0, 90 ]) negative_rounded_corner(r=((round_distance)), h=real_height * block_height + stud_height);
+                                                                      translate([ ((round_distance)),  ((round_distance)), 0]) rotate([0, 0, 180]) negative_rounded_corner(r=((round_distance)), h=real_height * block_height + stud_height);
+                        translate([overall_length, 0, 0])             translate([-((round_distance)),  ((round_distance)), 0]) rotate([0, 0, 270]) negative_rounded_corner(r=((round_distance)), h=real_height * block_height + stud_height);
                     }
                 }
 
@@ -1101,14 +1090,14 @@ module block(
         difference() {
             rotate([0,0,180]) {
                 rotate_extrude(angle=90) {
-                    square([radius * stud_spacing, height]);
+                    square([radius * stud_spacing - wall_play, height]);
                 }
             }
-            translate([0,0,-.001])
+            translate([0,0,-overlap_for_clean_previews])
             rotate([0,0,179]) {
                 // just a little wider to avoid false surfaces
                 rotate_extrude(angle=92) {
-                    square([(radius * stud_spacing) - wall_thickness, height + .001]);
+                    square([(radius * stud_spacing) - wall_thickness - wall_play, height + ( 2 * overlap_for_clean_previews )]);
                 }
             }
         }
@@ -1225,11 +1214,10 @@ module block(
       "*" == stud_matrix_string[y*stud_matrix_columns + x]
     );
 
-    module negative_rounded_corner(r,h,inside=false) {
-        ir=inside ? r-wall_thickness : r;
+    module negative_rounded_corner(r,h) {
         difference() {
-            translate([0, 0, -.5]) cube([r+1, r+1, h+1]);
-            translate([0, 0, -1]) cylinder(r=ir, h=h + 2, $fs=cylinder_precision);
+            translate([0, 0, -overlap_for_clean_previews]) cube([r+(2*overlap_for_clean_previews), r+(2*overlap_for_clean_previews), h+(2*overlap_for_clean_previews)]);
+            translate([0, 0, -overlap_for_clean_previews]) cylinder(r=r, h=h + (2 * overlap_for_clean_previews ));
         }
     }
 
