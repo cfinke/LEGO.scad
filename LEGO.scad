@@ -861,13 +861,14 @@ module block(
                     }
                 }
                 else if (real_curve_type == "concave") {
+                    // Build the curved face.
                     intersection() {
                         translate([
                             0,
                             0,
                             (real_height * block_height) - (curve_circle_height() / 2) - wall_thickness // Align the top of the cube with the top of the block.
                         ])
-                            cube([curve_circle_length() / 2, overall_width, curve_circle_height() / 2 + wall_thickness]);
+                            cube([curve_circle_length() / 2 + wall_thickness, overall_width, curve_circle_height() / 2 + wall_thickness]);
 
                        translate([0, 0, block_height * real_height])
                             translate([0, overall_width/2, 0]) // Center across the end of the block.
