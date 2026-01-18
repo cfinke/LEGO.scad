@@ -289,7 +289,9 @@ module block(
     stud_matrix_columns=0,
     stud_matrix_invert=false,
     stud_matrix_swapxy=false,
-    scale=1.0
+    scale=1.0,
+    $fs=.1,
+    $fa=1
     ) {
     overlap_for_clean_previews = 0.01;
 
