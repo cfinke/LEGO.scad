@@ -485,7 +485,7 @@ module block(
     round_distance = real_rounding * stud_spacing - wall_play;
 
     // Strip newlines out of the stud matrix string.
-    stud_matrix_string = char_replace( stud_matrix_string, "\n", "" );
+    real_stud_matrix_string = char_replace( stud_matrix_string, "\n", "" );
 
     translate([-overall_length/2, -overall_width/2, 0]) // Comment to position at 0,0,0 instead of centered on X and Y.
         union() {
@@ -1179,9 +1179,9 @@ module block(
             )
         )
         ||
-        ( stud_matrix_string != "" && stud_matrix_invert && pos_in_stud_matrix(xcount, ycount))
+        ( real_stud_matrix_string != "" && stud_matrix_invert && pos_in_stud_matrix(xcount, ycount))
         ||
-        ( stud_matrix_string != "" && ! stud_matrix_invert && !pos_in_stud_matrix(xcount, ycount))
+        ( real_stud_matrix_string != "" && ! stud_matrix_invert && !pos_in_stud_matrix(xcount, ycount))
         ||
         ( ! roadway_invert && real_roadway_width > 0 && real_roadway_length > 0 && pos_in_roadway(xcount, ycount))
         ||
@@ -1209,8 +1209,8 @@ module block(
     );
 
     function pos_in_stud_matrix_swappable(x, y) = (
-      stud_matrix_string != "" && x<stud_matrix_columns &&
-      "*" == stud_matrix_string[y*stud_matrix_columns + x]
+      real_stud_matrix_string != "" && x<stud_matrix_columns &&
+      "*" == real_stud_matrix_string[y*stud_matrix_columns + x]
     );
 
     module negative_rounded_corner(r,h) {
@@ -1220,7 +1220,7 @@ module block(
         }
     }
 
-    function char_replace(s, old=" ", new="_" ) = chr([for(i=[0:len(s)-1]) s[i]==old?ord(new):ord(s[i])]);
+    function char_replace( s, find, replace ) = ( len(s) == 0 ? s : ( chr( [ for ( i = [ 0 : len(s) - 1 ] ) s[i] == find ? ord( replace ) : ord( s[i] ) ] ) ) );
 }
 
 module uncenter(
