@@ -91,6 +91,9 @@ slope_stud_rows = 1;
 // How much vertical height should be left at the end of the slope? e.g, a value of zero means the slope reaches the bottom of the block. A value of 1 means that for a block with height 2, the slope reaches halfway down the block.
 slope_end_height = 0;
 
+// Should studs be placed on the sloped surface?
+slope_studs = "no"; // [no:No, yes:Yes]
+
 /* [Curves] */
 
 // How many rows of studs should be left before the curve?
@@ -228,6 +231,7 @@ block(
     stud_notches=(block_type == "wing" && wing_stud_notches=="yes") || ((block_type == "round" || block_type == "round-tile") && round_stud_notches=="yes"),
     slope_stud_rows=slope_stud_rows,
     slope_end_height=slope_end_height,
+    slope_studs=(slope_studs=="yes"),
     curve_stud_rows=curve_stud_rows,
     curve_type=curve_type,
     curve_end_height=curve_end_height,
@@ -271,6 +275,7 @@ module block(
     stud_notches=false,
     slope_stud_rows=1,
     slope_end_height=0,
+    slope_studs=false,
     curve_stud_rows=1,
     curve_type="concave",
     curve_end_height=0,
@@ -810,12 +815,75 @@ module block(
                 }
             }
             else if (type == "slope") {
+                slope_face_x_end = min(overall_length, overall_length - (stud_spacing * real_slope_stud_rows) + (wall_play/2));
+                slope_face_z_start = (block_height * real_slope_end_height) + stud_height;
+                slope_face_z_end = real_height * block_height;
+
                 translate([0, overall_width, 0]) rotate([90, 0, 0]) linear_extrude(overall_width) polygon(points=[
-                    [0, (block_height * real_slope_end_height) + stud_height],
-                    [0, (block_height * real_slope_end_height) + stud_height + roof_thickness],
-                    [min(overall_length, overall_length - (stud_spacing * real_slope_stud_rows) + (wall_play/2)), real_height * block_height],
-                    [min(overall_length, overall_length - (stud_spacing * real_slope_stud_rows) + (wall_play/2)), (real_height * block_height) - roof_thickness]
+                    [0, slope_face_z_start],
+                    [0, slope_face_z_start + roof_thickness],
+                    [slope_face_x_end, slope_face_z_end],
+                    [slope_face_x_end, slope_face_z_end - roof_thickness]
                 ]);
+
+                // Studs on the slope surface.
+                if (slope_studs && !real_dual_bottom) {
+                    // The outer (visible) surface of the slope face goes from
+                    // (0, z_start + roof_thickness) to (slope_x, z_end).
+                    slope_outer_z_start = slope_face_z_start + roof_thickness;
+                    slope_rise = slope_face_z_end - slope_outer_z_start;
+                    slope_angle = atan2(slope_rise, slope_face_x_end);
+                    slope_surface_length = sqrt(slope_face_x_end * slope_face_x_end + slope_rise * slope_rise);
+
+                    // Fit as many studs as possible along the slope surface at stud_spacing intervals,
+                    // ensuring at least stud_spacing/2 margin between each end stud and the slope edge.
+                    max_slope_studs = floor((slope_surface_length - stud_diameter * stud_rescale) / stud_spacing) + 1;
+                    n_slope_studs = ((slope_surface_length - (max_slope_studs - 1) * stud_spacing) / 2 < stud_spacing / 2)
+                        ? max_slope_studs - 1
+                        : max_slope_studs;
+                    slope_stud_span = (n_slope_studs - 1) * stud_spacing;
+                    first_stud_slope_dist = (slope_surface_length - slope_stud_span) / 2;
+
+                    difference() {
+                        translate([0, stud_diameter * stud_rescale / 2 + (overall_width - total_studs_width) / 2, 0]) {
+                            for (ycount=[0:real_width-1]) {
+                                for (i=[0:n_slope_studs - 1]) {
+                                    slope_dist = first_stud_slope_dist + i * stud_spacing;
+                                    stud_slope_x = slope_dist * cos(slope_angle);
+                                    stud_slope_z = slope_outer_z_start + slope_dist * sin(slope_angle);
+
+                                    translate([stud_slope_x, ycount * stud_spacing, stud_slope_z])
+                                    rotate([0, -slope_angle, 0])
+                                    stud();
+                                }
+                            }
+                        }
+
+                        // Hollow or open stud holes.
+                        if (stud_type == "hollow" || stud_type == "open") {
+                            translate([0, stud_diameter * stud_rescale / 2 + (overall_width - total_studs_width) / 2, 0]) {
+                                for (ycount=[0:real_width-1]) {
+                                    for (i=[0:n_slope_studs - 1]) {
+                                        slope_dist = first_stud_slope_dist + i * stud_spacing;
+                                        stud_slope_x = slope_dist * cos(slope_angle);
+                                        stud_slope_z = slope_outer_z_start + slope_dist * sin(slope_angle);
+
+                                        translate([stud_slope_x, ycount * stud_spacing, stud_slope_z])
+                                        rotate([0, -slope_angle, 0]) {
+                                            if (stud_type == "hollow") {
+                                                cylinder(r = (hollow_stud_inner_diameter * stud_rescale) / 2, h = stud_height + overlap_for_clean_previews);
+                                            } else if (stud_type == "open") {
+                                                translate([0, 0, -roof_thickness - overlap_for_clean_previews]) {
+                                                    cylinder(r = (hollow_stud_inner_diameter * stud_rescale) / 2, h = stud_height + roof_thickness + (2 * overlap_for_clean_previews));
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
             else if (type == "curve") {
                 // Build the curved face.

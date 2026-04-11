@@ -38,6 +38,7 @@ The library exposes one module: `block()`.
 | `wing_base_length` | int | The length of the rectangular portion of the wing, in studs. |
 | `slope_stud_rows` | int | How many rows of studs should be left before the slope? |
 | `slope_end_height` | int | How much vertical height should be left at the end of the slope? |
+| `slope_studs` | `yes`, `no` | Should studs be placed on the sloped surface? |
 | `curve_stud_rows` | int | How many rows of studs should be left before the curve? |
 | `curve_type` | `concave`, `convex` | Should the curve be convex or concave? |
 | `curve_end_height` | int | How much vertical height should be left at the end of the curve? |
