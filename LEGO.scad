@@ -195,6 +195,7 @@ use_reinforcement = "no"; // [no:No, yes:Yes]
 
 // If your printer prints the blocks correctly except for the stud diameter, use this variable to resize just the studs for your printer. A value of 1.05 will print the studs 105% wider than standard.
 stud_rescale = 1.00; // [0.51:0.01:1.49]
+//stud_rescale = 1.06 * 1; // Creality K1C, PLA
 //stud_rescale = 1.03 * 1;  // Creality Ender 3 Pro, PLA
 //stud_rescale = 1.0475 * 1; // Orion Delta, T-Glase
 //stud_rescale = 1.022 * 1; // Orion Delta, ABS
@@ -285,7 +286,7 @@ module block(
     roadway_y=0,
     roadway_invert=false,
     round_radius=0,
-    stud_rescale=1,
+    stud_rescale=stud_rescale,
     stud_top_roundness=0.2,
     dual_sided=false,
     dual_bottom=false,
@@ -326,11 +327,11 @@ module block(
     // fits into a 5x scaled hollow stud (15.9 + 0.02mm diameter).
     //
     // Duplo hollow studs are measured to have a 1.4mm thick wall, so hollow_stud_inner_diameter = stud_diameter - ( 2 * 1.4 ) for Duplo.
-    hollow_stud_inner_diameter = (brand == "lego" ? ( 3.18 * scale + ( bar_play * 2 ) ) : 6.5 * scale);
+    hollow_stud_inner_diameter = (brand == "lego" ? ( 3.18 * scale * stud_rescale + ( bar_play * 2 ) ) : 6.5 * scale);
 
     block_height=compute_block_height(type, brand) * scale;
 
-    post_diameter=(brand == "lego" ? stud_diameter + ( 2 * post_wall_thickness ) : 13.1 * scale );
+    post_diameter=(brand == "lego" ? stud_diameter * stud_rescale + ( 2 * post_wall_thickness ) : 13.1 * scale );
 
     // Posts don't reach the bottom of the brick. How far are they offset from the bottom?
     post_offset = 0; /* Disable this, since it makes printing much harder and doesn't offer any real benefit. If we were to enable it, it would be: ( brand == "lego" ? .2 : 2 ) * scale; */
