@@ -867,16 +867,31 @@ module block(
                 slope_stud_span = (n_slope_studs - 1) * stud_spacing;
                 first_stud_slope_dist = (slope_surface_length - slope_stud_span) / 2;
 
+                // The roof must be roof_thickness thick perpendicular to the sloped face; a plain
+                // vertical offset would leave it thinner by cos(slope angle), approaching zero for
+                // steep slopes. The roof's outer face is unchanged; it is thickened downward.
+                slope_roof_z_thickness = roof_thickness * slope_surface_length / slope_face_x_end;
+
+                // Continue the roof's underside past the end of the sloped face until it rises to
+                // meet the flat roof's underside, rather than stopping in an abrupt vertical step.
+                slope_roof_x_meet = slope_face_x_end + ((slope_roof_z_thickness - roof_thickness) * slope_face_x_end / slope_rise);
+
                 // The roof and the slope-surface studs are built in one union so that
                 // "open" stud holes can be subtracted through the roof into the cavity.
                 difference() {
                     union() {
-                        translate([0, overall_width, 0]) rotate([90, 0, 0]) linear_extrude(overall_width) polygon(points=[
-                            [0, slope_face_z_start],
-                            [0, slope_face_z_start + roof_thickness],
-                            [slope_face_x_end, slope_face_z_end],
-                            [slope_face_x_end, slope_face_z_end - roof_thickness]
-                        ]);
+                        // Clipped to the brick's volume so the thickened underside can't poke below the base.
+                        intersection() {
+                            cube([overall_length, overall_width, real_height * block_height]);
+
+                            translate([0, overall_width, 0]) rotate([90, 0, 0]) linear_extrude(overall_width) polygon(points=[
+                                [0, slope_face_z_start + roof_thickness - slope_roof_z_thickness],
+                                [0, slope_face_z_start + roof_thickness],
+                                [slope_face_x_end, slope_face_z_end],
+                                [slope_roof_x_meet, slope_face_z_end],
+                                [slope_roof_x_meet, slope_face_z_end - roof_thickness]
+                            ]);
+                        }
 
                         // Studs on the slope surface.
                         if (slope_studs && !real_dual_bottom) {
