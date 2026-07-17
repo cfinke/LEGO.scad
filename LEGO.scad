@@ -988,6 +988,7 @@ module block(
             }
 
             if (real_dual_sided) {
+                // Note: any new block() parameter that affects the mirrored half must be forwarded here (and in the dual_bottom call below), or the two halves will disagree.
                 translate([overall_length/2, overall_width/2, block_height * height]) mirror([0,0,1]) block(
                     width=real_width,
                     length=real_length,
@@ -997,7 +998,7 @@ module block(
                     stud_type=stud_type,
                     block_bottom_type=block_bottom_type,
                     include_wall_splines=include_wall_splines,
-                    wall_splines_rescale=wall_splines_rescale,
+                    // wall_splines_rescale is deliberately not forwarded: like the posts, the mirrored half's splines are buried inside the solid body, so their length doesn't matter.
                     horizontal_holes=real_horizontal_axle_holes,
                     horizontal_axle_holes=real_horizontal_axle_holes,
                     horizontal_axle_hole_shape=horizontal_axle_hole_shape,
@@ -1017,14 +1018,22 @@ module block(
                     roadway_length=real_roadway_length,
                     roadway_x=real_roadway_x,
                     roadway_y=real_roadway_y,
+                    roadway_invert=roadway_invert,
+                    round_radius=round_radius,
                     stud_rescale=stud_rescale,
                     stud_top_roundness=stud_top_roundness,
                     dual_sided=false,
+                    with_posts=false, // The mirrored half's interior is buried inside the solid body, so its posts would be invisible geometry.
+                    stud_matrix_string=stud_matrix_string,
+                    stud_matrix_columns=stud_matrix_columns,
+                    stud_matrix_invert=stud_matrix_invert,
+                    stud_matrix_swapxy=stud_matrix_swapxy,
                     scale=scale
                 );
             }
 
             if (real_dual_bottom) {
+                // Note: any new block() parameter that affects the mirrored half must be forwarded here (and in the dual_sided call above), or the two halves will disagree.
                 translate([overall_length/2, overall_width/2, block_height * height * 2]) mirror([0,0,1]) block(
                     width=real_width,
                     length=real_length,
@@ -1034,6 +1043,7 @@ module block(
                     stud_type=stud_type,
                     block_bottom_type=block_bottom_type,
                     include_wall_splines=include_wall_splines,
+                    wall_splines_rescale=wall_splines_rescale,
                     horizontal_holes=real_horizontal_axle_holes,
                     horizontal_axle_holes=real_horizontal_axle_holes,
                     horizontal_axle_hole_shape=horizontal_axle_hole_shape,
@@ -1054,10 +1064,12 @@ module block(
                     roadway_length=real_roadway_length,
                     roadway_x=real_roadway_x,
                     roadway_y=real_roadway_y,
+                    round_radius=round_radius,
                     stud_rescale=stud_rescale,
                     stud_top_roundness=stud_top_roundness,
                     dual_sided=false,
                     dual_bottom=false,
+                    with_posts=with_posts,
                     scale=scale
                 );
             }
