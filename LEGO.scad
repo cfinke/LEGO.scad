@@ -371,6 +371,12 @@ module block(
     real_length = ((type == "wing" || type == "slope")  ? length : max(width, length) );
     real_height = compute_real_height(type, height);
 
+    // Horizontal hole rows are spaced one brick-height apart. For bricks, height already
+    // counts brick units; a baseplate's height counts plate units (1.3mm for LEGO), so
+    // convert its physical thickness into whole brick-height layers.
+    horizontal_hole_layer_height = (type == "baseplate" ? compute_block_height("brick", brand) * scale : block_height);
+    horizontal_hole_layers = (type == "baseplate" ? floor(real_height * block_height / horizontal_hole_layer_height) : height);
+
     // For baseplates and dual-sided blocks, the roof spans the full (clamped) block height so the block stays solid.
     // block_height and real_height are already scaled, so only the fixed 1mm thickness needs to be multiplied by scale.
     roof_thickness = (type == "baseplate" || dual_sided ? block_height * real_height : 1 * scale);
@@ -612,8 +618,8 @@ module block(
                         // The holes for the horizontal axles.
                         // 1-length bricks have the hole underneath the stud.
                         // >1-length bricks have the holes between the studs.
-                        for (height_index = [0 : height - 1]) {
-                            translate([horizontal_holes_x_offset(), overall_width, height_index * block_height])
+                        for (height_index = [0 : horizontal_hole_layers - 1]) {
+                            translate([horizontal_holes_x_offset(), overall_width, height_index * horizontal_hole_layer_height])
                             translate([(overall_length - total_studs_length)/2, 0, 0]) {
                             for (axle_hole_index=[horizontal_hole_start_index() : horizontal_hole_end_index()]) {
                                 if (!skip_this_horizontal_hole(axle_hole_index, height_index)) {
@@ -757,8 +763,8 @@ module block(
                     // The holes for the horizontal axles.
                     // 1-length bricks have the hole underneath the stud.
                     // >1-length bricks have the holes between the studs.
-                    for (height_index = [0 : height - 1]) {
-                        translate([horizontal_holes_x_offset(), 0, height_index * block_height])
+                    for (height_index = [0 : horizontal_hole_layers - 1]) {
+                        translate([horizontal_holes_x_offset(), 0, height_index * horizontal_hole_layer_height])
                         translate([(overall_length - total_studs_length)/2, 0, 0]) {
                             for (axle_hole_index=[horizontal_hole_start_index() : horizontal_hole_end_index()]) {
                                 if (!skip_this_horizontal_hole(axle_hole_index, height_index)) {
