@@ -1334,7 +1334,11 @@ module stack(x=0,y=0,z=0) {
 
 function compute_real_height(type, height) = max((type == "baseplate" ? 1 : 1/3), height);
 
-function compute_block_height(type, brand) = (brand == "lego" ? (type == "baseplate" ? 1.3 : 9.6) : 9.6 * 2);
+function compute_block_height(type, brand) = (
+    type == "baseplate"
+        ? (brand == "lego" ? 1.3 : 1.3 * 2)
+        : (brand == "lego" ? 9.6 : 9.6 * 2)
+);
 
 function block_height(height_ratio=1, brand="lego", type="block") =
   let (
