@@ -808,31 +808,37 @@ module block(
              */
 
             if (type == "wing") {
+                wing_wall_x_start = stud_spacing * (real_wing_base_length-1);
+                right_wall_y_end = (wing_type == "full" ?
+                    ((overall_width / 2) - (real_wing_end_width * stud_spacing / 2))
+                    :
+                    (overall_width - (real_wing_end_width * stud_spacing))
+                );
+                left_wall_y_end = (wing_type == "full" ? overall_width / 2 : 0) + (real_wing_end_width * stud_spacing / (wing_type == "full" ? 2 : 1));
+
+                // The wing walls are slanted, so offsetting the wall line by a plain wall_thickness in y
+                // would leave the wall thinner than wall_thickness perpendicular to its face; stretch the
+                // y offset by the slant to make the perpendicular thickness come out to wall_thickness.
+                right_wall_y_thickness = wall_thickness * sqrt((overall_length - wing_wall_x_start) ^ 2 + right_wall_y_end ^ 2) / (overall_length - wing_wall_x_start);
+                left_wall_y_thickness = wall_thickness * sqrt((overall_length - wing_wall_x_start) ^ 2 + (overall_width - left_wall_y_end) ^ 2) / (overall_length - wing_wall_x_start);
+
                 difference() {
                     union() {
                         if ( wing_type == "full" || wing_type == "right" ){
                             linear_extrude(block_height * real_height) polygon(points=[
-                                [stud_spacing * (real_wing_base_length-1), 0],
-                                [overall_length, (wing_type == "full" ?
-                                    ((overall_width / 2) - (real_wing_end_width * stud_spacing / 2))
-                                    :
-                                    (overall_width - (real_wing_end_width * stud_spacing))
-                                )],
-                                [overall_length, (wing_type == "full" ?
-                                    ((overall_width / 2) - (real_wing_end_width * stud_spacing / 2))
-                                    :
-                                    (overall_width - (real_wing_end_width * stud_spacing))
-                                ) + wall_thickness],
-                                [stud_spacing * (real_wing_base_length-1), wall_thickness]
+                                [wing_wall_x_start, 0],
+                                [overall_length, right_wall_y_end],
+                                [overall_length, right_wall_y_end + right_wall_y_thickness],
+                                [wing_wall_x_start, right_wall_y_thickness]
                             ]);
                         }
 
                         if (wing_type == "full" || wing_type == "left") {
                             linear_extrude(block_height * real_height) polygon(points=[
-                                [stud_spacing * (real_wing_base_length-1), overall_width],
-                                [overall_length, (wing_type == "full" ? overall_width / 2 : 0) + (real_wing_end_width * stud_spacing / (wing_type == "full" ? 2 : 1))],
-                                [overall_length, (wing_type == "full" ? overall_width / 2 : 0) + (real_wing_end_width * stud_spacing / (wing_type == "full" ? 2 : 1)) - wall_thickness],
-                                [stud_spacing * (real_wing_base_length-1), overall_width - wall_thickness]
+                                [wing_wall_x_start, overall_width],
+                                [overall_length, left_wall_y_end],
+                                [overall_length, left_wall_y_end - left_wall_y_thickness],
+                                [wing_wall_x_start, overall_width - left_wall_y_thickness]
                             ]);
                         }
                     }
