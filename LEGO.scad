@@ -821,48 +821,35 @@ module block(
                 slope_face_z_start = (block_height * real_slope_end_height) + stud_height;
                 slope_face_z_end = real_height * block_height;
 
-                translate([0, overall_width, 0]) rotate([90, 0, 0]) linear_extrude(overall_width) polygon(points=[
-                    [0, slope_face_z_start],
-                    [0, slope_face_z_start + roof_thickness],
-                    [slope_face_x_end, slope_face_z_end],
-                    [slope_face_x_end, slope_face_z_end - roof_thickness]
-                ]);
+                // The outer (visible) surface of the slope face goes from
+                // (0, z_start + roof_thickness) to (slope_x, z_end).
+                slope_outer_z_start = slope_face_z_start + roof_thickness;
+                slope_rise = slope_face_z_end - slope_outer_z_start;
+                slope_angle = atan2(slope_rise, slope_face_x_end);
+                slope_surface_length = sqrt(slope_face_x_end * slope_face_x_end + slope_rise * slope_rise);
 
-                // Studs on the slope surface.
-                if (slope_studs && !real_dual_bottom) {
-                    // The outer (visible) surface of the slope face goes from
-                    // (0, z_start + roof_thickness) to (slope_x, z_end).
-                    slope_outer_z_start = slope_face_z_start + roof_thickness;
-                    slope_rise = slope_face_z_end - slope_outer_z_start;
-                    slope_angle = atan2(slope_rise, slope_face_x_end);
-                    slope_surface_length = sqrt(slope_face_x_end * slope_face_x_end + slope_rise * slope_rise);
+                // Fit as many studs as possible along the slope surface at stud_spacing intervals,
+                // ensuring at least stud_spacing/2 margin between each end stud and the slope edge.
+                max_slope_studs = floor((slope_surface_length - stud_diameter * stud_rescale) / stud_spacing) + 1;
+                n_slope_studs = ((slope_surface_length - (max_slope_studs - 1) * stud_spacing) / 2 < stud_spacing / 2)
+                    ? max_slope_studs - 1
+                    : max_slope_studs;
+                slope_stud_span = (n_slope_studs - 1) * stud_spacing;
+                first_stud_slope_dist = (slope_surface_length - slope_stud_span) / 2;
 
-                    // Fit as many studs as possible along the slope surface at stud_spacing intervals,
-                    // ensuring at least stud_spacing/2 margin between each end stud and the slope edge.
-                    max_slope_studs = floor((slope_surface_length - stud_diameter * stud_rescale) / stud_spacing) + 1;
-                    n_slope_studs = ((slope_surface_length - (max_slope_studs - 1) * stud_spacing) / 2 < stud_spacing / 2)
-                        ? max_slope_studs - 1
-                        : max_slope_studs;
-                    slope_stud_span = (n_slope_studs - 1) * stud_spacing;
-                    first_stud_slope_dist = (slope_surface_length - slope_stud_span) / 2;
+                // The roof and the slope-surface studs are built in one union so that
+                // "open" stud holes can be subtracted through the roof into the cavity.
+                difference() {
+                    union() {
+                        translate([0, overall_width, 0]) rotate([90, 0, 0]) linear_extrude(overall_width) polygon(points=[
+                            [0, slope_face_z_start],
+                            [0, slope_face_z_start + roof_thickness],
+                            [slope_face_x_end, slope_face_z_end],
+                            [slope_face_x_end, slope_face_z_end - roof_thickness]
+                        ]);
 
-                    difference() {
-                        translate([0, stud_diameter * stud_rescale / 2 + (overall_width - total_studs_width) / 2, 0]) {
-                            for (ycount=[0:real_width-1]) {
-                                for (i=[0:n_slope_studs - 1]) {
-                                    slope_dist = first_stud_slope_dist + i * stud_spacing;
-                                    stud_slope_x = slope_dist * cos(slope_angle);
-                                    stud_slope_z = slope_outer_z_start + slope_dist * sin(slope_angle);
-
-                                    translate([stud_slope_x, ycount * stud_spacing, stud_slope_z])
-                                    rotate([0, -slope_angle, 0])
-                                    stud();
-                                }
-                            }
-                        }
-
-                        // Hollow or open stud holes.
-                        if (stud_type == "hollow" || stud_type == "open") {
+                        // Studs on the slope surface.
+                        if (slope_studs && !real_dual_bottom) {
                             translate([0, stud_diameter * stud_rescale / 2 + (overall_width - total_studs_width) / 2, 0]) {
                                 for (ycount=[0:real_width-1]) {
                                     for (i=[0:n_slope_studs - 1]) {
@@ -871,13 +858,30 @@ module block(
                                         stud_slope_z = slope_outer_z_start + slope_dist * sin(slope_angle);
 
                                         translate([stud_slope_x, ycount * stud_spacing, stud_slope_z])
-                                        rotate([0, -slope_angle, 0]) {
-                                            if (stud_type == "hollow") {
-                                                cylinder(r = (hollow_stud_inner_diameter * stud_rescale) / 2, h = stud_height + overlap_for_clean_previews);
-                                            } else if (stud_type == "open") {
-                                                translate([0, 0, -roof_thickness - overlap_for_clean_previews]) {
-                                                    cylinder(r = (hollow_stud_inner_diameter * stud_rescale) / 2, h = stud_height + roof_thickness + (2 * overlap_for_clean_previews));
-                                                }
+                                        rotate([0, -slope_angle, 0])
+                                        stud();
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Hollow or open stud holes.
+                    if (slope_studs && !real_dual_bottom && (stud_type == "hollow" || stud_type == "open")) {
+                        translate([0, stud_diameter * stud_rescale / 2 + (overall_width - total_studs_width) / 2, 0]) {
+                            for (ycount=[0:real_width-1]) {
+                                for (i=[0:n_slope_studs - 1]) {
+                                    slope_dist = first_stud_slope_dist + i * stud_spacing;
+                                    stud_slope_x = slope_dist * cos(slope_angle);
+                                    stud_slope_z = slope_outer_z_start + slope_dist * sin(slope_angle);
+
+                                    translate([stud_slope_x, ycount * stud_spacing, stud_slope_z])
+                                    rotate([0, -slope_angle, 0]) {
+                                        if (stud_type == "hollow") {
+                                            cylinder(r = (hollow_stud_inner_diameter * stud_rescale) / 2, h = stud_height + overlap_for_clean_previews);
+                                        } else if (stud_type == "open") {
+                                            translate([0, 0, -roof_thickness - overlap_for_clean_previews]) {
+                                                cylinder(r = (hollow_stud_inner_diameter * stud_rescale) / 2, h = stud_height + roof_thickness + (2 * overlap_for_clean_previews));
                                             }
                                         }
                                     }
