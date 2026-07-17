@@ -658,7 +658,7 @@ module block(
                                 for (ycount = [ 1 : real_width - 1 ]) {
                                     for (xcount = [ 1 : real_length - 1]) {
                                         if (!skip_this_vertical_axle_hole(xcount, ycount)) {
-                                            translate([(xcount-1)*stud_spacing,(ycount-1)*stud_spacing,-block_height/2]) axle_hole(vertical_axle_hole_shape);
+                                            translate([(xcount-1)*stud_spacing,(ycount-1)*stud_spacing,-block_height/2]) axle_hole(vertical_axle_hole_shape, (real_height+1)*block_height);
                                         }
                                     }
                                 }
@@ -761,7 +761,7 @@ module block(
                             for (axle_hole_index=[horizontal_hole_start_index() : horizontal_hole_end_index()]) {
                                 if (!skip_this_horizontal_hole(axle_hole_index, height_index)) {
                                     union() {
-                                        translate([axle_hole_index*stud_spacing,overall_width,horizontal_hole_z_offset]) rotate([90, 0, 0])  axle_hole(horizontal_axle_hole_shape);
+                                        translate([axle_hole_index*stud_spacing,overall_width,horizontal_hole_z_offset]) rotate([90, 0, 0])  axle_hole(horizontal_axle_hole_shape, overall_width + block_height);
 
                                         // Bevels. The +/- 0.1 measurements are here just for nicer previews in OpenSCAD, and could be removed.
                                         if (horizontal_axle_hole_shape == "round") {
@@ -1069,7 +1069,7 @@ module block(
 
             if (vertical_axle_hole==true) {
                 translate([0,0,-block_height/2])
-                    axle_hole(vertical_axle_hole_shape);
+                    axle_hole(vertical_axle_hole_shape, (real_height+1)*block_height);
             } else {
                 translate([0,0,-0.5]) cylinder(r=(post_diameter/2)-post_wall_thickness, h=real_height*block_height+1);
             }
@@ -1085,14 +1085,14 @@ module block(
         }
     }
 
-    module axle_hole(shape) {
+    module axle_hole(shape, depth) {
         if (shape == "cross") {
-            translate([0,0,(real_height+1)*block_height/2]) union() {
-                cube([axle_diameter,axle_spline_width,(real_height+1)*block_height],center=true);
-                cube([axle_spline_width,axle_diameter,(real_height+1)*block_height],center=true);
+            translate([0,0,depth/2]) union() {
+                cube([axle_diameter,axle_spline_width,depth],center=true);
+                cube([axle_spline_width,axle_diameter,depth],center=true);
             }
         } else {
-            cylinder(r=horizontal_hole_diameter/2, h=overall_width);
+            cylinder(r=horizontal_hole_diameter/2, h=depth);
         }
     }
 
@@ -1227,10 +1227,6 @@ module block(
             :
             (stud_spacing / 2)
         )
-    );
-
-    function put_vertical_axle_hole_here(xcount, ycount) = (
-        !skip_this_axle_hole(xcount, ycount)
     );
 
     function skip_this_vertical_axle_hole(xcount, ycount) = (
