@@ -516,17 +516,35 @@ module block(
 
                         // Subtract everything underneath the brick in the open area, where pins, posts, and splines will be added.
                         if (block_bottom_type == "open") {
-                            translate([wall_thickness,wall_thickness,-roof_thickness]) {
-                                cube([overall_length-wall_thickness*2,overall_width-wall_thickness*2,block_height*real_height]);
+                            if ((type == "round" || type == "round-tile") && width == 1 && length == 1) {
+                                // A 1x1 round brick's cavity is circular, matching the clutch ring's outer
+                                // wall; a square cavity would leave paper-thin shell slivers at the diagonals.
+                                translate([overall_length / 2, overall_width / 2, -roof_thickness]) {
+                                    cylinder(d = stud_diameter + (2 * stud_play) + (wall_thickness * 2), h = block_height * real_height);
+                                }
+                            } else {
+                                translate([wall_thickness,wall_thickness,-roof_thickness]) {
+                                    cube([overall_length-wall_thickness*2,overall_width-wall_thickness*2,block_height*real_height]);
+                                }
                             }
                         }
 
                         // Subtract the gap around the bottom edge if it's a tile.
                         if (bottom_gap_height > 0 && bottom_gap_width > 0) {
-                            difference() {
-                                cube([overall_length, overall_width, bottom_gap_height]);
-                                translate([bottom_gap_width,bottom_gap_width,0]) {
-                                    cube([overall_length - ( 2 * bottom_gap_width ), overall_width - ( 2 * bottom_gap_width ), bottom_gap_height]);
+                            if ((type == "round" || type == "round-tile") && width == 1 && length == 1) {
+                                // The gap width is derived from the diagonal distance to the four surrounding
+                                // studs, so on a round brick the gap must be inset radially; a square-ring cut
+                                // would leave the diagonals -- exactly where the studs sit -- at full radius.
+                                translate([overall_length / 2, overall_width / 2, 0]) difference() {
+                                    cylinder(d = overall_length + overlap_for_clean_previews, h = bottom_gap_height);
+                                    cylinder(d = overall_length - (2 * bottom_gap_width), h = bottom_gap_height);
+                                }
+                            } else {
+                                difference() {
+                                    cube([overall_length, overall_width, bottom_gap_height]);
+                                    translate([bottom_gap_width,bottom_gap_width,0]) {
+                                        cube([overall_length - ( 2 * bottom_gap_width ), overall_width - ( 2 * bottom_gap_width ), bottom_gap_height]);
+                                    }
                                 }
                             }
                         }
