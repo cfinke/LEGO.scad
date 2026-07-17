@@ -959,7 +959,7 @@ module block(
             else if (type == "round" || type == "round-tile") {
                 difference() {
                     if ( width == 1 && length == 1 ) {
-                        translate([stud_spacing / 2, stud_spacing / 2,0]) difference() {
+                        translate([overall_length / 2, overall_width / 2, 0]) difference() {
                             cylinder( d = stud_diameter + ( 2 * stud_play ) + ( wall_thickness * 2 ), h = block_height * height );
                             cylinder( d = stud_diameter + ( 2 * stud_play ), h = 100 );
                         }
