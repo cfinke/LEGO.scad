@@ -1256,12 +1256,29 @@ module block(
         ( roadway_invert && real_roadway_width > 0 && real_roadway_length > 0 && !pos_in_roadway(xcount, ycount))
         ||
         (type == "round" && (
-            ((xcount+1) * (ycount+1)) < real_rounding
-            || ((real_length - xcount) * (ycount+1)) < real_rounding
-            || ((real_length - xcount) * (real_width - ycount)) < real_rounding
-            || ((xcount+1) * (real_width - ycount)) < real_rounding
+            stud_clipped_by_corner(xcount, ycount, round_distance,                  round_distance,                 -1, -1)
+            || stud_clipped_by_corner(xcount, ycount, overall_length - round_distance, round_distance,                  1, -1)
+            || stud_clipped_by_corner(xcount, ycount, overall_length - round_distance, overall_width - round_distance,  1,  1)
+            || stud_clipped_by_corner(xcount, ycount, round_distance,                  overall_width - round_distance, -1,  1)
         ))
     );
+
+    // A stud must be omitted if its footprint reaches into a corner's rounding-cut
+    // region and extends beyond that corner's rounding circle. The cut region is the
+    // box between the brick's corner and the corner circle's center at (ccx, ccy);
+    // (dirx, diry) point from that center toward the brick's corner (-1 = min side,
+    // 1 = max side). The direction can't be derived from (ccx, ccy): on a fully
+    // round brick all four circle centers coincide at the center of the brick.
+    function stud_clipped_by_corner(xcount, ycount, ccx, ccy, dirx, diry) =
+        let (
+            stud_r = (stud_diameter * stud_rescale) / 2,
+            sx = ((overall_length - total_studs_length) / 2) + stud_r + (xcount * stud_spacing),
+            sy = ((overall_width - total_studs_width) / 2) + stud_r + (ycount * stud_spacing),
+            in_corner_x = (dirx < 0) ? (sx - stud_r < ccx) : (sx + stud_r > ccx),
+            in_corner_y = (diry < 0) ? (sy - stud_r < ccy) : (sy + stud_r > ccy)
+        )
+        in_corner_x && in_corner_y
+        && sqrt((sx - ccx) ^ 2 + (sy - ccy) ^ 2) + stud_r > round_distance;
 
     function pos_in_roadway(x, y) = (
         x >= real_roadway_x
