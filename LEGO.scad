@@ -1121,7 +1121,8 @@ module block(
     }
 
     module stud() {
-        stud_top_height=1;
+        // The top-cap height and rounding are scaled so that stud proportions are the same at every scale.
+        stud_top_height=1 * scale;
         stud_body_height=(stud_top_roundness != 0) ? (stud_height - stud_top_height) : stud_height;
         difference() {
             union() {
@@ -1129,7 +1130,7 @@ module block(
 
                 if (stud_top_roundness != 0) {
                     translate([0,0,stud_body_height])
-                    rounded_stud_top(height=stud_top_height, radius=(stud_diameter*stud_rescale)/2,curve_height=stud_top_roundness);
+                    rounded_stud_top(height=stud_top_height, radius=(stud_diameter*stud_rescale)/2,curve_height=stud_top_roundness * scale);
                 }
             }
         }
@@ -1140,9 +1141,12 @@ module block(
         radius,
         curve_height
         ) {
-        assert(curve_height < (radius/2), "Curve height must be less than half the radius");
-        assert(height >= curve_height, "Curve height must be greater than or equal to height");
-        base_height=height-curve_height;
+        // Clamp the rounding to what the geometry supports (it must stay under half the
+        // radius, and within the cap height) instead of aborting the whole render:
+        // extreme stud_rescale values can shrink the radius below what the
+        // stud_top_roundness setting asks for.
+        real_curve_height=min(curve_height, (radius/2) - (0.01 * scale), height);
+        base_height=height-real_curve_height;
         union() {
             cylinder(h=base_height, r=radius);
             translate([0,0,base_height])
@@ -1150,13 +1154,13 @@ module block(
                 union() {
                     rotate_extrude()
                     hull() {
-                        translate([radius-curve_height, 0, 0])
-                        circle(curve_height);
+                        translate([radius-real_curve_height, 0, 0])
+                        circle(real_curve_height);
                     };
-                    cylinder(h=curve_height, r=(radius-curve_height));
+                    cylinder(h=real_curve_height, r=(radius-real_curve_height));
                 }
-                translate([0,0,-curve_height])
-                cylinder(h=curve_height, r=(radius));
+                translate([0,0,-real_curve_height])
+                cylinder(h=real_curve_height, r=(radius));
             }
 
         };
