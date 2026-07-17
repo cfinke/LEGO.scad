@@ -362,8 +362,6 @@ module block(
     horizontal_hole_bevel_diameter = (brand == "lego" ? 6.2 : 6.2 * 2) * scale;
     horizontal_hole_bevel_depth = (brand == "lego" ? 0.9 : 0.9 * 1.5 / 1.2 ) * scale;
 
-    roof_thickness = (type == "baseplate" || dual_sided ? block_height * height : 1 * 1) * scale;
-
     // Duplo axle dimensions are based on "Early Simple Machines Set 9656"
     axle_spline_width = (brand == "lego" ? 2.0 : 3.10) * scale;
     axle_diameter = (brand == "lego" ? 5 * 1 : 7.25) * scale;
@@ -372,6 +370,10 @@ module block(
     real_width = ((type == "wing" || type == "slope") ? width : min(width, length) );
     real_length = ((type == "wing" || type == "slope")  ? length : max(width, length) );
     real_height = compute_real_height(type, height);
+
+    // For baseplates and dual-sided blocks, the roof spans the full (clamped) block height so the block stays solid.
+    // block_height and real_height are already scaled, so only the fixed 1mm thickness needs to be multiplied by scale.
+    roof_thickness = (type == "baseplate" || dual_sided ? block_height * real_height : 1 * scale);
 
     // Ensure that the wing end width is even if the width is even, odd if odd, and a reasonable value.
     real_wing_end_width = (wing_type == "full"
