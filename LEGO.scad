@@ -761,10 +761,10 @@ module block(
                 else if (type == "baseplate") {
                     // Rounded corners.
                     union() {
-                        translate([overall_length, overall_width, 0])                                      translate([-((stud_spacing / 2) - wall_play), -((stud_spacing / 2) - wall_play), 0])                     negative_rounded_corner(r=((stud_spacing / 2)), h=real_height * block_height + stud_height);
-                        translate([0, overall_width, 0])                                                   translate([((stud_spacing / 2) - wall_play), -((stud_spacing / 2) - wall_play), 0])  rotate([0, 0, 90])  negative_rounded_corner(r=((stud_spacing / 2)), h=real_height * block_height + stud_height);
-                        translate([((stud_spacing / 2) - wall_play), ((stud_spacing / 2) - wall_play), 0])                                                                                      rotate([0, 0, 180]) negative_rounded_corner(r=((stud_spacing / 2)), h=real_height * block_height + stud_height);
-                        translate([overall_length, 0, 0])                                                  translate([-((stud_spacing / 2) - wall_play), ((stud_spacing / 2) - wall_play), 0])  rotate([0, 0, 270]) negative_rounded_corner(r=((stud_spacing / 2)), h=real_height * block_height + stud_height);
+                        translate([overall_length, overall_width, 0])                                      translate([-((stud_spacing / 2) - wall_play), -((stud_spacing / 2) - wall_play), 0])                     negative_rounded_corner(r=((stud_spacing / 2) - wall_play), h=real_height * block_height + stud_height);
+                        translate([0, overall_width, 0])                                                   translate([((stud_spacing / 2) - wall_play), -((stud_spacing / 2) - wall_play), 0])  rotate([0, 0, 90])  negative_rounded_corner(r=((stud_spacing / 2) - wall_play), h=real_height * block_height + stud_height);
+                        translate([((stud_spacing / 2) - wall_play), ((stud_spacing / 2) - wall_play), 0])                                                                                      rotate([0, 0, 180]) negative_rounded_corner(r=((stud_spacing / 2) - wall_play), h=real_height * block_height + stud_height);
+                        translate([overall_length, 0, 0])                                                  translate([-((stud_spacing / 2) - wall_play), ((stud_spacing / 2) - wall_play), 0])  rotate([0, 0, 270]) negative_rounded_corner(r=((stud_spacing / 2) - wall_play), h=real_height * block_height + stud_height);
                     }
                 }
                 else if (type == "round" || type == "round-tile") {
