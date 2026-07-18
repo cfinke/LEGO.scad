@@ -1412,9 +1412,3 @@ function block_height(height_ratio=1, brand="lego", type="block") =
   )
   (real_height * block_height);
 
-
-function minimum_block_count(
-    length=0,
-    stud_spacing=8,
-    wall_play=0.1
-    ) = ceil((length/stud_spacing)-wall_play);
