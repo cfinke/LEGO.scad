@@ -948,27 +948,23 @@ module block(
                             ])
                             cube([curve_circle_length(), overall_width + 1, curve_circle_height()]);
 
-                        difference() {
-                            translate([
-                                    curve_circle_length() / 2,  // Align the end of the curve with the end of the block.
-                                    overall_width / 2, // Center it on the block.
-                                    (real_height * block_height) - (curve_circle_height() / 2)  // Align the top of the curve with the top of the block.
-                                ])
-                                rotate([90, 0, 0]) // Rotate sideways
-                                translate([0, 0, -overall_width/2]) // Move so the cylinder is z-centered.
-                                resize([curve_circle_length(), curve_circle_height(), 0]) // Resize to the approprate scale.
-                                cylinder(r=real_height * block_height, h=overall_width);
+                        translate([
+                                curve_circle_length() / 2,  // Align the end of the curve with the end of the block.
+                                overall_width / 2, // Center it on the block.
+                                (real_height * block_height) - (curve_circle_height() / 2)  // Align the top of the curve with the top of the block.
+                            ])
+                            rotate([90, 0, 0]) // Rotate sideways
+                            translate([0, 0, -overall_width/2]) // Move so the extrusion is z-centered.
+                            linear_extrude(overall_width)
+                            difference() {
+                                // The visible outer curve.
+                                scale([curve_circle_length() / (2 * real_height * block_height), curve_circle_height() / (2 * real_height * block_height)]) circle(r=real_height * block_height);
 
-                            translate([
-                                    curve_circle_length() / 2,  // Align the end of the curve with the end of the block.
-                                    overall_width / 2, // Center it on the block.
-                                    (real_height * block_height) - (curve_circle_height() / 2) // Align the top of the curve with the top of the block.
-                                ])
-                                rotate([90, 0, 0]) // Rotate sideways
-                                translate([0, 0, -overall_width/2]) // Move so the cylinder is z-centered.
-                                resize([curve_circle_length() - (wall_thickness * 2), curve_circle_height() - (wall_thickness * 2), 0]) // Resize to the approprate scale.
-                                cylinder(r=real_height * block_height, h=overall_width);
-                        }
+                                // The hidden inner face is inset with a true offset so that the shell is
+                                // wall_thickness thick everywhere; resizing the ellipse instead would leave
+                                // it thinner between its two axes.
+                                offset(r = -wall_thickness) scale([curve_circle_length() / (2 * real_height * block_height), curve_circle_height() / (2 * real_height * block_height)]) circle(r=real_height * block_height);
+                            }
                     }
                 }
                 else if (real_curve_type == "concave") {
@@ -985,12 +981,16 @@ module block(
                             rotate([90, 0, 0])
                             translate([0, 0, -overall_width/2]) // z-center
                             difference() {
-                                resize([curve_circle_length() + (wall_thickness * 2), curve_circle_height() + (wall_thickness * 2), 0]) // Resize to the final dimensions.
-                                cylinder(r=block_height * real_height, h=overall_width);
+                                // The hidden outer face is outset from the visible scoop with a true offset
+                                // so that the shell is wall_thickness thick everywhere; resizing the ellipse
+                                // instead would leave it thinner between its two axes.
+                                linear_extrude(overall_width)
+                                    offset(r = wall_thickness)
+                                    scale([curve_circle_length() / (2 * block_height * real_height), curve_circle_height() / (2 * block_height * real_height)]) circle(r=block_height * real_height);
 
-                                translate([0, 0, -0.5]) // The inner cylinder is just a little taller, for nicer OpenSCAD previews.
-                                    resize([curve_circle_length(), curve_circle_height(), 0]) // Resize to the final dimensions.
-                                    cylinder(r=block_height * real_height, h=overall_width+1);
+                                translate([0, 0, -0.5]) // The inner shape is just a little taller, for nicer OpenSCAD previews.
+                                    linear_extrude(overall_width + 1)
+                                    scale([curve_circle_length() / (2 * block_height * real_height), curve_circle_height() / (2 * block_height * real_height)]) circle(r=block_height * real_height);
                             }
                     }
                 }
